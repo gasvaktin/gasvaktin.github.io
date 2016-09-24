@@ -1,0 +1,32 @@
+{
+  "name": "web-gasvaktin",
+  "version": "0.0.1",
+  "description": "Website for Gasvaktin",
+  "main": "run.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gasvaktin/gasvaktin.github.io.git"
+  },
+  "keywords": [
+    "gasvaktin",
+    "petrol"
+  ],
+  "author": "Sveinn Floki Gudmundsson <svefgud@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gasvaktin/gasvaktin.github.io/issues"
+  },
+  "homepage": "https://github.com/gasvaktin/gasvaktin.github.io#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "font-awesome": "^4.6.3",
+    "google-maps": "^3.2.1",
+    "jquery": "^3.1.0",
+    "jquery.easing": "^1.4.1",
+    "promise-polyfill": "^6.0.2",
+    "whatwg-fetch": "^1.0.0"
+  }
+}
