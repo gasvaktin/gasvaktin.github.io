@@ -1,0 +1,202 @@
+/*!
+ * Start Bootstrap - Scrolling Nav (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+html {
+    /*overflow: hidden;*/
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    /*overflow: auto;*/
+}
+
+
+@media(min-width:767px) {
+    .navbar {
+        padding: 20px 0;
+        -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
+        -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
+        transition: background .5s ease-in-out,padding .5s ease-in-out;
+    }
+
+    .top-nav-collapse {
+        padding: 0;
+    }
+}
+
+/* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
+The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
+of those sections to manage the look and feel of the site. */
+
+.intro-section {
+    height: 100%;
+    padding-top: 80px;
+    text-align: center;
+    background: #fff;
+}
+
+.about-section {
+    height: 100%;
+    padding-top: 150px;
+    background: #eee;
+}
+
+.services-section {
+    height: 100%;
+    padding-top: 150px;
+    text-align: center;
+    background: #fff;
+}
+
+.contact-section {
+    height: 100%;
+    padding-top: 150px;
+    text-align: center;
+    background: #eee;
+}
+
+/*
+ * Map transformation behaviour between different window sizes
+ */
+@media(min-width:1200px) {
+    .locations-map {
+        text-align: center;
+        background: lightgray;
+        height: 100%;
+        width: 50%;
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+}
+@media(max-width:1199px) {
+    .locations-map {
+        text-align: center;
+        background: lightgray;
+        height: 35%;
+        width: 100%;
+        padding-right: 0px;
+        padding-left: 0px;
+        position: absolute;
+        bottom: 0;
+    }
+}
+
+.stations-list {
+    height: calc(65% - 55px);
+    padding-right: 0px;
+    padding-left: 0px;
+    overflow-y:auto
+}
+.station {
+    position: relative;
+    text-align: left;
+    height: 74px;
+    border-bottom: 1px solid darkgray;
+}
+.daelan {
+    background-image: url('/images/companies/daelan.png');
+    background-size: 80px;
+    background-repeat: no-repeat;
+    background-position: 5px 9px; 
+}
+.atlantsolia {
+    background-image: url('/images/companies/atlantsolia.png');
+    background-size: 80px;
+    background-repeat: no-repeat;
+    background-position: 5px 5px; 
+}
+.orkan {
+    background-image: url('/images/companies/orkan.png');
+    background-size: 74px;
+    background-repeat: no-repeat;
+    background-position: 9px 4px; 
+}
+.orkanx {
+    background-image: url('/images/companies/orkanx.png');
+    background-size: 69px;
+    background-repeat: no-repeat;
+    background-position: 12px 4px; 
+}
+.olis {
+    background-image: url('/images/companies/olis.png');
+    background-size: 84px;
+    background-repeat: no-repeat;
+    background-position: 4px 5px; 
+}
+.ob {
+    background-image: url('/images/companies/ob.png');
+    background-size: 74px;
+    background-repeat: no-repeat;
+    background-position: 9px 4px; 
+}
+.n1 {
+    background-image: url('/images/companies/n1.png');
+    background-size: 83px;
+    background-repeat: no-repeat;
+    background-position: 3px 6px; 
+}
+.skeljungur {
+    background-image: url('/images/companies/skeljungur.png');
+    background-size: 74px;
+    background-repeat: no-repeat;
+    background-position: 7px 2px; 
+}
+.station h1 {
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 8px;
+    padding-left: 92px;
+}
+.station h1 span {
+    font-size: 12px;
+    float: right;
+    padding-top: 5px;
+    padding-right: 9px;
+}
+.station .distance {
+    padding-left: 92px;
+}
+.station .price {
+    font-weight: bold;
+    font-size: 16px;
+    position: absolute;
+    top: 50px;
+    right: 8px;
+}
+.station .discount-price {
+    font-size: 12px;
+    position: absolute;
+    top: 54px;
+    right: 85px;
+}
+
+/*
+ * Random classes for overriding default Bootstrap CSS for the glory of
+ * customization!
+ */
+.spacious {
+    height: 100%;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.less-top {
+    padding-top: 60px;
+}
+
+/*
+ * Filthy CSS hack to hide Google Maps Logo and copyright note.
+ * http://stackoverflow.com/a/36282582/2401628
+ */
+.gmnoprint:not(.gm-bundled-control) {display: none;}
+.gm-bundled-control .gmnoprint {display: block;}
+a[href^="http://maps.google.com/maps"]{display:none !important}
+a[href^="https://maps.google.com/maps"]{display:none !important}
+a[href^="https://www.google.com/maps"]{display:none !important}
