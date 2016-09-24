@@ -1,0 +1,6 @@
+# mac .DS_Store
+.DS_Store
+
+# we add individual files from node_modules folder
+# but most we ignore
+node_modules/
