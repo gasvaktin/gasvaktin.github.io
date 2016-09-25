@@ -64,17 +64,32 @@ of those sections to manage the look and feel of the site. */
 /*
  * Map transformation behaviour between different window sizes
  */
-@media(min-width:1200px) {
+@media(min-width: 1024px) {
+    .ordering-buttons {
+        width: 440px;
+    }
     .locations-map {
         text-align: center;
         background: lightgray;
-        height: 100%;
-        width: 50%;
+        height: calc(100% - 90px);
+        width: calc(100% - 440px);
         padding-right: 0px;
         padding-left: 0px;
+        float: none;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+    }
+    .stations-list {
+        height: 100%;
+        width: 440px;
+        padding-right: 0px;
+        padding-left: 0px;
+        overflow-y: auto;
+        float: none;
     }
 }
-@media(max-width:1199px) {
+@media(max-width: 1023px) {
     .locations-map {
         text-align: center;
         background: lightgray;
@@ -84,14 +99,31 @@ of those sections to manage the look and feel of the site. */
         padding-left: 0px;
         position: absolute;
         bottom: 0;
+        float: none;
+    }
+    .stations-list {
+        height: calc(65% - 55px);
+    }
+}
+@media(min-width: 768px) {
+    .gasvaktin-header {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 40px;
+        margin-right: auto;
+        margin-left: auto;
     }
 }
 
+.ordering-buttons {
+    float: none;
+}
+
 .stations-list {
-    height: calc(65% - 55px);
     padding-right: 0px;
     padding-left: 0px;
-    overflow-y:auto
+    overflow-y:auto;
+    float: none;
 }
 .station {
     position: relative;
@@ -189,6 +221,12 @@ of those sections to manage the look and feel of the site. */
 }
 .less-top {
     padding-top: 60px;
+}
+
+@media(min-width:767px) {
+    .less-top {
+        padding-top: 95px;
+    }
 }
 
 /*
