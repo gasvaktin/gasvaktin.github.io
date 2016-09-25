@@ -50,10 +50,13 @@ var GeoUtils = {
       longitude: (lon1 + lon2)/2
     };
   },
-  calcPointsZoomDelta: function(lat1, lon1, lat2, lon2, marginer=1.1) {
+  calcPointsZoomDelta: function(lat1, lon1, lat2, lon2, marginer) {
     /**
      * Calculates lat and lon Delta for starting coordinates of map
      */
+    if (marginer === undefined) {
+      marginer = 1.1;
+    }
     return {
       latitude: Math.abs(lat1 - lat2) * marginer,
       longitude: Math.abs(lon1 - lon2) * marginer
