@@ -292,7 +292,10 @@ var updateMapVision = function() {
     }
 }
 
-var setStationMarkerToNearest = function(key=null) {
+var setStationMarkerToNearest = function(key) {
+    if (key === undefined) {
+        key = null;
+    }
     var station;
     if (key === null) {
         station = STATIONS[listElement.children[0].id];
