@@ -81,7 +81,7 @@ of those sections to manage the look and feel of the site. */
         right: 0px;
     }
     .stations-list {
-        height: 100%;
+        height: calc(100% - 35px);
         width: 440px;
         padding-right: 0px;
         padding-left: 0px;
@@ -117,6 +117,8 @@ of those sections to manage the look and feel of the site. */
 
 .ordering-buttons {
     float: none;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .stations-list {
