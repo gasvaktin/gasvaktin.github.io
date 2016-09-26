@@ -129,54 +129,56 @@ body {
     height: 74px;
     border-bottom: 1px solid darkgray;
 }
-
+.station:hover, .stationFocused {
+  background-color: #cecece;
+}
 .daelan {
     background-image: url('/images/companies/daelan.png');
     background-size: 80px;
     background-repeat: no-repeat;
-    background-position: 5px 9px; 
+    background-position: 5px 9px;
 }
 .atlantsolia {
     background-image: url('/images/companies/atlantsolia.png');
     background-size: 80px;
     background-repeat: no-repeat;
-    background-position: 5px 5px; 
+    background-position: 5px 5px;
 }
 .orkan {
     background-image: url('/images/companies/orkan.png');
     background-size: 74px;
     background-repeat: no-repeat;
-    background-position: 9px 4px; 
+    background-position: 9px 4px;
 }
 .orkanx {
     background-image: url('/images/companies/orkanx.png');
     background-size: 69px;
     background-repeat: no-repeat;
-    background-position: 12px 4px; 
+    background-position: 12px 4px;
 }
 .olis {
     background-image: url('/images/companies/olis.png');
     background-size: 84px;
     background-repeat: no-repeat;
-    background-position: 4px 5px; 
+    background-position: 4px 5px;
 }
 .ob {
     background-image: url('/images/companies/ob.png');
     background-size: 74px;
     background-repeat: no-repeat;
-    background-position: 9px 4px; 
+    background-position: 9px 4px;
 }
 .n1 {
     background-image: url('/images/companies/n1.png');
     background-size: 83px;
     background-repeat: no-repeat;
-    background-position: 3px 6px; 
+    background-position: 3px 6px;
 }
 .skeljungur {
     background-image: url('/images/companies/skeljungur.png');
     background-size: 74px;
     background-repeat: no-repeat;
-    background-position: 7px 2px; 
+    background-position: 7px 2px;
 }
 
 .station h1 {

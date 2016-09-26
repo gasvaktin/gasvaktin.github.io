@@ -138,6 +138,8 @@ var addStationToList = function(stationInfo) {
     station.onclick = function() {
         setStationMarkerToNearest(this.id);
         updateMapVision();
+        $('div').removeClass('stationFocused');
+        $('#'+this.id).addClass('stationFocused');
     }
     listElement.appendChild(station);
 }
