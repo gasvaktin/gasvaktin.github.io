@@ -1,7 +1,6 @@
-/*!
- * Start Bootstrap - Scrolling Nav (http://startbootstrap.com/)
- * Copyright 2013-2016 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+/**
+ * gasvaktin.css
+ * CSS styles overriding default Bootstrap CSS for the glory of looks!
  */
 
 html {
@@ -16,7 +15,6 @@ body {
     /*overflow: auto;*/
 }
 
-
 @media(min-width:767px) {
     .navbar {
         padding: 20px 0;
@@ -29,10 +27,6 @@ body {
         padding: 0;
     }
 }
-
-/* Demo Sections - You can use these as guides or delete them - the scroller will work with any sort of height, fixed, undefined, or percentage based.
-The padding is very important to make sure the scrollspy picks up the right area when scrolled to. Adjust the margin and padding of sections and children 
-of those sections to manage the look and feel of the site. */
 
 .intro-section {
     height: 100%;
@@ -62,7 +56,7 @@ of those sections to manage the look and feel of the site. */
 }
 
 /*
- * Map transformation behaviour between different window sizes
+ * Map and list transformation behavior between different window sizes
  */
 @media(min-width: 1024px) {
     .ordering-buttons {
@@ -105,6 +99,7 @@ of those sections to manage the look and feel of the site. */
         height: calc(65% - 55px);
     }
 }
+
 @media(min-width: 768px) {
     .gasvaktin-header {
         width: 100%;
@@ -127,12 +122,14 @@ of those sections to manage the look and feel of the site. */
     overflow-y:auto;
     float: none;
 }
+
 .station {
     position: relative;
     text-align: left;
     height: 74px;
     border-bottom: 1px solid darkgray;
 }
+
 .daelan {
     background-image: url('/images/companies/daelan.png');
     background-size: 80px;
@@ -181,6 +178,7 @@ of those sections to manage the look and feel of the site. */
     background-repeat: no-repeat;
     background-position: 7px 2px; 
 }
+
 .station h1 {
     font-size: 18px;
     margin-top: 0px;
@@ -211,10 +209,6 @@ of those sections to manage the look and feel of the site. */
     right: 85px;
 }
 
-/*
- * Random classes for overriding default Bootstrap CSS for the glory of
- * customization!
- */
 .spacious {
     height: 100%;
     width: 100%;
