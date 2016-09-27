@@ -227,6 +227,22 @@ body {
     }
 }
 
+.petrol-type-checker {
+    position: absolute;
+}
+@media(max-width:766px) {
+    .petrol-type-checker {
+        right: 70px;
+        top: 10px;
+    }
+}
+@media(min-width:767px) {
+    .petrol-type-checker {
+        right: 32px;
+        top: 32px;
+    }
+}
+
 /*
  * Filthy CSS hack to hide Google Maps Logo and copyright note.
  * http://stackoverflow.com/a/36282582/2401628

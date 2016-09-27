@@ -14,9 +14,9 @@ var USER_LOCATION = null;
 var SELECTED_STATION_LOCATION = null;
 var GEOPOSITION = null;
 // GEOSTATUS:
-// 0 - initial
-// 1 - success
-// 2 - failure
+//   0 - initial
+//   1 - success
+//   2 - failure
 var GEOSTATUS = 0;
 var GEOPTIONS = {
   enableHighAccuracy: true,
@@ -41,6 +41,15 @@ GoogleMapsLoader.onLoad(function(google) {
 var mapElement = document.getElementById("mapElement");
 var listElement = document.getElementById("listElement");
 
+// ---------------------------- //
+// LESSER EVILS OF LOCALSTORAGE //
+// ---------------------------- //
+if (localStorage.getItem("petrol_type") === null) {
+    // petrol_type:
+    //   bensin
+    //   diesel
+    localStorage.setItem("petrol_type", "bensin");
+}
 
 // --------------------------- //
 // SOME jQuery SHIMS AND STUFF //
@@ -125,14 +134,22 @@ var addStationToList = function(stationInfo) {
     stationDistance.setAttribute("class", "distance");
     stationDistance.innerHTML = "Getting your location ..";
     station.appendChild(stationDistance);
+    if (localStorage.getItem("petrol_type") === "bensin") {
+        var price = stationInfo.bensin95;
+        var priceDiscount = stationInfo.bensin95_discount;
+    }
+    else {
+        var price = stationInfo.diesel;
+        var priceDiscount = stationInfo.diesel_discount;
+    }
     var stationPrice = document.createElement("p");
     stationPrice.setAttribute("class", "price");
-    stationPrice.innerHTML = stationInfo.bensin95.toString()+" ISK";
+    stationPrice.innerHTML = price.toString()+" ISK";
     station.appendChild(stationPrice);
     if (stationInfo.bensin95_discount !== null) {
         var stationDiscountPrice = document.createElement("p");
         stationDiscountPrice.setAttribute("class", "discount-price");
-        stationDiscountPrice.innerHTML = "("+stationInfo.bensin95_discount+" with discount)";
+        stationDiscountPrice.innerHTML = "("+priceDiscount.toString()+" with discount)";
         station.appendChild(stationDiscountPrice);
     }
     station.onclick = function() {
@@ -142,6 +159,24 @@ var addStationToList = function(stationInfo) {
         $('#'+this.id).addClass('stationFocused');
     }
     listElement.appendChild(station);
+}
+
+var updatePricesInList = function() {
+    for (var key in STATIONS) {
+        if (localStorage.getItem("petrol_type") == "bensin") {
+            var price = STATIONS[key]["bensin95"];
+            var priceDiscount = STATIONS[key]["bensin95_discount"];
+        }
+        else if (localStorage.getItem("petrol_type") == "diesel") {
+            var price = STATIONS[key]["diesel"];
+            var priceDiscount = STATIONS[key]["diesel_discount"];
+        }
+        var stationElement = document.getElementById(key);
+        stationElement.children[2].innerHTML = price.toString() + " ISK";
+        if (priceDiscount !== null) {
+            stationElement.children[3].innerHTML = "("+priceDiscount.toString()+" with discount)";
+        }
+    }
 }
 
 var handleStalemate = function(stationA, stationB) {
@@ -299,11 +334,14 @@ var setStationMarkerToNearest = function(key) {
         key = null;
     }
     var station;
+    $('div').removeClass('stationFocused');
     if (key === null) {
         station = STATIONS[listElement.children[0].id];
+        $('#'+listElement.children[0].id).addClass('stationFocused');
     }
     else {
         station = STATIONS[key];
+        $('#'+key).addClass('stationFocused');
     }
     SELECTED_STATION_LOCATION.setPosition({
         lat: station.geo.lat,
@@ -312,10 +350,38 @@ var setStationMarkerToNearest = function(key) {
     SELECTED_STATION_LOCATION.setVisible(true);
 }
 
+var initPetrolTypeChecker = function() {
+    // http://www.bootstrap-switch.org/options.html
+    var checkerOptions = {
+        onText: "Bensin",
+        offText: "Diesel",
+        onColor: "primary",
+        offColor: "primary",
+        size: "small",
+        state: localStorage.getItem("petrol_type") === "bensin"
+    }
+    $("[name='petrol-type-checker']").bootstrapSwitch(checkerOptions);
+}
+
 
 // ------------------------------------- //
 // ONLY KICK THINGS OFF AFTER THIS POINT //
 // ------------------------------------- //
+
+/**
+ * Initialize Petrol Type checker
+ *
+ **/
+initPetrolTypeChecker()
+$("input[name='petrol-type-checker']").on('switchChange.bootstrapSwitch', function(event, state) {
+    if (state) {
+        localStorage.setItem("petrol_type", "bensin");
+    }
+    else {
+        localStorage.setItem("petrol_type", "diesel");
+    }
+    updatePricesInList()
+});
 
 /**
  * Initialize Google Maps API
