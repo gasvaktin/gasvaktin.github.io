@@ -411,17 +411,17 @@ GoogleMapsLoader.load(function(google) {
 /**
  * Fetch them gas prices
  **/
-fetch("https://apis.is/petrol").then(
+fetch("https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json").then(
     function(response) {
         return response.json()
     }
 ).then(
     function(data) {
         if (DEBUG) console.log(data)
-        for (var i=0; i<data.results.length; i++) {
-            STATIONS[data.results[i].key] = data.results[i];
+        for (var i=0; i<data.stations.length; i++) {
+            STATIONS[data.stations[i].key] = data.stations[i];
         }
-        addStationsToList(data.results);
+        addStationsToList(data.stations);
     }
 );
 
