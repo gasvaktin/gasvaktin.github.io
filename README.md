@@ -26,16 +26,15 @@ Gasvaktin watches the following Icelandic oil companies:
 
 ## Setup and usage
 
-You need to install [python 2.7 and pip](http://docs.python-guide.org/en/latest/starting/install/win/) and install the following python modules:
+Before continuing make sure you have [node](https://nodejs.org/en/) installed.
 
-	pip install -r pip_requirements.txt
+To run the project:
 
-Open a terminal in this repository and
-
-	cd scripts
-	python pricer.py
-
-This updates the pretty `vaktin/gas.json` and the minified `vaktin/gas.min.json` with newest price data from the oil companies webpages. The script `pricer.py` is run daily and price changes if any are automatically commited to the repository.
+```bash
+npm install
+node serve.js
+```
+Then navigate to [localhost:8888](localhost:8888)
 
 ## Origination of data
 
@@ -56,7 +55,7 @@ Gas price for each station can be found [here](http://atlantsolia.is/stodvarverd
 #### Stations
 
 List of stations can be found [here](https://www.n1.is/stodvar/). With a bit of examination we can see a JSON endpoint which exposes stations list and location info. Example:
-	
+
 	POST https://www.n1.is/umbraco/api/stations/get
 	Headers = {
 		Cookie: _ga=GA1.2.789097346.1420231531; StoreInfo=StoreAlias=IS
