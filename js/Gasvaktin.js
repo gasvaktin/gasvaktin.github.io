@@ -383,53 +383,78 @@ $("input[name='petrol-type-checker']").on('switchChange.bootstrapSwitch', functi
     updatePricesInList()
 });
 
-/**
- * Initialize Google Maps API
- *
- **/
-GoogleMapsLoader.load(function(google) {
-    GOOGLE = google;
-    MAP = new google.maps.Map(mapElement, mapOptions);
-    USER_LOCATION = new google.maps.Marker({
-        position: ICELAND_MID, // just for it to be something ..
-        map: MAP,
-        title: "Your location"
+var loadGoogleMapsAPI = function() {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+    /**
+     * Initialize Google Maps API
+     *
+     **/
+    GoogleMapsLoader.load(function(google) {
+        GOOGLE = google;
+        MAP = new google.maps.Map(mapElement, mapOptions);
+        USER_LOCATION = new google.maps.Marker({
+            position: ICELAND_MID, // just for it to be something ..
+            map: MAP,
+            title: "Your location"
+        });
+        USER_LOCATION.setVisible(false);
+        SELECTED_STATION_LOCATION = new google.maps.Marker({
+            position: ICELAND_MID, // just for it to be something ..
+            map: MAP,
+            title: "Selected station location",
+            icon: "/images/markers/gasstation.png"
+        });
+        SELECTED_STATION_LOCATION.setVisible(false);
+        resolve("Marker loaded");
     });
-    USER_LOCATION.setVisible(false);
-    SELECTED_STATION_LOCATION = new google.maps.Marker({
-        position: ICELAND_MID, // just for it to be something ..
-        map: MAP,
-        title: "Selected station location",
-        icon: "/images/markers/gasstation.png"
-    });
-    SELECTED_STATION_LOCATION.setVisible(false);
-    if (listElement.children.length !== 0) {
-        setStationMarkerToNearest();
-    }
-});
+  });
+}
 
-/**
- * Fetch them gas prices
- **/
-fetch("https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json").then(
-    function(response) {
-        return response.json()
-    }
-).then(
-    function(data) {
-        if (DEBUG) console.log(data)
-        for (var i=0; i<data.stations.length; i++) {
-            STATIONS[data.stations[i].key] = data.stations[i];
-        }
-        addStationsToList(data.stations);
-    }
-);
+var fetchGasPrice = function() {
+    return new Promise(function(resolve, reject) {
+        /**
+         * Fetch them gas prices
+         **/
+        fetch("https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json").then(
+            function(response) {
+                return response.json()
+            }
+        ).then(
+            function(data) {
+                if (DEBUG) console.log(data)
+                for (var i=0; i<data.stations.length; i++) {
+                    STATIONS[data.stations[i].key] = data.stations[i];
+                }
+                addStationsToList(data.stations);
+                if (data.stations.length > 0) {
+                    setStationMarkerToNearest();
+                }
+                resolve();
+            }
+        );
+    });
+}
 
 /**
  * Ask for some sweet sweet geolocation data
  **/
-navigator.geolocation.getCurrentPosition(
-    GEOLOCATION_success,
-    GEOLOCATION_error,
-    GEOPTIONS
-);
+var getCurrentPosition = function() {
+    navigator.geolocation.getCurrentPosition(
+        GEOLOCATION_success,
+        GEOLOCATION_error,
+        GEOPTIONS
+    );
+}
+
+loadGoogleMapsAPI().then(function(response) {
+    if (DEBUG) {
+        console.log(response);
+    }
+}, function(error) {
+  console.error("Failed!", error);
+}).then(function() {
+    fetchGasPrice().then(function(response) {
+        getCurrentPosition();
+    });
+});
