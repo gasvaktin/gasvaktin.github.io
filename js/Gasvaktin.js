@@ -44,7 +44,7 @@ var gs = { // global scope paramteters
     status: 0, // initial status
     settings: { // settings for geolocation.getCurrentPosition
       enableHighAccuracy: true,
-      timeout: 5000,
+      timeout: 15000,
       maximumAge: 0
     },
     centerOfIceland: { lat: 64.996752, lng: -18.682185 }
