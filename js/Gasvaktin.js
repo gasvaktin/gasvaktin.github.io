@@ -398,7 +398,7 @@ var loadGoogleMapsAPI = function() {
     try {
       GoogleMapsLoader.load(function(google) {
         gs.googleMaps = google.maps;
-        gs.map = new google.maps.Map(mapElement, gs.mapOptions);
+        gs.map = new google.maps.Map(gs.mapElement, gs.mapOptions);
         gs.userMarker = new google.maps.Marker({
           position: gs.geoLocation.centerOfIceland,
           map: gs.map,
@@ -507,9 +507,10 @@ var getCurrentUserPosition = function() {
 
 var runClient = function() {
   Promise.all([
-    loadGoogleMapsAPI(),
-    fetchGasPrice(),
-    getCurrentUserPosition()
+    loadGoogleMapsAPI().then(function() {
+      return getCurrentUserPosition();
+    }),
+    fetchGasPrice()
   ]).then(function() {
     if (gs.geoLocation.status === 1) {
       calculateStationDistances().then(function() {
