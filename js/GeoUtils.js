@@ -1,7 +1,9 @@
 "use-strict";
 /**
- * Geo-Utility functions for Gasvaktin
+ * GeoUtils.js
+ * Geo-Utility functions.
  **/
+
 var GeoUtils = {
   // Geo calculation stuff
   distanceBetweenPoints: function(lat1, lon1, lat2, lon2) {
