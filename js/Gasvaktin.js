@@ -506,10 +506,11 @@ var getCurrentUserPosition = function() {
  **/
 
 var runClient = function() {
-  var p1 = loadGoogleMapsAPI();
-  var p2 = fetchGasPrice();
-  var p3 = getCurrentUserPosition();
-  Promise.all([p1, p2, p3]).then(function() {
+  Promise.all([
+    loadGoogleMapsAPI(),
+    fetchGasPrice(),
+    getCurrentUserPosition()
+  ]).then(function() {
     if (gs.geoLocation.status === 1) {
       calculateStationDistances().then(function() {
         return updateStationDistances();
