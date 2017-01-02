@@ -1,6 +1,6 @@
 {
   "name": "web-gasvaktin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Website for Gasvaktin",
   "main": "run.js",
   "scripts": {
