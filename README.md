@@ -7,7 +7,7 @@ If you're interested in contributing to the Gasvaktin Website contact the mainta
 
 ## Development
 
-Before continuing make sure you have [node](https://nodejs.org/en/) installed.
+Before continuing make sure you have [Node.js](https://nodejs.org/en/) installed on your machine.
 
 Run the following
 
