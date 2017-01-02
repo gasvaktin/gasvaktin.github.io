@@ -5,10 +5,11 @@
   <title>404</title>
   <meta name="description" content="Petrol station locations and gas prices.">
   <meta name="author" content="Sveinn Flóki Guðmundsson">
-  <script src="bower_components/es6-promise/promise.min.js"></script>
-  <script src="bower_components/fetch/fetch.js"></script>
 </head>
 <body>
   <p>Page not found</p>
+  <!-- Promise and fetch polyfill for inferior browsers -->
+  <script src="packages/promise-polyfill/promise.min.js"></script>
+  <script src="packages/whatwg-fetch/fetch.js"></script>
 </body>
 </html>
