@@ -1,6 +1,6 @@
 {
   "name": "web-gasvaktin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Website for Gasvaktin",
   "main": "run.js",
   "scripts": {
@@ -21,13 +21,13 @@
   },
   "homepage": "https://github.com/gasvaktin/gasvaktin.github.io#readme",
   "dependencies": {
-    "bootstrap": "^3.3.7",
-    "bootstrap-switch": "^3.3.2",
-    "font-awesome": "^4.6.3",
-    "google-maps": "^3.2.1",
-    "jquery": "^3.1.0",
-    "jquery.easing": "^1.4.1",
-    "promise-polyfill": "^6.0.2",
-    "whatwg-fetch": "^1.0.0"
+    "bootstrap": "3.3.7",
+    "bootstrap-switch": "3.3.2",
+    "font-awesome": "4.7.0",
+    "google-maps": "3.2.1",
+    "jquery": "3.1.1",
+    "jquery.easing": "1.4.1",
+    "promise-polyfill": "6.0.2",
+    "whatwg-fetch": "1.1.1"
   }
 }
