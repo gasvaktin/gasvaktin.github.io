@@ -7,7 +7,7 @@ If you're interested in contributing to the Gasvaktin Website contact the mainta
 
 ## Development
 
-You'll need to install `Node.js` on your machine.
+Before continuing make sure you have [node](https://nodejs.org/en/) installed.
 
 Run the following
 
