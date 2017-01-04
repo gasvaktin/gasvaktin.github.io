@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#483D8B" />
+  <title>Punctuality</title>
+  <meta name="description" content="Petrol station locations and gas prices in Iceland.">
+  <meta name="keywords" content="Gasvaktin,Gas Prices,Petrol Stations,Petrol Stations in Iceland">
+  <meta name="author" content="Sveinn Flóki Guðmundsson">
+  <meta property="og:title" content="Gasvaktin" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gasvaktin.is/" />
+  <meta property="og:image" content="https://gasvaktin.is/images/gasvaktin.png" />
+  <link rel="stylesheet" type="text/css" href="/packages/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/packages/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+  <link rel="stylesheet" type="text/css" href="/packages/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/gasvaktin.css">
+</head>
+<body>
+  <p>WIP</p>
+  <canvas id="punctualityChart" width="400" height="300"></canvas>
+  <!-- Promise and fetch polyfill for inferior browsers -->
+  <script src="packages/promise-polyfill/promise.min.js"></script>
+  <script src="packages/whatwg-fetch/fetch.js"></script>
+  <!-- Chart.js and Moment.js -->
+  <script src="packages/moment/min/moment.min.js"></script>
+  <script src="packages/chart.js/dist/Chart.min.js"></script>
+  <!-- Punctuality Page script -->
+  <script src="js/Punctuality.js"></script>
+</body>
+</html>
