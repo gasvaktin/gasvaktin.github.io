@@ -1,9 +1,9 @@
 
 # Gasvaktin Website
 
-Simple static website for showing data for Icelandic petrol stations available in [gasvaktin/gasvaktin](https://github.com/gasvaktin/gasvaktin), hosted under the domain [Gasvaktin.is](https://gasvaktin.is/).
+Static website for showing data for Icelandic petrol stations available in [gasvaktin/gasvaktin](https://github.com/gasvaktin/gasvaktin), the website is hosted under the domain [Gasvaktin.is](https://gasvaktin.is/).
 
-If you're interested in contributing to the Gasvaktin Website contact the maintainer or create a pull request.
+If you're interested in contributing to the Gasvaktin Website contact the maintainer or check out tickets in [the v0.1.0 roadmap](https://github.com/gasvaktin/gasvaktin.github.io/projects/1) and make a pull request.
 
 ## Development
 

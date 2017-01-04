@@ -28,6 +28,10 @@ body {
     }
 }
 
+.app-title {
+    padding: 16px 16px;
+}
+
 .intro-section {
     height: 100%;
     padding-top: 80px;

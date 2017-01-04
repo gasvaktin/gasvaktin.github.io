@@ -6,16 +6,18 @@
  * Prerequisites:
  * - window.fetch (is to be standard in all browsers but currently isn't, we're
  *   using the following polyfill: https://www.npmjs.com/package/whatwg-fetch)
+ * - window.Promise (supported by all browsers as far as I know, but included a
+ *   fallback polyfill just in case)
  * - GoogleMapsLoader (Google Maps JS package, using the following:
  *   https://www.npmjs.com/package/google-maps)
  * - jQuery (this one could kinda easily be removed, but it's already needed for
  *   the Twitter Bootstrap front-end framework so it's been tempting to use it
  *   for a few things)
- * - GeoUtils.js (simple module for calculating distances between geolocation
+ * - GeoUtils.js (simple JS module for calculating distances between geolocation
  *   coordinates)
  **/
 
-var gs = { // global scope paramteters
+var gs = {  /* Global Scope Paramteters */
   debug: false,
   dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json",
   stations: {},
