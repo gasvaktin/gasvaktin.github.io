@@ -18,6 +18,7 @@
  **/
 
 var gs = {  /* Global Scope Paramteters */
+  urlParams: null,
   debug: false,
   dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json",
   stations: {},
@@ -544,8 +545,8 @@ var initialize = function() {
    * Sets some parameters in the global scope gs, puts configuration parameters
    * in their places, polyfills things if necessary, then initializes client
    */
-  if (window.location.search.indexOf("?debug=true") !== -1 ||
-      window.location.search.indexOf("&debug=true") !== -1) {
+  gs.urlParams = new window.URLSearchParams(window.location.search);
+  if (gs.urlParams.has('debug') && gs.urlParams.get('debug') === 'true') {
     // set debug to true if GET parameter debug=true is provided in url
     gs.debug = true;
   }
