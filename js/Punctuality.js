@@ -12,6 +12,7 @@
  **/
 
 var gs = {  /* Global Scope Paramteters */
+  urlParams: null,
   debug: false,
   punctualityData: null,
   dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/punctuality.min.json",
