@@ -6,7 +6,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#483D8B" />
-  <title>Gasvaktin</title>
+  <title>Punctuality</title>
   <meta name="description" content="Petrol station locations and gas prices in Iceland.">
   <meta name="keywords" content="Gasvaktin,Gas Prices,Petrol Stations,Petrol Stations in Iceland">
   <meta name="author" content="Sveinn Flóki Guðmundsson">
@@ -23,18 +23,17 @@
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container gasvaktin-header">
       <div class="navbar-header page-scroll">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
+        <button type="button" class="punctuality-settings">
+          <span class="sr-only">Settings</span>
+          <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
         </button>
+        <a href="/" class="back-to-home">
+          <span class="sr-only">Back to home</span>
+          <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+        </a>
         <a class="navbar-brand page-scroll app-title" href="#">
           <i class="fa fa-tint" aria-hidden="true"></i> Gasvaktin
         </a>
-        <div class="petrol-type-checker">
-          <input type="checkbox" name="petrol-type-checker" checked>
-        </div>
       </div>
       <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav">
@@ -49,40 +48,20 @@
     </div>
   </nav>
   <section class="about-section less-top">
-    <div class="container spacious">
-      <div class="col-lg-6 ordering-buttons">
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <div class="btn-group btn-selected" role="group">
-          <button type="button" class="btn btn-default" onclick="arrangeStationsByPrice()">Cheapest</button>
-        </div>
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default" onclick="arrangeStationsByDistance()">Nearest</button>
-        </div>
-        </div>
-      </div>
-      <div class="col-lg-6 stations-list"  id="listElement">
-      </div>
-      <div class="col-lg-6 locations-map" id="mapElement">
-        <p>Loading map ..</p>
+    <canvas class="punctuality-chart" id="punctualityChart" width="400" height="300"></canvas>
+      <div class="col-lg-6" id="mapElement">
+        <p>Work in progress</p>
       </div>
     </div>
   </section>
-  <!-- jQuery and jQuery.easing -->
-  <script src="/packages/jquery/dist/jquery.min.js"></script>
-  <script src="/packages/jquery.easing/jquery.easing.min.js"></script>
-  <!-- Bootstrap Core JavaScript -->
-  <script src="/packages/bootstrap/dist/js/bootstrap.min.js"></script>
-  <!-- Bootstrap Switch JavaScript -->
-  <script src="/packages/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
-  <!-- Google Maps Loader -->
-  <script src="/packages/google-maps/lib/Google.min.js"></script>
   <!-- Polyfills for inferior browsers -->
   <script src="/packages/promise-polyfill/promise.min.js"></script>
   <script src="/packages/whatwg-fetch/fetch.js"></script>
   <script src="/packages/url-search-params/build/url-search-params.js"></script>
-  <!-- Import some local utility scripts/modules -->
-  <script src="/js/GeoUtils.js"></script>
-  <!-- Gasvaktin Client Script -->
-  <script src="/js/Gasvaktin.js"></script>
+  <!-- Chart.js and Moment.js -->
+  <script src="/packages/moment/min/moment.min.js"></script>
+  <script src="/packages/chart.js/dist/Chart.min.js"></script>
+  <!-- Punctuality Page script -->
+  <script src="/js/Punctuality.js"></script>
 </body>
 </html>

@@ -12,6 +12,7 @@
  **/
 
 var gs = {  /* Global Scope Paramteters */
+  urlParams: null,
   debug: false,
   punctualityData: null,
   dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/punctuality.min.json",
@@ -36,6 +37,11 @@ var gs = {  /* Global Scope Paramteters */
           radius: 0,
           hitRadius: 10,
           hoverRadius: 3
+        }
+      },
+      legend: {
+        labels: {
+          boxWidth: 12
         }
       }
     },
@@ -98,7 +104,7 @@ var fetchPunctualityData = function() {
       return response.json()
     }).then(function(data) {
       if (gs.debug) {
-        console.log("Got the following petrol data:");
+        console.log("Got the following punctuality data:");
         console.log(data);
       }
       gs.punctualityData = data;
@@ -229,60 +235,12 @@ var initialize = function() {
    * Sets some parameters in the global scope gs, puts configuration parameters
    * in their places, polyfills things if necessary, then initializes client
    */
-  if (window.location.search.indexOf("?debug=true") !== -1 ||
-      window.location.search.indexOf("&debug=true") !== -1) {
+  gs.urlParams = new window.URLSearchParams(window.location.search);
+  if (gs.urlParams.has('debug') && gs.urlParams.get('debug') === 'true') {
     // set debug to true if GET parameter debug=true is provided in url
     gs.debug = true;
   }
   gs.chart.element = window.document.getElementById("punctualityChart");
-  //gs.chart.data = {
-  //  datasets: [{
-  //    label: "N1",
-  //    pointStyle: "circle",
-  //    borderColor: "#ea202d",
-  //    backgroundColor: "#f74b58",
-  //    lineTension: 0,
-  //    fill: false,
-  //    data: [{
-  //      x: "2016-12-30T23:08",
-  //      y: 1.5
-  //    }, {
-  //      x: "2017-01-01T00:07",
-  //      y: 1.5
-  //    }, {
-  //      x: "2017-01-01T00:08",
-  //      y: 10
-  //    }, {
-  //      x: "2017-01-02T12:07",
-  //      y: 10
-  //    }, {
-  //      x: "2017-01-02T12:08",
-  //      y: 5
-  //    }],
-  //    radius: [3, 0, 3, 0, 3],
-  //    hitRadius: [8, 0, 8, 0, 8],
-  //    hoverRadius: [6, 0, 6, 0, 6]
-  //  //}, {
-  //  //  label: "Kappa Dataset",
-  //  //  lineTension: 0,
-  //  //  pointStyle: "dash",
-  //  //  data: [{
-  //  //    x: "2016-12-30T23:08",
-  //  //    y: 0
-  //  //  }, {
-  //  //    x: "2017-01-01T00:08",
-  //  //    y: 8
-  //  //  }, {
-  //  //    x: "2017-01-02T12:08",
-  //  //    y: 6
-  //  //  }]
-  //  }]
-  //}
-  //gs.chart.ctx = new window.Chart(gs.chart.element, {
-  //  type: "line",
-  //  data: gs.chart.data,
-  //  options: gs.chart.options
-  //});
   // TODO: initialize more things if needed
   runClient();
 }();
