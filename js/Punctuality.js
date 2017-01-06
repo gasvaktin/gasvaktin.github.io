@@ -38,6 +38,11 @@ var gs = {  /* Global Scope Paramteters */
           hitRadius: 10,
           hoverRadius: 3
         }
+      },
+      legend: {
+        labels: {
+          boxWidth: 12
+        }
       }
     },
     companies: {

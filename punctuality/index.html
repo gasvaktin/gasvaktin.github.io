@@ -19,9 +19,41 @@
   <link rel="stylesheet" type="text/css" href="/packages/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="/css/gasvaktin.css">
 </head>
-<body>
-  <p>Punctuality Chart - Work in progress</p>
-  <canvas id="punctualityChart" width="400" height="300"></canvas>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container gasvaktin-header">
+      <div class="navbar-header page-scroll">
+        <button type="button" class="punctuality-settings">
+          <span class="sr-only">Settings</span>
+          <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+        </button>
+        <a href="/" class="back-to-home">
+          <span class="sr-only">Back to home</span>
+          <i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i>
+        </a>
+        <a class="navbar-brand page-scroll app-title" href="#">
+          <i class="fa fa-tint" aria-hidden="true"></i> Gasvaktin
+        </a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li class="hidden">
+            <a href="#page-top"></a>
+          </li>
+          <li>
+            <a target="_blank" href="https://github.com/gasvaktin/gasvaktin">About this project</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <section class="about-section less-top">
+    <canvas class="punctuality-chart" id="punctualityChart" width="400" height="300"></canvas>
+      <div class="col-lg-6" id="mapElement">
+        <p>Work in progress</p>
+      </div>
+    </div>
+  </section>
   <!-- Polyfills for inferior browsers -->
   <script src="/packages/promise-polyfill/promise.min.js"></script>
   <script src="/packages/whatwg-fetch/fetch.js"></script>

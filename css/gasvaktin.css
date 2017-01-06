@@ -59,6 +59,50 @@ body {
     background: #eee;
 }
 
+.punctuality-settings {
+    position: relative;
+    float: right;
+    padding: 6px 13px;
+    margin-top: 8px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.punctuality-settings:hover {
+    background-color: #ddd;
+}
+.punctuality-settings:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.back-to-home {
+    position: relative;
+    float: right;
+    padding: 6px 26px;
+    margin-top: 8px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    margin-left: 0px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+}
+.back-to-home:hover {
+    color: #333;
+    background-color: #ddd;
+}
+.back-to-home:focus {
+    color: #333;
+    background-color: #ddd;
+    outline: none;
+}
+
 /*
  * Map and list transformation behavior between different window sizes
  */
