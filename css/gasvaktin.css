@@ -15,6 +15,19 @@ body {
     /*overflow: auto;*/
 }
 
+/* removing focus glow for everything */
+/* http://stackoverflow.com/q/17109702/2401628 */
+*:focus {
+    outline: 0;
+}
+
+.modal-body-center {
+    text-align: center;
+}
+.the-gap {
+    padding-top: 10px;
+}
+
 @media(min-width:767px) {
     .navbar {
         padding: 20px 0;
@@ -102,6 +115,23 @@ body {
     background-color: #ddd;
     outline: none;
 }
+
+@media(max-width: 766px) {
+    .settings-modal {
+        margin: 48px 3px 0px 3px;
+    }
+}
+@media(min-width: 767px) {
+    .settings-modal {
+        margin-top: 95px;
+    }
+}
+
+.company-selector {
+    outline: none !important;
+}
+
+
 
 /*
  * Map and list transformation behavior between different window sizes

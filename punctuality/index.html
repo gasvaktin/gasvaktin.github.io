@@ -6,7 +6,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#483D8B" />
-  <title>Punctuality</title>
+  <title>Gasvaktin Punctuality</title>
   <meta name="description" content="Petrol station locations and gas prices in Iceland.">
   <meta name="keywords" content="Gasvaktin,Gas Prices,Petrol Stations,Petrol Stations in Iceland">
   <meta name="author" content="Sveinn Flóki Guðmundsson">
@@ -17,13 +17,15 @@
   <link rel="stylesheet" type="text/css" href="/packages/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/packages/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
   <link rel="stylesheet" type="text/css" href="/packages/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/packages/pickadate/lib/themes/default.css">
+  <link rel="stylesheet" type="text/css" href="/packages/pickadate/lib/themes/default.date.css">
   <link rel="stylesheet" type="text/css" href="/css/gasvaktin.css">
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container gasvaktin-header">
       <div class="navbar-header page-scroll">
-        <button type="button" class="punctuality-settings">
+        <button type="button" class="punctuality-settings" data-toggle="modal" data-target="#myModal">
           <span class="sr-only">Settings</span>
           <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
         </button>
@@ -35,16 +37,6 @@
           <i class="fa fa-tint" aria-hidden="true"></i> Gasvaktin
         </a>
       </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav">
-          <li class="hidden">
-            <a href="#page-top"></a>
-          </li>
-          <li>
-            <a target="_blank" href="https://github.com/gasvaktin/gasvaktin">About this project</a>
-          </li>
-        </ul>
-      </div>
     </div>
   </nav>
   <section class="about-section less-top">
@@ -54,13 +46,64 @@
       </div>
     </div>
   </section>
+  <!-- Settings Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog settings-modal" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Chart Options</h4>
+        </div>
+        <div class="modal-body modal-body-center">
+          <div class="btn-group" data-toggle="buttons">
+            <button type="button" class="btn btn-default company-selector" id="aoSelector" onclick="pressCompanyButton(this.id)">Atlantsolía</button>
+            <button type="button" class="btn btn-default company-selector" id="dnSelector" onclick="pressCompanyButton(this.id)">Dælan</button>
+            <button type="button" class="btn btn-default company-selector" id="n1Selector" onclick="pressCompanyButton(this.id)">N1</button>
+            <button type="button" class="btn btn-default company-selector" id="obSelector" onclick="pressCompanyButton(this.id)">ÓB</button>
+            <button type="button" class="btn btn-default company-selector" id="olSelector" onclick="pressCompanyButton(this.id)">Olís</button>
+            <button type="button" class="btn btn-default company-selector" id="orSelector" onclick="pressCompanyButton(this.id)">Orkan</button>
+            <button type="button" class="btn btn-default company-selector" id="oxSelector" onclick="pressCompanyButton(this.id)">Orkan X</button>
+            <button type="button" class="btn btn-default company-selector" id="skSelector" onclick="pressCompanyButton(this.id)">Skeljungur</button>
+          </div>
+          <div class="input-group the-gap">
+            <div class="input-group-addon">Start date</div>
+            <input class="form-control" id="startDate" placeholder="Start date">
+          </div>
+          <div class="input-group the-gap">
+            <div class="input-group-addon">End date</div>
+            <input class="form-control" id="endDate" placeholder="End date">
+          </div>
+          <div class="btn-group the-gap" data-toggle="buttons">
+            <button type="button" class="btn btn-default company-selector" id="bensinSelector" onclick="pressPetrolSelectButton(this.id)">Bensin</button>
+            <button type="button" class="btn btn-default company-selector" id="dieselSelector" onclick="pressPetrolSelectButton(this.id)">Diesel</button>
+          </div>
+          <div class="btn-group the-gap" data-toggle="buttons">
+            <button type="button" class="btn btn-default company-selector" id="discountToggler" onclick="toggleDiscount()">Include discount</button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Settings Modal -->
+  <!-- jQuery and jQuery.easing -->
+  <script src="/packages/jquery/dist/jquery.min.js"></script>
+  <script src="/packages/jquery.easing/jquery.easing.min.js"></script>
+  <!-- Bootstrap Core JavaScript -->
+  <script src="/packages/bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Switch JavaScript -->
+  <script src="/packages/bootstrap-switch/dist/js/bootstrap-switch.js"></script>
   <!-- Polyfills for inferior browsers -->
   <script src="/packages/promise-polyfill/promise.min.js"></script>
   <script src="/packages/whatwg-fetch/fetch.js"></script>
   <script src="/packages/url-search-params/build/url-search-params.js"></script>
-  <!-- Chart.js and Moment.js -->
+  <!-- Chart.js, Moment.js and pickadate.js -->
   <script src="/packages/moment/min/moment.min.js"></script>
   <script src="/packages/chart.js/dist/Chart.min.js"></script>
+  <script src="/packages/pickadate/lib/picker.js"></script>
+  <script src="/packages/pickadate/lib/picker.date.js"></script>
   <!-- Punctuality Page script -->
   <script src="/js/Punctuality.js"></script>
 </body>
