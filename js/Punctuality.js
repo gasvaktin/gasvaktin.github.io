@@ -401,9 +401,7 @@ var updateStartDate = function() {
         'max',
         new Date(gs.chart.datepicker.end)
       );
-      updateChartDataAndRedraw().then(function() {
-        fulfil();
-      });
+      fulfil();
     }
     catch (err) {
       console.error(err);
@@ -422,9 +420,7 @@ var updateEndDate = function() {
         'min',
         new Date(gs.chart.datepicker.start)
       );
-      updateChartDataAndRedraw().then(function() {
-        fulfil();
-      });
+      fulfil();
     }
     catch (err) {
       console.error(err);
@@ -463,7 +459,9 @@ var setupStartDatePicker = function() {
           }
         },
         onClose: function() {
-          updateEndDate();
+          updateEndDate().then(function() {
+            return updateChartDataAndRedraw();
+          });
         },
         onStart: function() {
           var date = new Date(gs.chart.datepicker.start);
@@ -515,7 +513,9 @@ var setupEndDatePicker = function() {
           
         },
         onClose: function() {
-          updateStartDate();
+          updateStartDate().then(function() {
+            return updateChartDataAndRedraw();
+          });
         },
         onStart: function() {
           var date = new Date(gs.chart.datepicker.end);
