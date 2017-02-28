@@ -28,7 +28,7 @@ var gs = {  /* Global Scope Paramteters */
     },
     options: {
       customTooltip: {
-        show: false,
+        show: true,
         timestamp: null,
         company: null
       },
@@ -177,8 +177,9 @@ window.Chart.pluginService.register({
   afterDraw: function (chart, easing) {
     if (chart.config.options.customTooltip.show) {
       if (!chart.allTooltipsOnce) {
-        if (easing !== 1)
+        if (easing !== 1) {
           return;
+        }
         chart.allTooltipsOnce = true;
       }
       window.Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
@@ -506,28 +507,24 @@ var showCustomTooltip = function(priceChangeId) {
   return new Promise(function(fulfil, reject) {
     try {
       if (priceChangeId === null) {
-        if (!gs.chart.options.customTooltip.show) {
-          fulfil();
-          return;
-        }
         gs.chart.options.customTooltip.show = false;
       } else {
         gs.chart.options.customTooltip.show = true;
-      }
-      var idData = priceChangeId.split("_");
-      if (
-        gs.chart.options.customTooltip.timestamp === idData[0] &&
-        gs.chart.options.customTooltip.company === (
-          gs.chart.companies[idData[1]].label)
-        ) {
-        gs.chart.options.customTooltip.show = false;
-        gs.chart.options.customTooltip.timestamp = null;
-        gs.chart.options.customTooltip.company = null;
-      } else {
-        gs.chart.options.customTooltip.timestamp = idData[0];
-        gs.chart.options.customTooltip.company = (
-          gs.chart.companies[idData[1]].label
-        );
+        var idData = priceChangeId.split("_");
+        if (
+          gs.chart.options.customTooltip.timestamp === idData[0] &&
+          gs.chart.options.customTooltip.company === (
+            gs.chart.companies[idData[1]].label)
+          ) {
+          gs.chart.options.customTooltip.show = false;
+          gs.chart.options.customTooltip.timestamp = null;
+          gs.chart.options.customTooltip.company = null;
+        } else {
+          gs.chart.options.customTooltip.timestamp = idData[0];
+          gs.chart.options.customTooltip.company = (
+            gs.chart.companies[idData[1]].label
+          );
+        }
       }
       gs.chart.ctx.update();
       fulfil();

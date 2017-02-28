@@ -7,13 +7,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#483D8B" />
   <title>Gasvaktin Trends</title>
-  <meta name="description" content="Petrol station locations and gas prices in Iceland.">
+  <meta name="description" content="Browse price change history for petrol in Iceland.">
   <meta name="keywords" content="Gasvaktin,Gas Prices,Petrol Stations,Petrol Stations in Iceland">
   <meta name="author" content="Sveinn Flóki Guðmundsson">
-  <meta property="og:title" content="Gasvaktin Price Trends" />
+  <meta property="og:title" content="Gasvaktin Trends" />
   <meta property="og:type" content="website" />
+  <meta property="og:description" content="Browse price change history for petrol in Iceland.">
   <meta property="og:url" content="https://gasvaktin.is/trends/" />
-  <meta property="og:image" content="https://gasvaktin.is/images/gasvaktin.png" />
+  <meta property="og:image" content="https://gasvaktin.is/images/trends.png" />
   <link rel="stylesheet" type="text/css" href="/packages/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/packages/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
   <link rel="stylesheet" type="text/css" href="/packages/font-awesome/css/font-awesome.min.css">
@@ -44,164 +45,6 @@
       <canvas class="chart-object" id="priceTrendsChart" width="400" height="300"></canvas>
     </div>
     <div class="col-lg-6 pricechanges-list" id="listElement">
-      <!--
-      <div class="price-change atlantsolia increase" id="2017-02-25T09:15_ao">
-        <h1>Atlantsolía</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          195.2 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          197.6 ISK
-        </p>
-        <p class="diff">
-          + 2.4
-          <i class="fa fa-chevron-circle-up fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change atlantsolia increase" id="2017-02-25T09:15_ao">
-        <h1>Atlantsolía</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          195.2 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          197.6 ISK
-        </p>
-        <p class="diff">
-          + 2.4
-          <i class="fa fa-chevron-circle-up fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change atlantsolia increase" id="2017-02-25T09:15_ao">
-        <h1>Atlantsolía</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          195.2 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          197.6 ISK
-        </p>
-        <p class="diff">
-          + 2.4
-          <i class="fa fa-chevron-circle-up fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change atlantsolia increase" id="2017-02-25T09:15_ao">
-        <h1>Atlantsolía</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          195.2 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          197.6 ISK
-        </p>
-        <p class="diff">
-          + 2.4
-          <i class="fa fa-chevron-circle-up fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change atlantsolia increase" id="2017-02-25T09:15_ao">
-        <h1>Atlantsolía</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          195.2 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          197.6 ISK
-        </p>
-        <p class="diff">
-          + 2.4
-          <i class="fa fa-chevron-circle-up fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      <div class="price-change daelan decrease" id="2017-02-25T09:15_dn">
-        <h1>Dælan</h1>
-        <p class="timestamp">2017-02-25 09:15</p>
-        <p class="change">
-          193.9 ISK
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-          192.6 ISK
-        </p>
-        <p class="diff">
-          - 1.3
-          <i class="fa fa-chevron-circle-down fa-lg" aria-hidden="true"></i>
-        </p>
-      </div>
-      -->
     </div>
   </section>
   <!-- Settings Modal -->

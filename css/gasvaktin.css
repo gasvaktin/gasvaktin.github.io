@@ -116,23 +116,17 @@ body {
     outline: none;
 }
 
-.chart-container {
-    max-width: 56vh; /* control width based on height (should be 50 but for */
-    /* some reason using 56 seems to look better) */
-    /* https://www.w3schools.com/cssref/css_units.asp */
-    height: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    /* centering chart horizontally and vertically */
-    /* http://stackoverflow.com/a/6490283/2401628 */
-    display: flex;
-    justify-content: center;
-}
-
-.chart-object {
-    /* centering chart horizontally and vertically */
-    /* http://stackoverflow.com/a/6490283/2401628 */
-    align-self: center;
+@media(min-width:768px) {
+    .pricetrends-settings {
+        position: absolute;
+        top: 20px;
+        right: 0px;
+    }
+    .back-to-home {
+        position: absolute;
+        top: 20px;
+        right: 59px;
+    }
 }
 
 @media(max-width: 766px) {
@@ -312,19 +306,71 @@ body {
 
 /* <PriceChanges-list> */
 
-.pricechanges-list {
-    height: 50%;
-    padding-top: 0px;
-    padding-right: 0px;
-    padding-left: 0px;
-    overflow-y: auto;
-    float: none;
+@media(min-width: 878px) {
+    .chart-container {
+        display: flex;
+        height: calc(100% - 91px);
+        width: calc(100% - 340px);
+        position: absolute;
+        top: 91px;
+        left: 340px;
+        vertical-align: middle;
+    }
+    .chart-object {
+        max-width: 112vh;
+        /* control width based on height (should be 100 but for some reason */
+        /* using 112 seems to look better) */
+        /* https://www.w3schools.com/cssref/css_units.asp */
+        margin-left: auto;
+        margin-right: auto;
+        align-self: center;
+    }
+    .pricechanges-list {
+        height: calc(100% - 91px);
+        width: 340px;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        position: absolute;
+        top: 91px;
+        left: 0px;
+        overflow-y: auto;
+    }
+}
+@media(max-width: 877px) {
+    .chart-container {
+        max-width: 56vh;
+        /* control width based on height (should be 50 but for some reason */
+        /* using 56 seems to look better) */
+        /* https://www.w3schools.com/cssref/css_units.asp */
+        height: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        /* centering chart horizontally and vertically */
+        /* http://stackoverflow.com/a/6490283/2401628 */
+        display: flex;
+        justify-content: center;
+    }
+    .chart-object {
+        /* centering chart horizontally and vertically */
+        /* http://stackoverflow.com/a/6490283/2401628 */
+        align-self: center;
+    }
+    .pricechanges-list {
+        height: 50%;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        overflow-y: auto;
+        float: none;
+    }
 }
 
 .price-change {
     position: relative;
     text-align: left;
     height: 74px;
+    background-color: #e6e6e6;
     border-bottom: 1px solid darkgray;
     /* making text in this element unselectable */
     /* http://stackoverflow.com/a/6900392/2401628 */
