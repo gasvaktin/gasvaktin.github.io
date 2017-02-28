@@ -72,7 +72,7 @@ body {
     background: #eee;
 }
 
-.punctuality-settings {
+.pricetrends-settings {
     position: relative;
     float: right;
     padding: 6px 13px;
@@ -84,10 +84,10 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
-.punctuality-settings:hover {
+.pricetrends-settings:hover {
     background-color: #ddd;
 }
-.punctuality-settings:focus {
+.pricetrends-settings:focus {
     background-color: #ddd;
     outline: none;
 }
@@ -116,6 +116,25 @@ body {
     outline: none;
 }
 
+.chart-container {
+    max-width: 56vh; /* control width based on height (should be 50 but for */
+    /* some reason using 56 seems to look better) */
+    /* https://www.w3schools.com/cssref/css_units.asp */
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    /* centering chart horizontally and vertically */
+    /* http://stackoverflow.com/a/6490283/2401628 */
+    display: flex;
+    justify-content: center;
+}
+
+.chart-object {
+    /* centering chart horizontally and vertically */
+    /* http://stackoverflow.com/a/6490283/2401628 */
+    align-self: center;
+}
+
 @media(max-width: 766px) {
     .settings-modal {
         margin: 48px 3px 0px 3px;
@@ -130,8 +149,6 @@ body {
 .company-selector {
     outline: none !important;
 }
-
-
 
 /*
  * Map and list transformation behavior between different window sizes
@@ -194,10 +211,12 @@ body {
     padding-right: 5px;
 }
 
+/* <Stations-list> */
+
 .stations-list {
     padding-right: 0px;
     padding-left: 0px;
-    overflow-y:auto;
+    overflow-y: auto;
     float: none;
 }
 
@@ -288,6 +307,66 @@ body {
     top: 54px;
     right: 85px;
 }
+
+/* </Stations-list> */
+
+/* <PriceChanges-list> */
+
+.pricechanges-list {
+    height: 50%;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+    overflow-y: auto;
+    float: none;
+}
+
+.price-change {
+    position: relative;
+    text-align: left;
+    height: 74px;
+    border-bottom: 1px solid darkgray;
+    /* making text in this element unselectable */
+    /* http://stackoverflow.com/a/6900392/2401628 */
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.price-change h1 {
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 8px;
+    padding-left: 92px;
+}
+.price-change .timestamp {
+    font-size: 12px;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+.price-change .change {
+    padding-left: 92px;
+}
+.price-change .diff {
+    font-size: 18px;
+    position: absolute;
+    top: 44px;
+    right: 6px;
+}
+
+.increase {
+    background-color: #ffd4dc;
+}
+.decrease {
+    background-color: #e2f3de;
+}
+
+/* </PriceChanges-list> */
 
 .spacious {
     height: 100%;

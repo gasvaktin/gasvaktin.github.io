@@ -1,7 +1,7 @@
 "use-strict";
 /**
  * ========================================================================== *
- * Punctuality Page Script.
+ * Trends Page Script.
  * 
  * Prerequisites:
  * - window.fetch (is to be standard in all browsers but currently isn't, we're
@@ -10,23 +10,28 @@
  *   fallback polyfill just in case)
  * - Chart.js (in window.Chart)
  * - Moment.js (in window.moment)
- * - pickadate.js (jQuery plugin *cry*, adds some crazy shit to jQuery)
+ * - pickadate.js (jQuery plugin *cry* datepicker)
  **/
 
 var gs = {  /* Global Scope Paramteters */
   urlParams: null,
   debug: false,
-  punctualityData: null,
+  priceTrendsData: null,
   dataDomain: "https://raw.githubusercontent.com",
-  dataLocation: "/gasvaktin/gasvaktin/master/vaktin/punctuality.min.json",
+  dataLocation: "/gasvaktin/gasvaktin/master/vaktin/trends.min.json",
   chart: {
-    elementId: "punctualityChart",
+    elementId: "priceTrendsChart",
     element: null,
     ctx: null,
     data: {
       datasets: []
     },
     options: {
+      customTooltip: {
+        show: false,
+        timestamp: null,
+        company: null
+      },
       scales: {
         xAxes: [{
           type: "time",
@@ -49,48 +54,56 @@ var gs = {  /* Global Scope Paramteters */
     companies: {
       ao: {
         label: "Atlantsolía",
+        class: "atlantsolia",
         borderColor: "#FFCF42",
         backgroundColor: "#FFCF42",
         hidden: false
       },
       dn:  {
         label: "Dælan",
+        class: "daelan",
         borderColor: "#000000",
         backgroundColor: "#e00a1b",
         hidden: false
       },
       n1:  {
         label: "N1",
+        class: "n1",
         borderColor: "#ea202d",
         backgroundColor: "#ea202d",
         hidden: false
       },
       ob:  {
         label: "ÓB",
+        class: "ob",
         borderColor: "#7AD09F",
         backgroundColor: "#fde633",
         hidden: false
       },
       ol:  {
         label: "Olís",
+        class: "olis",
         borderColor: "#13914a",
         backgroundColor: "#13914a",
         hidden: false
       },
       or:  {
         label: "Orkan",
+        class: "orkan",
         borderColor: "#ea5ca0",
         backgroundColor: "#F284B8",
         hidden: false
       },
       ox:  {
         label: "Orkan X",
-        borderColor: "#e8168c",
-        backgroundColor: "#e8168c",
+        class: "orkanx",
+        borderColor: "#c400de",
+        backgroundColor: "#c400de",
         hidden: false
       },
       sk:  {
         label: "Skeljungur",
+        class: "skeljungur",
         borderColor: "#f58f31",
         backgroundColor: "#f8d33e",
         hidden: false
@@ -124,28 +137,78 @@ var gs = {  /* Global Scope Paramteters */
     },
     selectedClass: "btn btn-primary company-selector",
     deselectedClass: "btn btn-default company-selector"
-  }
+  },
+  trendsList: [],
+  listElement: null
 }
 
+/**
+ * ========================================================================== *
+ * Adding Custom Chart.js pluginService
+ * Manipulates the chart into drawing tooltip for a certain point if wanted.
+ * State rests in the gs.chart.options.customTooltip object ..
+ **/
+window.Chart.pluginService.register({
+  // Chart.pluginService example used to put this together:
+  // http://stackoverflow.com/questions/31241610/how-to-show-tooltips-always-on
+  // -chart-js-2#comment68732013_31319834
+  beforeRender: function (chart) {
+    if (chart.config.options.customTooltip.show) {
+      chart.pluginTooltips = [];
+      chart.config.data.datasets.forEach(function (dataset, i) {
+        if (chart.config.data.datasets[i].label ===
+          chart.config.options.customTooltip.company) {
+          chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+            if (chart.config.data.datasets[i].data[j].x ===
+              chart.config.options.customTooltip.timestamp) {
+              chart.pluginTooltips.push(new window.Chart.Tooltip({
+                _chart: chart.chart,
+                _chartInstance: chart,
+                _data: chart.data,
+                _options: chart.options.tooltips,
+                _active: [sector]
+              }, chart));
+            }
+          });
+        }
+      });
+    }
+  },
+  afterDraw: function (chart, easing) {
+    if (chart.config.options.customTooltip.show) {
+      if (!chart.allTooltipsOnce) {
+        if (easing !== 1)
+          return;
+        chart.allTooltipsOnce = true;
+      }
+      window.Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+        tooltip.initialize();
+        tooltip.update();
+        tooltip.pivot();
+        tooltip.transition(easing).draw();
+      });
+    }
+  }
+});
 
 /**
  * ========================================================================== *
  * Promising functions for specific tasks
  **/
 
-var fetchPunctualityData = function() {
+var fetchPriceTrendsData = function() {
   /**
-   * Fetch the juicy datalicious punctuality data
+   * Fetch the juicy datalicious priceTrends data
    **/
   return new Promise(function(fulfil, reject) {
     window.fetch(gs.dataDomain + gs.dataLocation).then(function(response) {
       return response.json()
     }).then(function(data) {
       if (gs.debug) {
-        console.log("Got the following punctuality data:");
+        console.log("Got the following priceTrends data:");
         console.log(data);
       }
-      gs.punctualityData = data;
+      gs.priceTrendsData = data;
       fulfil();
     }).catch(function(err) {
       console.error(err);
@@ -156,10 +219,12 @@ var fetchPunctualityData = function() {
 
 var prepareChartData = function() {
   /**
-   * Process and prepare punctuality data for visual demonstration
+   * Process and prepare priceTrends data for visual chart demonstration,
+   * also flush gs.list and make new one
    **/
   return new Promise(function(fulfil, reject) {
     try {
+      gs.trendsList = []; // flushing gs.trendsList
       var startTimestamp = window.moment(gs.chart.datepicker.start);
       var endTimestamp = window.moment(gs.chart.datepicker.end).endOf("day");
       var nowTimestamp = window.moment(new Date());
@@ -182,7 +247,7 @@ var prepareChartData = function() {
       if (nowTimestamp < lastPointTimestamp) {
         lastPointTimestamp = nowTimestamp;
       }
-      for (key in gs.punctualityData) {
+      for (key in gs.priceTrendsData) {
         var pointBeforeStartTimestamp = null;
         var pointBeforeStartTimestampAdded = false;
         var dataset = {
@@ -200,16 +265,17 @@ var prepareChartData = function() {
         };
         var firstPoint = true;
         var lastValue = null;
-        for (var i=0; i<gs.punctualityData[key].length; i++) {
-          var pointTs = window.moment(gs.punctualityData[key][i].timestamp);
-          var price = gs.punctualityData[key][i][priceType];
-          if (gs.punctualityData[key][i][priceType] === null) {
-            priceType = priceTypeFallback;
+        for (var i=0; i<gs.priceTrendsData[key].length; i++) {
+          var usedPriceType = priceType;
+          var pointTs = window.moment(gs.priceTrendsData[key][i].timestamp);
+          if (gs.priceTrendsData[key][i][priceType] === null) {
+            usedPriceType = priceTypeFallback;
           }
+          var price = gs.priceTrendsData[key][i][usedPriceType];
           if (!(startTimestamp <= pointTs && pointTs <= endTimestamp)) {
             // skip drawing points which are outside selected dates
             if (pointTs < startTimestamp) {
-              pointBeforeStartTimestamp = gs.punctualityData[key][i];
+              pointBeforeStartTimestamp = gs.priceTrendsData[key][i];
             }
             continue;
           }
@@ -217,8 +283,8 @@ var prepareChartData = function() {
             firstPoint = false;
           }
           else {
-            if (gs.punctualityData[key][i][priceType] ===
-              gs.punctualityData[key][i-1][priceType]) {
+            if (gs.priceTrendsData[key][i][usedPriceType] ===
+              gs.priceTrendsData[key][i-1][usedPriceType]) {
               // skip drawing points with no change, this happens when we are
               // for example plotting bensin95 and get a change point where
               // only diesel price changed
@@ -230,12 +296,12 @@ var prepareChartData = function() {
             // to the graph until a change happens
             dataset.data.push({
               x: window.moment(
-                gs.punctualityData[key][i].timestamp
+                gs.priceTrendsData[key][i].timestamp
               ).subtract(
                 1,
                 "minute"
               ).format("YYYY-MM-DDTHH:mm"),
-              y: gs.punctualityData[key][i-1][priceType]
+              y: gs.priceTrendsData[key][i-1][usedPriceType]
             });
             dataset.radius.push(0);
             dataset.hitRadius.push(0);
@@ -248,19 +314,19 @@ var prepareChartData = function() {
             // there are no points within selected timeframe)
             dataset.data.push({
               x: startTimestamp,
-              y: pointBeforeStartTimestamp[priceType]
+              y: pointBeforeStartTimestamp[usedPriceType]
             });
             dataset.radius.push(0);
             dataset.hitRadius.push(0);
             dataset.hoverRadius.push(0);
             dataset.data.push({
               x: window.moment(
-                gs.punctualityData[key][i].timestamp
+                gs.priceTrendsData[key][i].timestamp
               ).subtract(
                 1,
                 "minute"
               ).format("YYYY-MM-DDTHH:mm"),
-              y: gs.punctualityData[key][i-1][priceType]
+              y: gs.priceTrendsData[key][i-1][usedPriceType]
             });
             dataset.radius.push(0);
             dataset.hitRadius.push(0);
@@ -268,13 +334,25 @@ var prepareChartData = function() {
             pointBeforeStartTimestampAdded = true;
           }
           dataset.data.push({
-            x: gs.punctualityData[key][i].timestamp,
-            y: gs.punctualityData[key][i][priceType]
+            x: gs.priceTrendsData[key][i].timestamp,
+            y: gs.priceTrendsData[key][i][usedPriceType]
           });
           dataset.radius.push(3);
           dataset.hitRadius.push(8);
           dataset.hoverRadius.push(6);
-          lastValue = gs.punctualityData[key][i][priceType];
+          var before = lastValue;
+          if (before === null) {
+            if (pointBeforeStartTimestamp !== null) {
+              before = pointBeforeStartTimestamp[usedPriceType];
+            }
+          } 
+          gs.trendsList.push({
+            company: key,
+            before: before,
+            after: gs.priceTrendsData[key][i][usedPriceType],
+            timestamp: gs.priceTrendsData[key][i].timestamp
+          })
+          lastValue = gs.priceTrendsData[key][i][usedPriceType];
         }
         // add fake point to draw a line from the last point to either selected
         // end date or current time
@@ -288,6 +366,170 @@ var prepareChartData = function() {
         dataset.hidden = gs.chart.companies[key].hidden;
         gs.chart.data.datasets.push(dataset);
       }
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var arrangeTrendsListByTimestamp = function() {
+  /**
+   * Arranges trends list by timestamp, newest first
+   */
+  return new Promise(function (fulfil, reject) {
+    try {
+      gs.trendsList.sort(function (a, b) {
+        return a.timestamp > b.timestamp ? -1 : 1;
+      });
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var updateTrendsListToDom = function(stations) {
+  /**
+   * Creates Trend DOM objects and adds to listElement DOM.
+   * Flushes everything from listElement beforehand.
+   *
+   * Each Trend DOM object looks like the following:
+   * <div class="price-change atlantsolia increase" id="2017-02-25T09:15_ao">
+   *   <h1>Atlantsolía</h1>
+   *   <p class="timestamp">2017-02-25 09:15</p>
+   *   <p class="change">
+   *     195.2 ISK
+   *     <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
+   *     197.6 ISK
+   *   </p>
+   *   <p class="diff">
+   *     + 2.4
+   *     <i class="fa fa-chevron-circle-up fa-lg" aria-hidden="true"></i>
+   *   </p>
+   * </div>
+   */
+  return new Promise(function (fulfil, reject) {
+    try {
+      gs.listElement.innerHTML = ""; // flusing trends list from DOM
+      for (var i=0; i<gs.trendsList.length; i++) {
+        var diff = null;
+        var diffClass = "";
+        var diffSign = "";
+        var diffShevron = "";
+        if (gs.trendsList[i].before !== null) {
+          diff = gs.trendsList[i].after - gs.trendsList[i].before;
+          if (diff < 0) {
+            diffClass = " decrease";
+            diffSign = "- ";
+            diffShevron = (
+              " <i class=\"fa fa-chevron-circle-down fa-lg\"" +
+              " aria-hidden=\"true\">" +
+              "</i>"
+            );
+          } else {
+            diffClass = " increase";
+            diffSign = "+ ";
+            diffShevron = (
+              " <i class=\"fa fa-chevron-circle-up fa-lg\"" +
+              " aria-hidden=\"true\">" +
+              "</i>"
+            );
+          }
+        }
+        var className = (
+          "price-change " +
+          gs.chart.companies[gs.trendsList[i].company].class +
+          diffClass
+        );
+        var priceChange = window.document.createElement("div");
+        priceChange.setAttribute("class", className);
+        var trend_key = (
+          gs.trendsList[i].timestamp +
+          "_" +
+          gs.trendsList[i].company
+        );
+        priceChange.setAttribute("id", trend_key);
+        var companyNameH1 = window.document.createElement("h1");
+        companyNameH1.innerHTML = (
+          gs.chart.companies[gs.trendsList[i].company].label
+        );
+        priceChange.appendChild(companyNameH1);
+        var timestampP = window.document.createElement("p");
+        timestampP.setAttribute("class", "timestamp");
+        timestampP.innerHTML = gs.trendsList[i].timestamp.replace("T", " ");
+        priceChange.appendChild(timestampP);
+        var changeP = window.document.createElement("p");
+        changeP.setAttribute("class", "change");
+        if (diff !== null) {
+          changeP.innerHTML = (
+            gs.trendsList[i].before.toFixed(1) + " ISK " +
+            "<i class=\"fa fa-arrow-right fa-lg\" aria-hidden=\"true\"></i> " +
+            gs.trendsList[i].after.toFixed(1) + " ISK"
+          );
+          priceChange.appendChild(changeP);
+          var diffP = window.document.createElement("p");
+          diffP.setAttribute("class", "diff");
+          diffP.innerHTML = (
+            diffSign +
+            window.Math.abs(diff).toFixed(1) +
+            diffShevron
+          );
+          priceChange.appendChild(diffP);
+        } else {
+          changeP.innerHTML = gs.trendsList[1].after + " ISK";
+          priceChange.appendChild(changeP);
+        }
+        priceChange.onclick = function() {
+          showCustomTooltip(this.id);
+        }
+        gs.listElement.appendChild(priceChange);
+      }
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var showCustomTooltip = function(priceChangeId) {
+  /**
+   * Makes the chart show tooltip for a specified price change point.
+   * If provided priceChangeId is null, removes tooltip.
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      if (priceChangeId === null) {
+        if (!gs.chart.options.customTooltip.show) {
+          fulfil();
+          return;
+        }
+        gs.chart.options.customTooltip.show = false;
+      } else {
+        gs.chart.options.customTooltip.show = true;
+      }
+      var idData = priceChangeId.split("_");
+      if (
+        gs.chart.options.customTooltip.timestamp === idData[0] &&
+        gs.chart.options.customTooltip.company === (
+          gs.chart.companies[idData[1]].label)
+        ) {
+        gs.chart.options.customTooltip.show = false;
+        gs.chart.options.customTooltip.timestamp = null;
+        gs.chart.options.customTooltip.company = null;
+      } else {
+        gs.chart.options.customTooltip.timestamp = idData[0];
+        gs.chart.options.customTooltip.company = (
+          gs.chart.companies[idData[1]].label
+        );
+      }
+      gs.chart.ctx.update();
       fulfil();
     }
     catch (err) {
@@ -344,7 +586,11 @@ var updateChartDataAndRedraw = function() {
       clearChartAndData().then(function() {
         return prepareChartData();
       }).then(function() {
-        plotChart();
+        return arrangeTrendsListByTimestamp();
+      }).then(function() {
+        return updateTrendsListToDom();
+      }).then(function() {
+        return plotChart();
       }).then(function() {
         fulfil();
       }).catch(function(err) {
@@ -830,10 +1076,14 @@ var readUrlParams = function(value) {
  **/
 
 var runClient = function() {
-  fetchPunctualityData().then(function () {
+  fetchPriceTrendsData().then(function () {
     return readUrlParams();
   }).then(function() {
     return prepareChartData();
+  }).then(function() {
+    return arrangeTrendsListByTimestamp();
+  }).then(function() {
+    return updateTrendsListToDom();
   }).then(function() {
     return plotChart();
   }).then(function() {
@@ -858,6 +1108,7 @@ var initialize = function() {
    * necessary, then initializes the web client
    */
   // set DOM pointers into gs
+  gs.listElement = window.document.getElementById("listElement");
   gs.chart.optSettings.bensinButton = (
     window.document.getElementById("bensinSelector")
   );
