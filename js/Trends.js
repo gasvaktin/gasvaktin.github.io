@@ -295,6 +295,14 @@ var prepareChartData = function() {
             // we create a fake point one minute before the next point with
             // same y value as previous point, this gives a 'constant' value
             // to the graph until a change happens
+            var lastPriceType = usedPriceType;
+            if (gs.priceTrendsData[key][i-1][lastPriceType] == null) {
+              if (lastPriceType === "median_bensin95_discount") {
+                lastPriceType = "median_bensin95";
+              } else if (lastPriceType === "median_diesel_discount") {
+                lastPriceType = "median_diesel";
+              }
+            }
             dataset.data.push({
               x: window.moment(
                 gs.priceTrendsData[key][i].timestamp
@@ -302,7 +310,7 @@ var prepareChartData = function() {
                 1,
                 "minute"
               ).format("YYYY-MM-DDTHH:mm"),
-              y: gs.priceTrendsData[key][i-1][usedPriceType]
+              y: gs.priceTrendsData[key][i-1][lastPriceType]
             });
             dataset.radius.push(0);
             dataset.hitRadius.push(0);
