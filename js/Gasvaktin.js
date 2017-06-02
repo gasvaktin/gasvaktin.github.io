@@ -107,7 +107,7 @@ var addStationsToList = function(stations) {
         station.appendChild(stationName);
         var stationDistance = window.document.createElement("p");
         stationDistance.setAttribute("class", "distance");
-        stationDistance.innerHTML = "Getting your location ..";
+        stationDistance.innerHTML = "Finding your location ..";
         station.appendChild(stationDistance);
         if (gs.localStorage.getItem("petrol_type") === gs.petrolTypes.bensin) {
           var price = stations[i].bensin95;
@@ -126,6 +126,14 @@ var addStationsToList = function(stations) {
           stationDiscountPrice.setAttribute("class", "discount-price");
           stationDiscountPrice.innerHTML = (
             "("+priceDiscount.toString()+" with discount)"
+          );
+          station.appendChild(stationDiscountPrice);
+        }
+        if (stations[i].key.startsWith('co')) {
+          var stationDiscountPrice = window.document.createElement("p");
+          stationDiscountPrice.setAttribute("class", "discount-price");
+          stationDiscountPrice.innerHTML = (
+            "[ Membership card required ]"
           );
           station.appendChild(stationDiscountPrice);
         }
