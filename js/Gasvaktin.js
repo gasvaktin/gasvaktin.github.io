@@ -56,6 +56,7 @@ var gs = {  /* Global Scope Paramteters */
   listElement: null, // DOM element object
   stationCompanyClassMap: { // map company name to appropriate CSS class
     "Atlantsolía": "atlantsolia",
+    "Costco Iceland": "costco",
     "N1": "n1",
     "Dælan": "daelan",
     "Olís": "olis",
@@ -373,7 +374,12 @@ var updateStationMarker = function(key) {
       $("div").removeClass("stationFocused");
       if (key === null) {
         station = gs.stations[listElement.children[0].id];
-        $("#"+listElement.children[0].id).addClass("stationFocused");
+        if (station.company === "Costco Iceland") {
+          // we don't auto select Costco as we can't assume our visitor has a
+          // costco membership card
+          station = gs.stations[listElement.children[1].id];
+        }
+        $("#"+station.key).addClass("stationFocused");
       }
       else {
         station = gs.stations[key];

@@ -235,6 +235,12 @@ body {
     background-repeat: no-repeat;
     background-position: 5px 5px;
 }
+.costco {
+    background-image: url('/images/companies/costco.png');
+    background-size: 74px;
+    background-repeat: no-repeat;
+    background-position: 9px 4px;
+}
 .orkan {
     background-image: url('/images/companies/orkan.png');
     background-size: 74px;

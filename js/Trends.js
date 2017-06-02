@@ -59,6 +59,13 @@ var gs = {  /* Global Scope Paramteters */
         backgroundColor: "#FFCF42",
         hidden: false
       },
+      co: {
+        label: "Costco Iceland",
+        class: "costco",
+        borderColor: "#0060a9",
+        backgroundColor: "#0060a9",
+        hidden: false
+      },
       dn:  {
         label: "Dælan",
         class: "daelan",
@@ -111,6 +118,7 @@ var gs = {  /* Global Scope Paramteters */
     },
     optUi: {
       aoSelector: null,
+      coSelector: null,
       dnSelector: null,
       n1Selector: null,
       obSelector: null,
@@ -362,6 +370,14 @@ var prepareChartData = function() {
             timestamp: gs.priceTrendsData[key][i].timestamp
           })
           lastValue = gs.priceTrendsData[key][i][usedPriceType];
+          if (before === null) {
+            console.log({
+              company: key,
+              before: before,
+              after: gs.priceTrendsData[key][i][usedPriceType],
+              timestamp: gs.priceTrendsData[key][i].timestamp
+            })
+          }
         }
         // add fake point to draw a line from the last point to either selected
         // end date or current time
@@ -490,7 +506,7 @@ var updateTrendsListToDom = function(stations) {
           );
           priceChange.appendChild(diffP);
         } else {
-          changeP.innerHTML = gs.trendsList[1].after + " ISK";
+          changeP.innerHTML = gs.trendsList[i].after + " ISK";
           priceChange.appendChild(changeP);
         }
         priceChange.onclick = function() {
