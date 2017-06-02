@@ -370,14 +370,6 @@ var prepareChartData = function() {
             timestamp: gs.priceTrendsData[key][i].timestamp
           })
           lastValue = gs.priceTrendsData[key][i][usedPriceType];
-          if (before === null) {
-            console.log({
-              company: key,
-              before: before,
-              after: gs.priceTrendsData[key][i][usedPriceType],
-              timestamp: gs.priceTrendsData[key][i].timestamp
-            })
-          }
         }
         // add fake point to draw a line from the last point to either selected
         // end date or current time
