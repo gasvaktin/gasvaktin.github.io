@@ -20,7 +20,7 @@
 var gs = {  /* Global Scope Paramteters */
   urlParams: null,
   debug: false,
-  dataEndpoint: "https://apis.is/petrol",
+  dataEndpoint: "http://apis.is/petrol",
   stations: {},
   googleMaps: null, // google.maps object given by GoogleMapsLoader.load
   googleMapsSettings: {
