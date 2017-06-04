@@ -20,7 +20,7 @@
 var gs = {  /* Global Scope Paramteters */
   urlParams: null,
   debug: false,
-  dataEndpoint: "http://apis.is/petrol",
+  dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json",
   stations: {},
   googleMaps: null, // google.maps object given by GoogleMapsLoader.load
   googleMapsSettings: {
@@ -451,10 +451,10 @@ var fetchGasPrice = function() {
         console.log("Got the following petrol data:");
         console.log(data);
       }
-      for (var i=0; i<data.results.length; i++) {
-        gs.stations[data.results[i].key] = data.results[i];
+      for (var i=0; i<data.stations.length; i++) {
+        gs.stations[data.stations[i].key] = data.stations[i];
       }
-      addStationsToList(data.results);
+      addStationsToList(data.stations);
       fulfil();
     }).catch(function(err) {
       console.error(err);
