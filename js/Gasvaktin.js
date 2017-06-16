@@ -201,11 +201,19 @@ var arrangeStationsByPrice = function() {
         }
       }
       itemsArr.sort(function (a, b) {
-        return (
-          gs.stations[a.id].bensin95 == gs.stations[b.id].bensin95
-            ? gs.handleStalemate(gs.stations[a.id], gs.stations[b.id])
-            : (gs.stations[a.id].bensin95 > gs.stations[b.id].bensin95 ? 1 : -1)
-        );
+        if (gs.localStorage.getItem("petrol_type") === gs.petrolTypes.bensin) {
+          return (
+            gs.stations[a.id].bensin95 == gs.stations[b.id].bensin95
+              ? gs.handleStalemate(gs.stations[a.id], gs.stations[b.id])
+              : (gs.stations[a.id].bensin95 > gs.stations[b.id].bensin95 ? 1 : -1)
+          );
+        } else {
+          return (
+            gs.stations[a.id].diesel == gs.stations[b.id].diesel
+              ? gs.handleStalemate(gs.stations[a.id], gs.stations[b.id])
+              : (gs.stations[a.id].diesel > gs.stations[b.id].diesel ? 1 : -1)
+          );
+        }
       });
       for (i = 0; i < itemsArr.length; ++i) {
         gs.listElement.appendChild(itemsArr[i]);
