@@ -33,68 +33,66 @@
   <link rel="stylesheet" type="text/css" href="/css/gasvaktin.css">
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container gasvaktin-header">
-      <div class="navbar-header page-scroll">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand page-scroll app-title" href="#">
-          <i class="fa fa-tint" aria-hidden="true"></i> Gasvaktin
-        </a>
-        <div class="petrol-type-checker">
-          <input type="checkbox" name="petrol-type-checker" checked>
+  <nav class="Navbar" role="navigation">
+    <div class="Navbar__CustomRadioButtonContainer">
+      <fieldset class="CustomRadioButton">
+        <legend class="CustomRadioButton__title">Order by</legend>
+        <div class="CustomRadioButton__buttonContainer">
+          <input class="CustomRadioButton__choiceInput" id="OrderBy__nearest" type="radio" class="" onclick="arrangeStationsByDistance()" name="OrderBy__choice">
+          <label class="CustomRadioButton__choiceLabel CustomRadioButton__choiceLabel--arrow" for="OrderBy__nearest">Nearest</label>
+          <input class="CustomRadioButton__choiceInput" id="OrderBy__cheapest" type="radio" class="" onclick="arrangeStationsByPrice()" name="OrderBy__choice">
+          <label class="CustomRadioButton__choiceLabel CustomRadioButton__choiceLabel--arrow" for="OrderBy__cheapest">Cheapest</label>
         </div>
-      </div>
-      <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav">
-          <li class="hidden">
-            <a href="#page-top"></a>
-          </li>
-          <li>
-            <a href="/trends/">
-              <i class="fa fa-line-chart" aria-hidden="true"></i>
-              Trends
-            </a>
-          </li>
-          <li>
-            <a  target="_blank" href="https://twitter.com/gasvaktin">
-              <i class="fa fa-twitter" aria-hidden="true"></i>
-              Notifications
-            </a>
-          </li>
-          <li>
-            <a target="_blank" href="https://github.com/gasvaktin/gasvaktin/blob/master/README.md">
-              <i class="fa fa-question-circle-o" aria-hidden="true"></i>
-              About this project
-            </a>
-          </li>
-        </ul>
-      </div>
+      </fieldset>
+      <fieldset class="CustomRadioButton" name="fuel-type-checker">
+        <legend class="CustomRadioButton__title">Fuel Type</legend>
+        <div class="CustomRadioButton__buttonContainer">
+          <input class="CustomRadioButton__choiceInput FuelType__choiceInput" id="FuelType__petrolCheckmark" type="radio" value="petrol" name="FuelType__choice" checked>
+          <label class="CustomRadioButton__choiceLabel" for="FuelType__petrolCheckmark">Petrol</label>
+          <input class="CustomRadioButton__choiceInput FuelType__choiceInput" id="FuelType__dieselCheckmark" type="radio" value="diesel" name="FuelType__choice">
+          <label class="CustomRadioButton__choiceLabel" for="FuelType__dieselCheckmark">Diesel</label>
+        </div>
+      </fieldset>
+    </div>
+    <a class="Navbar__title" href="#">
+      <i class="fa fa-tint Navbar__logo" aria-hidden="true"></i> Gasvaktin
+    </a>
+    <div class="Navbar__buttonsContainer">
+      <a class="Navbar__buttons" href="/trends/">
+        <i class="fa fa-line-chart" aria-hidden="true"></i>
+        Trends
+      </a>
+      <a class="Navbar__buttons" target="_blank" href="https://twitter.com/gasvaktin">
+        <i class="fa fa-twitter" aria-hidden="true"></i>
+        Notifications
+      </a>
+      <a class="Navbar__buttons" target="_blank" href="https://github.com/gasvaktin/gasvaktin/blob/master/README.md">
+        <i class="fa fa-github" aria-hidden="true"></i>
+        About
+      </a>
     </div>
   </nav>
-  <section class="about-section less-top">
-    <div class="container spacious">
-      <div class="col-lg-6 ordering-buttons">
-        <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <div class="btn-group btn-selected" role="group">
-          <button type="button" class="btn btn-default" onclick="arrangeStationsByPrice()">Cheapest</button>
-        </div>
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-default" onclick="arrangeStationsByDistance()">Nearest</button>
-        </div>
-        </div>
-      </div>
-      <div class="col-lg-6 stations-list"  id="listElement">
-      </div>
-      <div class="col-lg-6 locations-map" id="mapElement">
-        <p>Loading map ..</p>
-      </div>
+  <section class="FuelPriceListAndMapContainer">
+    <div class="Stations__list"  id="listElement">
+    </div>
+    <div class="LocationsMap" id="mapElement">
+      <p>Loading map ..</p>
     </div>
   </section>
+  <footer class="Footer">
+    <a class="Navbar__buttons" target="_blank" href="https://twitter.com/gasvaktin">
+      <i class="fa fa-twitter" aria-hidden="true"></i>
+      Notifications
+    </a>
+    <a class="Navbar__buttons" target="_blank" href="https://github.com/gasvaktin/gasvaktin/blob/master/README.md">
+      <i class="fa fa-github" aria-hidden="true"></i>
+      About
+    </a>
+    <a class="Navbar__buttons" href="/trends/">
+      <i class="fa fa-line-chart" aria-hidden="true"></i>
+      Trends
+    </a>
+  </footer>
   <!-- jQuery and jQuery.easing -->
   <script src="/packages/jquery/dist/jquery.min.js"></script>
   <script src="/packages/jquery.easing/jquery.easing.min.js"></script>
