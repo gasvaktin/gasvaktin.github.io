@@ -67,8 +67,8 @@ var gs = {  /* Global Scope Paramteters */
   },
   localStorage: null, // window.localStorage or polyfill if needed
   localStorageWorks: null, // function to test window.localStorage
-  petrolTypes: {
-    bensin: "bensin",
+  fuelTypes: {
+    petrol: "petrol",
     diesel: "diesel"
   },
   handleStalemate: null // helper function for sorting stations
@@ -95,21 +95,22 @@ var addStationsToList = function(stations) {
     try {
       for (var i=0; i<stations.length; i++) {
         var className = (
-          "station "+gs.stationCompanyClassMap[stations[i].company]
+          "Station "+gs.stationCompanyClassMap[stations[i].company]
         );
         var station = window.document.createElement("div");
         station.setAttribute("class", className);
         station.setAttribute("id", stations[i].key);
         var stationName = window.document.createElement("h1");
+        stationName.setAttribute("class", "Station__name");
         stationName.innerHTML = (
-          stations[i].name+" <span>"+stations[i].company+"</span>"
+          stations[i].name+" <span class='Station__company'>"+stations[i].company+"</span>"
         );
         station.appendChild(stationName);
         var stationDistance = window.document.createElement("p");
-        stationDistance.setAttribute("class", "distance");
+        stationDistance.setAttribute("class", "Station__distance");
         stationDistance.innerHTML = "Finding your location ..";
         station.appendChild(stationDistance);
-        if (gs.localStorage.getItem("petrol_type") === gs.petrolTypes.bensin) {
+        if (gs.localStorage.getItem("fuel_type") === gs.fuelTypes.petrol) {
           var price = stations[i].bensin95;
           var priceDiscount = stations[i].bensin95_discount;
         }
@@ -118,12 +119,12 @@ var addStationsToList = function(stations) {
           var priceDiscount = stations[i].diesel_discount;
         }
         var stationPrice = window.document.createElement("p");
-        stationPrice.setAttribute("class", "price");
+        stationPrice.setAttribute("class", "Station__price");
         stationPrice.innerHTML = price.toString()+" ISK";
         station.appendChild(stationPrice);
         if (stations[i].bensin95_discount !== null) {
           var stationDiscountPrice = window.document.createElement("p");
-          stationDiscountPrice.setAttribute("class", "discount-price");
+          stationDiscountPrice.setAttribute("class", "Station__discountPrice");
           stationDiscountPrice.innerHTML = (
             "("+priceDiscount.toString()+" with discount)"
           );
@@ -140,8 +141,8 @@ var addStationsToList = function(stations) {
         station.onclick = function() {
           updateStationMarker(this.id);
           updateMapVision();
-          $("div").removeClass("stationFocused");
-          $("#"+this.id).addClass("stationFocused");
+          $("div").removeClass("Station--focused");
+          $("#"+this.id).addClass("Station--focused");
         }
         listElement.appendChild(station);
       }
@@ -160,13 +161,13 @@ var updatePricesInList = function() {
    */
   return new Promise(function (fulfil, reject) {
     try {
-      var petrolType = gs.localStorage.getItem("petrol_type")
+      var petrolType = gs.localStorage.getItem("fuel_type")
       for (var key in gs.stations) {
-        if (petrolType == gs.petrolTypes.bensin) {
+        if (petrolType == gs.fuelTypes.petrol) {
           var price = gs.stations[key]["bensin95"];
           var priceDiscount = gs.stations[key]["bensin95_discount"];
         }
-        else if (petrolType == gs.petrolTypes.diesel) {
+        else if (petrolType == gs.fuelTypes.diesel) {
           var price = gs.stations[key]["diesel"];
           var priceDiscount = gs.stations[key]["diesel_discount"];
         }
@@ -308,7 +309,7 @@ var updateStationDistancesFailure = function() {
     try {
       for (var key in gs.stations) {
         var stationElement = document.getElementById(key);
-        stationElement.children[1].innerHTML = "Unable to calculate distance.";
+        stationElement.children[1].innerHTML = "Distance unknown";
       }
       fulfil();
     }
@@ -387,7 +388,7 @@ var updateStationMarker = function(key) {
         key = null;
       }
       var station;
-      $("div").removeClass("stationFocused");
+      $("div").removeClass("Station--focused");
       if (key === null) {
         station = gs.stations[listElement.children[0].id];
         if (station.company === "Costco Iceland") {
@@ -395,11 +396,11 @@ var updateStationMarker = function(key) {
           // costco membership card
           station = gs.stations[listElement.children[1].id];
         }
-        $("#"+station.key).addClass("stationFocused");
+        $("#"+station.key).addClass("Station--focused");
       }
       else {
         station = gs.stations[key];
-        $("#"+key).addClass("stationFocused");
+        $("#"+key).addClass("Station--focused");
       }
       gs.stationMarker.setPosition({
         lat: station.geo.lat,
@@ -452,6 +453,7 @@ var fetchGasPrice = function() {
    * Fetch them gas prices
    **/
   return new Promise(function(fulfil, reject) {
+
     window.fetch(gs.dataEndpoint).then(function(response) {
       return response.json()
     }).then(function(data) {
@@ -656,28 +658,15 @@ var initialize = function() {
     gs.localStorage = window.localStorage;
   }
   // load petrol type selected from localstorage
-  if (gs.localStorage.getItem("petrol_type") === null) {
-    gs.localStorage.setItem("petrol_type", gs.petrolTypes.bensin);
+  if (gs.localStorage.getItem("fuel_type") === null) {
+    gs.localStorage.setItem("fuel_type", gs.fuelTypes.petrol);
+  } else if (gs.localStorage.getItem("fuel_type") === "diesel")  {
+    $("#FuelType__dieselCheckmark").attr('checked', 'checked');
   }
-  // setup and initialize petrol type switch
-  // http://www.bootstrap-switch.org/options.html
-  $("[name='petrol-type-checker']").bootstrapSwitch({
-    onText: "Bensin",
-    offText: "Diesel",
-    onColor: "primary",
-    offColor: "primary",
-    size: "small",
-    state: gs.localStorage.getItem("petrol_type") === gs.petrolTypes.bensin
-  });
-  $("input[name='petrol-type-checker']").on("switchChange.bootstrapSwitch",
-    function(event, state) {
-      if (state) {
-        gs.localStorage.setItem("petrol_type", gs.petrolTypes.bensin);
-      }
-      else {
-        gs.localStorage.setItem("petrol_type", gs.petrolTypes.diesel);
-      }
-      updatePricesInList();
+
+  $(".FuelType__choiceInput").on('click', function(item) {
+    gs.localStorage.setItem("fuel_type", item.target.value);
+    updatePricesInList();
   });
   runClient();
 }
