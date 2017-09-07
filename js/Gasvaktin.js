@@ -132,7 +132,7 @@ var addStationsToList = function(stations) {
         }
         if (stations[i].key.startsWith('co')) {
           var stationDiscountPrice = window.document.createElement("p");
-          stationDiscountPrice.setAttribute("class", "discount-price");
+          stationDiscountPrice.setAttribute("class", "Station__discountPrice");
           stationDiscountPrice.innerHTML = (
             "[ Membership card required ]"
           );
@@ -202,7 +202,7 @@ var arrangeStationsByPrice = function() {
         }
       }
       itemsArr.sort(function (a, b) {
-        if (gs.localStorage.getItem("petrol_type") === gs.petrolTypes.bensin) {
+        if (gs.localStorage.getItem("petrol_type") === gs.fuelTypes.bensin) {
           return (
             gs.stations[a.id].bensin95 == gs.stations[b.id].bensin95
               ? gs.handleStalemate(gs.stations[a.id], gs.stations[b.id])
@@ -219,6 +219,7 @@ var arrangeStationsByPrice = function() {
       for (i = 0; i < itemsArr.length; ++i) {
         gs.listElement.appendChild(itemsArr[i]);
       }
+      document.getElementById("OrderBy__cheapest").checked = true;
       fulfil();
     }
     catch (err) {
@@ -249,6 +250,7 @@ var arrangeStationsByDistance = function() {
       for (i = 0; i < itemsArr.length; ++i) {
         listElement.appendChild(itemsArr[i]);
       }
+      document.getElementById("OrderBy__nearest").checked = true;
       fulfil();
     }
     catch (err) {
