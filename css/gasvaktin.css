@@ -279,7 +279,8 @@
 
 .Stations__list {
   padding: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
   float: none;
   height: 100%;
   width: 440px;
