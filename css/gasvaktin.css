@@ -305,10 +305,22 @@
   }
 }
 
-.Station:hover, .Station--focused {
+@media not all and (hover: none) {
+  .Station:hover {
+    background-color: #7561BE;
+    color: white;
+  }
+  .Station--focused:hover {
+    background-color: #5842a8;
+    color: white;
+  }
+}
+
+.Station--focused {
   background-color: #5842a8;
   color: white;
 }
+
 .daelan {
   background-image: url('/images/companies/daelan.png');
 }
@@ -690,6 +702,46 @@ p {
         top: 32px;
     }
 }
+
+/* -------- MOBILE SPACE CONSERVATION ---------- */
+
+@media screen and (max-width: 480px) {
+  /* hide semi obvious labels that are too space heavy */
+  .CustomRadioButton__title {
+    display: none;
+  }
+  /* make elements in header take less space */
+  .Navbar {
+    padding: 5px 10px 0px 10px;
+  }
+  .Navbar__title {
+    margin: 5px 0 5px;
+  }
+  .CustomRadioButton {
+    padding: 0px 0px 0px 0px;
+    margin-right: 0;
+    margin-top: -1px;
+    margin-bottom: 4px;
+  }
+  /* conserve space in stations list */
+  .Station {
+    padding: 0px 5px 5px 5px;
+    height: 65px;
+  }
+  .Stations__list {
+    padding: 5px 10px 10px 10px;
+  }
+  /* make map bigger */
+  .LocationsMap {
+    height: 70%;
+  }
+  /* less space conserved for footer is needed because of above changes */
+  .FuelPriceListAndMapContainer {
+    height: calc(100% - 105px);
+  }
+}
+
+/* -------- End: MOBILE SPACE CONSERVATION ---------- */
 
 /*
  * Filthy CSS hack to hide Google Maps Logo and copyright note.
