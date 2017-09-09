@@ -202,7 +202,7 @@ var arrangeStationsByPrice = function() {
         }
       }
       itemsArr.sort(function (a, b) {
-        if (gs.localStorage.getItem("petrol_type") === gs.fuelTypes.bensin) {
+        if (gs.localStorage.getItem("fuel_type") === gs.fuelTypes.petrol) {
           return (
             gs.stations[a.id].bensin95 == gs.stations[b.id].bensin95
               ? gs.handleStalemate(gs.stations[a.id], gs.stations[b.id])
