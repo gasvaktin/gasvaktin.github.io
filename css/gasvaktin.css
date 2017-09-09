@@ -76,6 +76,12 @@
   }
 }
 
+@media only screen and (max-width: 767px) {
+  .Footer {
+    justify-content: space-around;
+  }
+}
+
 .Navbar__buttons {
   padding: 20px;
   font-size: 1.5rem;
@@ -85,7 +91,7 @@
 
 @media only screen and (max-width: 767px) {
   .Navbar__buttons {
-    padding: 0px 20px;
+    padding: 0px 10px;
     margin: 5px 0;
     text-align: center;
   }
