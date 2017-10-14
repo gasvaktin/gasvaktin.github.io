@@ -410,6 +410,18 @@ var arrangeTrendsListByTimestamp = function() {
   });
 }
 
+$('#myCheckbox').change(function() {
+  // fade in
+  if(this.checked) {
+    console.log('hallo')
+    $('.pricechanges-list').css({transform: 'translate(0%, 0)'});      
+    $('.chart-container').css({width: 'calc(100% - 340px)', left: '340px'});
+  } else {
+    $('.pricechanges-list').css({transform: 'translate(-100%, 0)'});
+    $('.chart-container').css({width: '100%', left: '0'});    
+  }
+});
+
 var updateTrendsListToDom = function(stations) {
   /**
    * Creates Trend DOM objects and adds to listElement DOM.
@@ -512,6 +524,13 @@ var updateTrendsListToDom = function(stations) {
       console.error(err);
       reject(err);
     }
+  });
+}
+
+var closeMenu = function() {
+  console.log('here');
+  $('.pricechanges-list').animate({left: '-500px'}, 3000, function() {
+    console.log('done');
   });
 }
 
