@@ -434,6 +434,10 @@ var updateTrendsListToDom = function(stations) {
     try {
       gs.listElement.innerHTML = ""; // flusing trends list from DOM
       for (var i=0; i<gs.trendsList.length; i++) {
+        if (gs.trendsList[i].after === null) {
+          // case like when Skeljungur stations became no more
+          continue;
+        }
         var diff = null;
         var diffClass = "";
         var diffSign = "";
