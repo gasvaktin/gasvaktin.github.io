@@ -774,7 +774,13 @@ input[type="checkbox"] {
 #OrderBy__nearest {
   display: none;
 }
+#OrderBy__cheapest {
+  display: none;
+}
 
 #FuelType__petrolCheckmark {
+  display: none;
+}
+#FuelType__dieselCheckmark {
   display: none;
 }
