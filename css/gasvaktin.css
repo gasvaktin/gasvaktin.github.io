@@ -31,6 +31,11 @@
     flex-direction: column-reverse;
   }
 }
+@media(min-width:768px) {
+  .Navbar__CustomRadioButtonContainer {
+    padding-top: 12px;
+  }
+}
 
 .Navbar__title {
   font-size: 1.8rem;
@@ -111,8 +116,7 @@
 .CustomRadioButton {
   padding: 0;
   display: inline-block;
-  margin-top: -20px;
-  margin-right: 20px;
+  margin: -20px 20px 0px 0px;
 }
 @media only screen and (max-width: 767px) {
   .CustomRadioButton {
@@ -153,10 +157,10 @@
 
 .CustomRadioButton__choiceInput {
   opacity: 0;
-    width: 0;
+  width: 0;
   height: 0;
   margin: 0;
-  padding: 0;
+  padding: 0px 0px 0px 0px;
 }
 
 .CustomRadioButton__choiceLabel {
@@ -750,12 +754,27 @@ p {
 
 /* -------- End: MOBILE SPACE CONSERVATION ---------- */
 
-/*
- * Filthy CSS hack to hide Google Maps Logo and copyright note.
- * http://stackoverflow.com/a/36282582/2401628
- */
-.gmnoprint:not(.gm-bundled-control) {display: none;}
-.gm-bundled-control .gmnoprint {display: block;}
-a[href^="http://maps.google.com/maps"]{display:none !important}
-a[href^="https://maps.google.com/maps"]{display:none !important}
-a[href^="https://www.google.com/maps"]{display:none !important}
+@media(max-width: 1024px) {
+  /*
+   * Filthy CSS hack to hide Google Maps Logo and copyright note.
+   * http://stackoverflow.com/a/36282582/2401628
+   */
+  .gmnoprint:not(.gm-bundled-control) {display: none;}
+  .gm-bundled-control .gmnoprint {display: block;}
+  a[href^="http://maps.google.com/maps"]{display:none !important}
+  a[href^="https://maps.google.com/maps"]{display:none !important}
+  a[href^="https://www.google.com/maps"]{display:none !important}
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0px 0px 0px 0px;
+}
+
+#OrderBy__nearest {
+  display: none;
+}
+
+#FuelType__petrolCheckmark {
+  display: none;
+}
