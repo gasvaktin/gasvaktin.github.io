@@ -1,0 +1,842 @@
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin: 0;
+  /* padding-top for the Navbar */
+  padding-top: 70px;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2.0rem;
+}
+
+p {
+  font-size: 1.2rem;
+  padding-bottom: 4px;
+}
+
+/* -------- Navbar ---------- */
+
+.Navbar {
+  top: 0;
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  background-color: white;
+  border-bottom: solid 1px darkgray;
+  padding: 20px 20px 20px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Navbar__title {
+  font-size: 1.8rem;
+  color: #483D8B;
+  text-decoration: none;
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  text-align: center;
+}
+
+.Navbar__logo {
+  font-size: 2.5rem;
+}
+
+/* Tablet */
+@media screen and (max-width: 767px) {
+  .Navbar {
+    width: 100%;
+    flex-wrap: wrap-reverse;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+    padding: 20px 10px 0px 10px;
+  }
+
+  .Navbar__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px 0 15px;
+    flex-wrap: wrap;
+    width: 15%;
+    font-size: 1.5rem;
+  }
+
+  body {
+    padding-top: 105px;
+  }
+}
+
+/* Mobile */
+@media screen and (max-width: 480px) {
+  .Navbar {
+    padding: 5px 10px 0px 10px;
+  }
+
+  .Navbar__title {
+    margin: 5px 0 5px;
+  }
+
+  body {
+    padding-top: 75px;
+  }
+}
+
+.Navbar__title:hover, .Navbar__title:active  {
+  text-decoration: none;
+  border-bottom: 1px solid #483D8B;
+  color: #483D8B;
+}
+
+/* -------- End: Navbar ---------- */
+
+.Section {
+  padding: 0px 10px 8px 10px;
+}
+
+.Section__Graph {
+  margin-bottom: 4px;
+  display: block;
+  background-color: #dedcef;
+  width: 100%;
+  position: relative;
+}
+
+.Section__Conclusion {
+  margin-bottom: 75px;
+}
+
+@media screen and (min-width: 950px) {
+  .Section {
+    margin-right: auto;
+    margin-left: auto;
+    width: 930px;
+  }
+  .Section__Graph {
+    width: 930px;
+  }
+  p {
+    font-size: 1.4rem;
+  }
+}
+
+
+.Footer {
+  display: none;
+}
+@media only screen and (max-width:1024px) {
+  .Footer {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .Footer {
+    justify-content: space-around;
+  }
+}
+
+.Navbar__buttons {
+  padding: 20px;
+  font-size: 1.5rem;
+  border: 1px transparent solid;
+  color: #483D8B;
+}
+
+@media only screen and (max-width: 767px) {
+  .Navbar__buttons {
+    padding: 0px 10px;
+    margin: 5px 0;
+    text-align: center;
+  }
+}
+
+.Navbar__buttons:active, .Navbar__buttons:hover {
+  border: 1px #483D8B solid;
+  border-radius: 3px;
+  color: #483D8B;
+  text-decoration: none;
+}
+
+
+/* -------- CUSTOM CHECKMARK RADIO BUTTON ---------- */
+
+
+.CustomRadioButton {
+  padding: 0;
+  display: inline-block;
+  margin: -20px 20px 0px 0px;
+}
+@media only screen and (max-width: 767px) {
+  .CustomRadioButton {
+    padding: 0;
+    margin-right: 0;
+    margin-top: -10px;
+    margin-bottom: 13px;
+  }
+}
+
+.CustomRadioButton__title {
+  margin: 0;
+  color: #483D8B;
+  font-size: 1.3rem;
+  border: 0;
+  padding-left: 8px;
+  color: #555;
+}
+
+@media only screen and (max-width: 767px) {
+  .CustomRadioButton__title {
+    text-align: center;
+  }
+}
+
+.CustomRadioButton__buttonContainer {
+    display: flex;
+    border: #CCC solid 1px;
+    border-radius: 4px;
+    width: 230px;
+}
+
+@media only screen and (max-width: 767px) {
+  .CustomRadioButton__buttonContainer {
+     width: 185px;
+  }
+} 
+
+.CustomRadioButton__choiceInput {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0px 0px 0px 0px;
+}
+
+.CustomRadioButton__choiceLabel {
+  width: 50%;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: normal;
+  line-height: 1.7rem;
+  margin: 0;
+  padding: 7px 18px 7px 3rem;
+  color: #555;
+}
+
+@media only screen and (max-width: 767px) {
+  .CustomRadioButton__choiceLabel {
+    padding: 5px 0px 5px 2rem;
+    font-size: 1.4rem;
+  }
+} 
+
+.CustomRadioButton__choiceLabel:hover {
+  color: #483D8B;
+}
+
+.CustomRadioButton__choiceInput:checked + label {
+  color: white;
+  background-color: #483D8B;
+}
+
+/* Custom radio button */
+.CustomRadioButton__choiceLabel::before {
+  content:"";
+  width: 1.5rem;
+  height: 1.5rem;
+  /* This margin needs to be altered 
+    alongside the padding on the label */
+  margin-left: -2rem;
+  position: absolute;
+  border: .3rem solid #CCC;
+  border-radius: 100%;
+  text-align: center;
+  
+  /* Animation to a clip-path circle */
+  transition: clip-path 1s ease;
+  clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%, 100% 0%, 100% 0%);
+  
+  /* Safari compatibility */
+  -webkit-transition: -webkit-clip-path 1s ease;
+  -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%, 100% 0%, 100% 0%);
+}
+
+
+
+/* Custom checkmark */
+.CustomRadioButton__choiceInput:checked + .CustomRadioButton__choiceLabel::before {
+  /* Clip-path custom checkmark */
+  clip-path: polygon(10% 44%, 5% 68%, 28% 97%, 78% 45%, 73% 20%, 29% 66%);
+  -webkit-clip-path: polygon(10% 44%, 5% 68%, 28% 97%, 78% 45%, 73% 20%, 29% 66%);
+  background-color: white;
+  border-color: white;
+}
+
+/* Border color should not effect the checkmark on hover */
+.CustomRadioButton__choiceInput:not(:checked) + .CustomRadioButton__choiceLabel:hover::before {
+  border-color: #483D8B;
+}
+
+/* -------- End: CUSTOM CHECKMARK RADIO BUTTON ---------- */
+
+
+/* -------- CUSTOM CHECKMARK RADIO BUTTON (ORDER BY) ---------- */
+
+.CustomRadioButton__choiceLabel--arrow {
+}
+
+.CustomRadioButton__choiceLabel--arrow::before {
+  background-color: #CCC;
+  clip-path: polygon(0% 40%, 0% 60%, 50% 60%, 100% 60%, 100% 40%, 50% 40%);
+  -webkit-clip-path: polygon(0% 40%, 0% 60%, 50% 60%, 100% 60%, 100% 40%, 50% 40%);
+}
+
+/* Custom checkmark */
+.CustomRadioButton__choiceInput:checked + .CustomRadioButton__choiceLabel--arrow::before {
+  /* Clip-path custom checkmark */
+  clip-path: polygon(16% 30%, 5% 52%, 50% 97%, 97% 45%, 82% 27%, 50% 68%);
+  -webkit-clip-path: polygon(16% 30%, 5% 52%, 50% 97%, 97% 45%, 82% 27%, 50% 68%);
+  background-color: white;
+  border-color: white;
+}
+
+/* Border color should not effect the checkmark on hover */
+.CustomRadioButton__choiceInput:not(:checked) + .CustomRadioButton__choiceLabel--arrow:hover::before {
+  border-color: #483D8B;
+  background-color: #483D8B;
+  }
+
+/* -------- End: CUSTOM CHECKMARK RADIO BUTTON (ORDER BY) ---------- */
+
+
+.FuelPriceListAndMapContainer {
+  height: calc(100% - 85px);
+  width: 100%;
+  display: flex;
+}
+
+@media only screen and (max-width: 1024px) {
+  .FuelPriceListAndMapContainer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 82px - 65px);
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .FuelPriceListAndMapContainer {
+    height: calc(100% - 118px - 55px);
+  }
+}
+
+.Stations__list {
+  padding: 10px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  float: none;
+  height: 100%;
+  width: 440px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .Stations__list {
+    width: 100%;
+  }
+}
+
+/* <Stations-list> */
+
+.Station {
+  padding: 5px;
+  position: relative;
+  text-align: left;
+  height: 80px;
+  border-bottom: 1px solid darkgray;
+  background-size: 60px;
+  background-repeat: no-repeat;
+  background-position: 13px 9px;
+  border-radius: 3px;
+}
+@media only screen and (max-width: 767px) {
+  .Station {
+    background-size: 40px;
+    background-position: 9px 15px;
+  }
+}
+
+@media not all and (hover: none) {
+  .Station:hover {
+    background-color: #7561BE;
+    color: white;
+  }
+  .Station--focused:hover {
+    background-color: #5842a8;
+    color: white;
+  }
+}
+
+.Station--focused {
+  background-color: #5842a8;
+  color: white;
+}
+
+.daelan {
+  background-image: url('/images/companies/daelan.png');
+}
+.atlantsolia {
+  background-image: url('/images/companies/atlantsolia.png');
+}
+.orkan {
+  background-image: url('/images/companies/orkan.png');
+}
+.orkanx {
+  background-image: url('/images/companies/orkanx.png');
+}
+.olis {
+  background-image: url('/images/companies/olis.png');
+}
+.ob {
+  background-image: url('/images/companies/ob.png');
+}
+.n1 {
+  background-image: url('/images/companies/n1.png');
+}
+.skeljungur {
+  background-image: url('/images/companies/skeljungur.png');
+}
+.costco {
+  background-image: url('/images/companies/costco.png');
+}
+
+.Station__name {
+  font-size: 1.5rem;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 8px;
+  padding-left: 92px;
+}
+
+.Station__company {
+  font-size: 1.3rem;
+  float: right;
+  padding-bottom: 0px;
+  padding-right: 9px;
+}
+.Station__distance {
+  padding-left: 92px;
+  float: left;
+}
+@media only screen and (max-width:767px) {
+  .Station__name {
+    padding-left: 55px;
+  }
+  .Station__distance {
+    padding-left: 55px;
+  }
+}
+.Station__price {
+  margin-top: -3px;
+  padding-right: 8px;
+  font-weight: bold;
+  font-size: 1.6rem;
+  float: right;
+}
+@media only screen and (max-width:767px) {
+  .Station__price {
+    font-size: 1.7rem;
+  }
+}
+.Station__discountPrice {
+    padding-right: 8px;
+    font-size: 1.3rem ;
+    float: right;
+    clear: right;
+}
+
+/* </Stations-list> */
+
+.LocationsMap {
+  display: flex;
+  text-align: center;
+  background: lightgray;
+  height: 100%;
+  width: calc(100% - 440px);
+}
+
+@media(max-width: 1024px) {
+  .LocationsMap {
+    border-top: solid 4px #5842a8;
+    border-bottom: solid 4px #5842a8;
+    text-align: center;
+    background: lightgray;
+    height: 35%;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+
+
+
+/**
+ * gasvaktin.css
+ * CSS styles overriding default Bootstrap CSS for the glory of looks!
+ */
+
+html {
+    /*overflow: hidden;*/
+    width: 100%;
+    height: 100%;
+    font-size: 10px;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    /*overflow: auto;*/
+}
+
+p {
+  margin: 0;
+}
+
+/* removing focus glow for everything */
+/* http://stackoverflow.com/q/17109702/2401628 */
+*:focus {
+    outline: 0;
+}
+
+.modal-body-center {
+    text-align: center;
+}
+
+.intro-section {
+    height: 100%;
+    padding-top: 80px;
+    text-align: center;
+    background: #fff;
+}
+
+.services-section {
+    height: 100%;
+    padding-top: 150px;
+    text-align: center;
+    background: #fff;
+}
+
+.contact-section {
+    height: 100%;
+    padding-top: 150px;
+    text-align: center;
+    background: #eee;
+}
+
+.pricetrends-settings {
+    position: relative;
+    float: right;
+    padding: 6px 13px;
+    margin-top: 8px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.pricetrends-settings:hover {
+    background-color: #ddd;
+}
+.pricetrends-settings:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.back-to-home {
+    position: relative;
+    float: right;
+    padding: 6px 26px;
+    margin-top: 8px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+    margin-left: 0px;
+    background-color: transparent;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    color: #333;
+}
+.back-to-home:hover {
+    color: #333;
+    background-color: #ddd;
+}
+.back-to-home:focus {
+    color: #333;
+    background-color: #ddd;
+    outline: none;
+}
+
+@media(min-width:768px) {
+    .pricetrends-settings {
+        position: absolute;
+        right: 0px;
+    }
+    .back-to-home {
+        position: absolute;
+        right: 59px;
+    }
+}
+
+.company-selector {
+    outline: none !important;
+}
+
+/*
+ * Map and list transformation behavior between different window sizes
+ */
+@media(min-width: 1024px) {
+    .ordering-buttons {
+        width: 440px;
+    }
+}
+
+@media(min-width: 768px) {
+    .gasvaktin-header {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 40px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+.ordering-buttons {
+    float: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+/* <PriceChanges-list> */
+
+@media(min-width: 878px) {
+    .chart-container {
+        display: flex;
+        height: calc(100% - 52px);
+        width: calc(100% - 340px);
+        position: absolute;
+        top: 52px;
+        left: 340px;
+        vertical-align: middle;
+    }
+    .chart-object {
+        max-width: 112vh;
+        /* control width based on height (should be 100 but for some reason */
+        /* using 112 seems to look better) */
+        /* https://www.w3schools.com/cssref/css_units.asp */
+        margin-left: auto;
+        margin-right: auto;
+        align-self: center;
+    }
+    .pricechanges-list {
+        height: calc(100% - 52px);
+        width: 340px;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        position: absolute;
+        top: 52px;
+        left: 0px;
+        overflow-y: auto;
+    }
+}
+@media(max-width: 877px) {
+    .chart-container {
+        max-width: 56vh;
+        /* control width based on height (should be 50 but for some reason */
+        /* using 56 seems to look better) */
+        /* https://www.w3schools.com/cssref/css_units.asp */
+        height: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        /* centering chart horizontally and vertically */
+        /* http://stackoverflow.com/a/6490283/2401628 */
+        display: flex;
+        justify-content: center;
+    }
+    .chart-object {
+        /* centering chart horizontally and vertically */
+        /* http://stackoverflow.com/a/6490283/2401628 */
+        align-self: center;
+    }
+    .pricechanges-list {
+        height: 50%;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-left: 0px;
+        overflow-y: auto;
+        float: none;
+    }
+}
+
+.price-change {
+    position: relative;
+    text-align: left;
+    height: 74px;
+    background-color: #e6e6e6;
+    border-bottom: 1px solid darkgray;
+    background-size: 60px;
+    background-repeat: no-repeat;
+    background-position: 13px 9px;
+    border-radius: 3px;
+    /* making text in this element unselectable */
+    /* http://stackoverflow.com/a/6900392/2401628 */
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.price-change h1 {
+    font-size: 18px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 8px;
+    padding-left: 92px;
+}
+.price-change .timestamp {
+    font-size: 12px;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+}
+.price-change .change {
+    padding-left: 92px;
+}
+.price-change .diff {
+    font-size: 18px;
+    position: absolute;
+    top: 44px;
+    right: 6px;
+}
+
+.increase {
+    background-color: #ffd4dc;
+}
+.decrease {
+    background-color: #e2f3de;
+}
+
+/* </PriceChanges-list> */
+
+.spacious {
+    height: 100%;
+    width: 100%;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.less-top {
+    padding-top: 60px;
+}
+
+@media(min-width:767px) {
+    .less-top {
+        padding-top: 95px;
+    }
+}
+
+.petrol-type-checker {
+    position: absolute;
+}
+@media(max-width:766px) {
+    .petrol-type-checker {
+        right: 70px;
+        top: 10px;
+    }
+}
+@media(min-width:767px) {
+    .petrol-type-checker {
+        right: 32px;
+        top: 32px;
+    }
+}
+
+/* -------- MOBILE SPACE CONSERVATION ---------- */
+
+@media screen and (max-width: 480px) {
+  /* hide semi obvious labels that are too space heavy */
+  .CustomRadioButton__title {
+    display: none;
+  }
+  /* make elements in header take less space */
+  .Navbar {
+    padding: 5px 10px 0px 10px;
+  }
+  .Navbar__title {
+    margin: 5px 0 5px;
+  }
+  .CustomRadioButton {
+    padding: 0px 0px 0px 0px;
+    margin-right: 0;
+    margin-top: -1px;
+    margin-bottom: 4px;
+  }
+  /* conserve space in stations list */
+  .Station {
+    padding: 0px 5px 5px 5px;
+    height: 65px;
+  }
+  .Stations__list {
+    padding: 5px 10px 10px 10px;
+  }
+  /* make map bigger */
+  .LocationsMap {
+    height: 70%;
+  }
+  /* less space conserved for footer is needed because of above changes */
+  .FuelPriceListAndMapContainer {
+    height: calc(100% - 105px);
+  }
+}
+
+/* -------- End: MOBILE SPACE CONSERVATION ---------- */
+
+@media(max-width: 1024px) {
+  /*
+   * Filthy CSS hack to hide Google Maps Logo and copyright note.
+   * http://stackoverflow.com/a/36282582/2401628
+   */
+  .gmnoprint:not(.gm-bundled-control) {display: none;}
+  .gm-bundled-control .gmnoprint {display: block;}
+  a[href^="http://maps.google.com/maps"]{display:none !important}
+  a[href^="https://maps.google.com/maps"]{display:none !important}
+  a[href^="https://www.google.com/maps"]{display:none !important}
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+  margin: 0px 0px 0px 0px;
+}
+
+#OrderBy__nearest {
+  display: none;
+}
+#OrderBy__cheapest {
+  display: none;
+}
+
+#FuelType__petrolCheckmark {
+  display: none;
+}
+#FuelType__dieselCheckmark {
+  display: none;
+}

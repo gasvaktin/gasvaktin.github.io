@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#483D8B">
+  <title>Gasvaktin Comparison</title>
+  <meta name="description" content="Compares crude oil world market price to fuel price in Iceland.">
+  <meta name="keywords" content="Gasvaktin,Gas Prices,Petrol Stations,Petrol Stations in Iceland">
+  <meta name="author" content="Sveinn Flóki Guðmundsson">
+  <meta property="og:title" content="Gasvaktin Comparison">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Compares crude oil world market price to fuel price in Iceland.">
+  <meta property="og:url" content="https://gasvaktin.is/comparison/">
+  <meta property="og:image" content="https://gasvaktin.is/images/comparison.png">
+  <meta name="apple-mobile-web-app-title" content="Gasvaktin">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-navbutton-color" content="#483D8B">
+  <meta name="msapplication-starturl" content="/">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" sizes="192x192" href="/images/icons/icon-192x192-android.png">
+  <link rel="shortcut icon" sizes="192x192" href="/images/icons/icon-192x192-android.png">
+  <link rel="shortcut icon" sizes="128x128" href="/images/icons/icon-128x128.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/images/icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="/images/icons/icon-96x96.png">
+  <link rel="apple-touch-icon" sizes="196x196" href="/images/icons/icon-196x196.png">
+  <link rel="stylesheet" type="text/css" href="/packages/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/comparison.css">
+  <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> -->
+  <!-- <script>(adsbygoogle = window.adsbygoogle || []).push({google_ad_client: "ca-pub-4066304914186513", enable_page_level_ads: true});</script> -->
+</head>
+<body id="Body">
+  <nav class="Navbar" role="navigation">
+    <a class="Navbar__title" href="#">
+      <i class="fa fa-tint Navbar__logo" aria-hidden="true"></i> Gasvaktin Comparison
+    </a>
+  </nav>
+  <section class="Section" id="Introduction">
+    <div class="Section__Introduction">
+      <h1>Comparison of fuel price in Iceland and crude oil world market price</h1>
+      <p class="Section__desc">Petrol and Diesel are liquid fuel products refined from the naturally occurring liquid material known as Crude Oil, so prices of said fuel products are dictated by the price of Crude Oil.</p>
+      <p class="Section__desc">Icelandic news organizations cover from time to time the development of fuel price in Iceland and refer loosely to development of oil world market price or rate of the icelandic currency ISK, but what story does related data itself tell us?</p>
+      <p class="Section__desc">Let's take a look.</p>
+    </div>
+  </section>
+  <section class="Section GraphSection" id="CrudeDevelopmentUSD">
+    <h2 class="Section__title">Crude Oil world market price development (USD/Barrel)</h2>
+    <canvas class="Section__Graph" id="crudeDevelopment"></canvas>
+    <p class="Section__desc">Crude Oil world market price in Europe snatched from the <a href="https://fred.stlouisfed.org/series/DCOILBRENTEU" target="_blank">Federal Reserve Bank of St. Louis website</a> (data originates from the U.S. Energy Information Administration).</p>
+  </section>
+  <section class="Section GraphSection" id="CurrencyRate">
+    <h2 class="Section__title">Currency rate of USD to ISK</h2>
+    <canvas class="Section__Graph" id="currencyRate"></canvas>
+    <p class="Section__desc">Data from the <a href="https://www.sedlabanki.is/hagtolur/opinber-gengisskraning/" target="_blank">Central Bank of Iceland</a> (isl. Seðlabanki Íslands) showing development of USD to ISK rate.</p>
+  </section>
+  <section class="Section GraphSection" id="CrudeDevelopmentISK">
+    <h2 class="Section__title">Crude Oil world market price development (ISK/Liter)</h2>
+    <canvas class="Section__Graph" id="crudeDevelopmentIsk"></canvas>
+    <p class="Section__desc">Development of Crude Oil world market price in Europe converted from barrels (bbl) to litres and converted from USD to ISK. Calculated by using <b>Crude Oil Barrel world market price development</b> and <b>Currency rate of USD to ISK</b>. The Barrel volume unit (1 bbl) is equivalent to a volume of 158.987294928 litres <a href="https://en.wikipedia.org/wiki/Barrel_(unit)#Maximum_accuracy_when_converting_bbl_to_cubic_metres" target="_blank">according to Wikipedia</a>.</p>
+  </section>
+  <section class="Section GraphSection" id="PricePetrolIceland">
+    <h2 class="Section__title">Petrol price development in Iceland (ISK/Liter)</h2>
+    <canvas class="Section__Graph" id="pricePetrolIceland"></canvas>
+    <p class="Section__desc">Development of Petrol price (ISK/Liter) in Iceland. The data consists of monthly mean petrol price logged by <a href="https://www.fib.is/" target="_blank">FÍB (e. Association of icelandic car owners)</a> since 1996-09, and data from the <a href="https://github.com/gasvaktin/gasvaktin" target="_blank">Gasvaktin automated price lookup project</a> which has been running since 2016-04-19.</p>
+  </section>
+  <section class="Section GraphSection" id="PriceDieselIceland">
+    <h2 class="Section__title">Diesel price development in Iceland (ISK/Liter)</h2>
+    <canvas class="Section__Graph" id="priceDieselIceland"></canvas>
+    <p class="Section__desc">Development of Diesel price (ISK/Liter) in Iceland. The data consists of monthly mean diesel price logged by <a href="https://www.fib.is/" target="_blank">FÍB (e. Association of icelandic car owners)</a> since 2005-07, and data from the <a href="https://github.com/gasvaktin/gasvaktin" target="_blank">Gasvaktin automated price lookup project</a> which has been running since 2016-04-19.</p>
+  </section>
+  <section class="Section GraphSection" id="CrudeIndex">
+    <h2 class="Section__title">Crude Ratio</h2>
+    <canvas class="Section__Graph" id="crudeRatio"></canvas>
+    <p class="Section__desc">This graph displays the ratio between the world market price of 1 liter Crude Oil in ISK against the price of 1 liter Petrol in Iceland. It gives a certain perspective to the interplay of Crude Oil world market price, exchange rate of the icelandic currency ISK and fuel pricing in Iceland, spikes in it are indicators of sudden changes in crude oil prices, ISK currency rate or icelandic fuel price.</p>
+  </section>
+  <section class="Section" id="Conclusion">
+    <div class="Section__Conclusion">
+      <h1>Conclusion</h1>
+      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are import costs, icelandic fuel taxes and possibly restock timing of the icelandic oil distribution companies.</p>
+      <p class="Section__desc">If you're interested in further rewiew on the above you might be interested in taking a look at <a href="http://gogn.kjarninn.is/bensinverd/" target="_blank">Bensínvakt Kjarnans</a> (e. Petrol watch by the icelandic online news organization Kjarninn), it displays a detailed breakdown analysis of the fuel price in Iceland, and the data is updated monthly.</p>
+      <p class="Section__desc">Also, if you dear reader are interested in taking a deeper look yourself at the data displayed in above graphs you can take a look at both the raw data and see how it is automatically collected and updated in <a href="https://github.com/gasvaktin/gasvaktin-comparison" target="_blank">the repository "gasvaktin-comparison" on Github</a>.</p>
+    </div>
+  </section>
+  <!-- Polyfills for inferior browsers -->
+  <script src="/packages/promise-polyfill/promise.min.js"></script>
+  <script src="/packages/whatwg-fetch/fetch.js"></script>
+  <script src="/packages/url-search-params/build/url-search-params.js"></script>
+  <!-- PapaParse.js, CSV parser module -->
+  <script src="/packages/papaparse/papaparse.min.js"></script>
+  <!-- Moment.js, date and time management module -->
+  <script src="/packages/moment/min/moment.min.js"></script>
+  <!-- Chart.js, handy chart creation module -->
+  <script src="/packages/chart.js/2.7.2/Chart.min.js"></script>
+  <!-- Comparison Page script -->
+  <script src="/js/Comparison.js"></script>
+</body>
+</html>
