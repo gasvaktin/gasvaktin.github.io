@@ -298,7 +298,7 @@ var gs = {  /* Global Scope */
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: "1 liter [Crude Oil / Petrol] index"
+              labelString: "[Crude Oil / Petrol] ratio"
             },
             ticks: {
               beginAtZero: true
