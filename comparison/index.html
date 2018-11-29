@@ -49,7 +49,7 @@
   <section class="Section GraphSection" id="CrudeDevelopmentUSD">
     <h2 class="Section__title">Crude Oil world market price development (USD/Barrel)</h2>
     <canvas class="Section__Graph" id="crudeDevelopment"></canvas>
-    <p class="Section__desc">Crude Oil world market price development in Europe (USD per barrel) from the <a href="https://www.eia.gov/opendata/qb.php?sdid=PET.RBRTE.D" target="_blank">U.S. Energy Information Administration</a>.</p>
+    <p class="Section__desc">Crude Oil world market price development in Europe (USD per barrel) from the <a href="https://www.eia.gov/opendata/qb.php?sdid=PET.RBRTE.D" target="_blank">U.S. Energy Information Administration</a>. Unfortunately, this data sometimes tends to lag behind a couple of days and then suddenly catch up again, when this happens we substitute the missing days with data on Crude Oil price development in North America from <a href="https://markets.businessinsider.com/commodities/oil-price/usd?type=brent" target="_blank">Business Insider / Markets Insider</a> until things catch up again.</p>
   </section>
   <section class="Section GraphSection" id="CurrencyRate">
     <h2 class="Section__title">Currency rate of USD to ISK</h2>
@@ -79,7 +79,7 @@
   <section class="Section" id="Conclusion">
     <div class="Section__Conclusion">
       <h1>Conclusion</h1>
-      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are import costs, icelandic fuel taxes and possibly restock timings of the icelandic oil distribution companies.</p>
+      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, import costs and other expenditures, and possibly pricing from the oil company Equinor (formerly Statoil) which sells fuel to all the icelandic oil <b>distribution</b> companies.</p>
       <p class="Section__desc">If you're interested in further rewiew on the above you might want to take a look at <a href="http://gogn.kjarninn.is/bensinverd/" target="_blank">Bensínvakt Kjarnans</a> (e. Petrol watch by the icelandic online news organization Kjarninn), it displays a detailed breakdown analysis of the fuel price in Iceland, and the data is updated monthly.</p>
       <p class="Section__desc">Also, if you dear reader are interested in taking a deeper look yourself at the data displayed in above graphs you can take a look at both the raw data and see how it is automatically collected and updated in <a href="https://github.com/gasvaktin/gasvaktin-comparison" target="_blank">the repository "gasvaktin-comparison" on Github</a>.</p>
     </div>
