@@ -893,10 +893,10 @@ var writeComparisonDataToDom = function() {
       // take care of elementText2
       var diffOneDecimalFloored = -window.Math.floor(diff * 10) / 10;
       var text2 = (
-        `Given above naive assumptions and if future ISK/Liter Crude Oil price hold stable in ` +
-        `current price range we can predict <b>Petrol</b> price change of <b>` +
-        `${diffOneDecimalFloored} ISK</b> and <b>Diesel</b> price change of <b>` +
-        `${diffOneDecimalFlooredDiesel} ISK</b> in the near future.`
+        `Given above assumptions and if future ISK/Liter Crude Oil price hold stable in current ` +
+        `price range we can predict <b>Petrol</b> price change of <b>${diffOneDecimalFloored} ` +
+        `ISK</b> and <b>Diesel</b> price change of <b>${diffOneDecimalFlooredDiesel} ISK</b> in ` +
+        `the near future.`
       )
       elementText2.innerHTML = text2;
       fulfil();
