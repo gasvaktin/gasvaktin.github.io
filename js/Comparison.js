@@ -794,7 +794,7 @@ var writeComparisonDataToDom = function() {
       // take care of table data
       // - crude oil isk
       table.CrudeIskThen.value = (
-        `${dat.crudeOilIskLiter.similarPoint.price} - ` +
+        `${dat.crudeOilIskLiter.similarPoint.price} to ` +
         `${dat.crudeOilIskLiter.similarPoint2.price} ISK`
       );
       table.CrudeIskNow.value = `${dat.crudeOilIskLiter.current.price} ISK`;
