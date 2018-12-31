@@ -111,6 +111,28 @@ p {
   margin-bottom: 75px;
 }
 
+.Section__table {
+  width: 100%;
+  font-size: 14px;
+  text-align: left;
+  border: 0px;
+  border-collapse: collapse;
+  background-color: #dedcef;
+  padding: 0px;
+  margin: 6px 0px 6px 0px;
+}
+table.Section__table thead tr {
+  border-bottom: 1px solid darkgray;
+}
+table.Section__table tbody td {
+  border-right: 1px solid darkgray;
+}
+@media screen and (max-width: 500px) {
+  .Section__table {
+    font-size: 10px;
+  }
+}
+
 @media screen and (min-width: 950px) {
   .Section {
     margin-right: auto;

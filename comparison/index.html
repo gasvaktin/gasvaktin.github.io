@@ -76,10 +76,66 @@
     <canvas class="Section__Graph" id="crudeRatio"></canvas>
     <p class="Section__desc">This graph displays the ratio between the world market price of 1 liter Crude Oil in ISK against the price of 1 liter Petrol in Iceland. It gives a certain perspective to the interplay of Crude Oil world market price, exchange rate of the icelandic currency ISK and fuel pricing in Iceland, spikes in it are indicators of sudden changes in crude oil prices, ISK currency rate or icelandic fuel price.</p>
   </section>
+  <section class="Section" id="Comparison">
+    <div class="Section__Comparison">
+      <h1>Comparison</h1>
+      <p class="Section__desc">Let's do a simple data review process on the above data. First we look at Crude Oil prices in ISK/Liter today, then we figure out when, before three months ago, Crude Oil prices in ISK/Liter were last in the price range they're in today, afterwards we compare fuel prices then and now. The minimum requirement of three months we make just to prevent us from examining tiny time periods when prices are stable but constantly fluctuating over and under current price stability range. For simplicity reasons and also partially lack of data reasons we make the following assumptions. Fuel prices follow Crude Oil prices within couple of days and no tax changes are made in the comparison time period. Note that these assumptions are naive ones, the first one close to never holds and the second is incorrect from time to time, tax changes usually take effect on during new year.</p>
+      <p class="Section__desc" id="ComparisonText"><i>Javascript is diligently generating comparison text for you, please stand by ..</i></p>
+      <table class="Section__table">
+        <thead>
+          <tr>
+            <th></th>
+            <th id="TableThen">Then</th>
+            <th id="TableNow">Now</th>
+            <th>Diff</th>
+            <th>Percent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Crude Oil ISK/Liter</td>
+            <td id="TableCrudeIskThen">--- ISK</td> 
+            <td id="TableCrudeIskNow">--- ISK</td>
+            <td id="TableCrudeIskDiff">--- ISK</td>
+            <td id="TableCrudeIskPercent">--- %</td>
+          </tr>
+          <tr>
+            <td>Crude Oil USD/Bbl</td>
+            <td id="TableCrudeUsdThen">--- USD</td> 
+            <td id="TableCrudeUsdNow">--- USD</td>
+            <td id="TableCrudeUsdDiff">--- USD</td>
+            <td id="TableCrudeUsdPercent">--- %</td>
+          </tr>
+          <tr>
+            <td>CentralBankRate 1 USD</td>
+            <td id="TableCentralBankRateThen">--- ISK</td> 
+            <td id="TableCentralBankRateNow">--- ISK</td>
+            <td id="TableCentralBankRateDiff">--- ISK</td>
+            <td id="TableCentralBankRatePercent">--- %</td>
+          </tr>
+          <tr>
+            <td>Petrol Price ISK/Liter</td>
+            <td id="TablePetrolThen">--- ISK</td> 
+            <td id="TablePetrolNow">--- ISK</td>
+            <td id="TablePetrolDiff">--- ISK</td>
+            <td id="TablePetrolPercent">--- %</td>
+          </tr>
+          <tr>
+            <td>Diesel Price ISK/Liter</td>
+            <td id="TableDieselThen">--- ISK</td> 
+            <td id="TableDieselNow">--- ISK</td>
+            <td id="TableDieselDiff">--- ISK</td>
+            <td id="TableDieselPercent">--- %</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="Section__desc" id="ComparisonTextAfter"><i>If above table contains no data then Javascript either isn't finished generating comparison text or it failed miserably, please contact developer or better yet open up the web console and find out what went wrong ..</i></p>
+    </div>
+  </section>
   <section class="Section" id="Conclusion">
     <div class="Section__Conclusion">
       <h1>Conclusion</h1>
-      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, import costs and other expenditures, and possibly pricing from the oil company Equinor (formerly Statoil) which sells fuel to all the icelandic oil <b>distribution</b> companies.</p>
+      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, import costs and other expenditures, and possibly pricing of the only fuel importer in Iceland, the norwegian oil company <a href="https://en.wikipedia.org/wiki/Equinor" target="_blank">Equinor (formerly Statoil)</a> which sells fuel to all the icelandic oil <b>distribution</b> companies.</p>
       <p class="Section__desc">If you're interested in further rewiew on the above you might want to take a look at <a href="http://gogn.kjarninn.is/bensinverd/" target="_blank">Bensínvakt Kjarnans</a> (e. Petrol watch by the icelandic online news organization Kjarninn), it displays a detailed breakdown analysis of the fuel price in Iceland, and the data is updated monthly.</p>
       <p class="Section__desc">Also, if you dear reader are interested in taking a deeper look yourself at the data displayed in above graphs you can take a look at both the raw data and see how it is automatically collected and updated in <a href="https://github.com/gasvaktin/gasvaktin-comparison" target="_blank">the repository "gasvaktin-comparison" on Github</a>.</p>
     </div>

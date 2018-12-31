@@ -8,6 +8,7 @@
  *   using the following polyfill: https://www.npmjs.com/package/whatwg-fetch)
  * - window.Promise (supported by all browsers as far as I know, but included a
  *   fallback polyfill just in case)
+ * - Moment.js (handy timestamp managing package, accessible in window.moment)
  * - PapaParse.js (neat CSV parser, accessible in window.Papa)
  **/
 
@@ -20,14 +21,30 @@ var gs = {  /* Global Scope */
     crudeOilIskLiter: null,
     pricePetrolIceland: null,
     priceDieselIceland: null,
-    crudeRatio: null
+    crudeRatio: null,
+    comparisonData: null
   },
   dataFiles: {
-    crudeOil: "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/data/crude_oil_barrel_usd.csv.txt",
-    currencyRateUsdToIsk: "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/data/currency_rate_isk_usd.csv.txt",
-    crudeOilIskLiter: "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/data/crude_oil_litres_isk.csv.txt",
-    pricePetrolIceland: "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/data/fuel_petrol_iceland_liter_isk.csv.txt",
-    priceDieselIceland: "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/data/fuel_diesel_iceland_liter_isk.csv.txt"
+    crudeOil: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
+      "data/crude_oil_barrel_usd.csv.txt"
+    ),
+    currencyRateUsdToIsk: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
+      "data/currency_rate_isk_usd.csv.txt"
+    ),
+    crudeOilIskLiter: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
+      "data/crude_oil_litres_isk.csv.txt"
+    ),
+    pricePetrolIceland: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
+      "data/fuel_petrol_iceland_liter_isk.csv.txt"
+    ),
+    priceDieselIceland: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
+      "data/fuel_diesel_iceland_liter_isk.csv.txt"
+    )
   },
   papaParseConfig: {
     dynamicTyping: true,
@@ -497,6 +514,400 @@ var plotChart = function(name) {
   });
 }
 
+var generateComparisonData = function() {
+  /**
+   * Generate comparison data
+   * todo: there are "edge cases" currently not taken care of, when we get to all historically low
+   *       or high crude oil prices, fix later
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      if (gs.debug) console.log("Running comparison function ..");
+      // read current crude oil price (isk/liter)
+      if (gs.debug) console.log("read current crude oil price (isk/liter)");
+      var dataCurrent = gs.data.crudeOilIskLiter.data[gs.data.crudeOilIskLiter.data.length - 1];
+      if (gs.debug) console.log(dataCurrent);
+      // find out when price was the same more than 3 months ago
+      if (gs.debug) console.log("find out when price was the same more than 3 months ago");
+      var beforeDate = window.moment(dataCurrent.date, "YYYY-MM-DD").subtract(3, 'months');
+      var beforeDateStr = beforeDate.format("YYYY-MM-DD");
+      var dataThen = null;
+      var dataLast = null;
+      var finished = false;
+      for (var i=gs.data.crudeOilIskLiter.data.length - 1; i>=0; i--) {
+        var data = gs.data.crudeOilIskLiter.data[i];
+        if (data.date < beforeDateStr && dataLast !== null) {
+          if (data.price <= dataCurrent.price && dataLast.price >= dataCurrent.price) {
+            if (gs.debug) console.log("breached price (up) in");
+            finished = true;
+          } else if (data.price >= dataCurrent.price && dataLast.price <= dataCurrent.price) {
+            if (gs.debug) console.log("breached price (down) in");
+            finished = true;
+          }
+        }
+        if (finished) {
+          dataThen = data;
+          break;
+        } else {
+          dataLast = data;
+        }
+      }
+      if (gs.debug) console.log(dataLast);
+      if (gs.debug) console.log(dataThen);
+      var dataThenDayAfter = window.moment(dataThen.date, "YYYY-MM-DD").add(1, 'days');
+      var dataThenDayAfterStr = dataThenDayAfter.format("YYYY-MM-DD");
+      // read crude oil price (usd/bbl) for those two time periods
+      if (gs.debug) console.log("read crude oil price (usd/bbl) for those two time periods");
+      if (gs.debug) {
+        console.log(gs.data.crudeOil.data[gs.data.crudeOil.data.length - 1]);
+      }
+      var dataThenCrudeUsdBbl = null;
+      var dataLastCrudeUsdBbl = null;
+      for (var i=gs.data.crudeOil.data.length - 1; i>=0; i--) {
+        var data = gs.data.crudeOil.data[i];
+        if (dataThenDayAfterStr >= data.date) {
+          dataThenCrudeUsdBbl = data;
+          if (gs.debug) console.log(data);
+          break;
+        }
+        dataLastCrudeUsdBbl = data;
+      }
+      // read isk-usd rate for those two time periods
+      if (gs.debug) console.log("read isk-usd rate for those two time periods");
+      if (gs.debug) {
+        console.log(
+          gs.data.currencyRateUsdToIsk.data[gs.data.currencyRateUsdToIsk.data.length - 1]
+        );
+      }
+      var dataThenRateIskUsd = null;
+      var dataLastRateIskUsd = null;
+      for (var i=gs.data.currencyRateUsdToIsk.data.length - 1; i>=0; i--) {
+        var data = gs.data.currencyRateUsdToIsk.data[i];
+        if (dataThenDayAfterStr >= data.date) {
+          dataThenRateIskUsd = data;
+          if (gs.debug) console.log(data);
+          break;
+        }
+        dataLastRateIskUsd = data;
+      }
+      // read icelandic petrol price for those two time periods
+      if (gs.debug) console.log("read icelandic petrol price for those two time periods");
+      if (gs.debug) {
+        console.log(gs.data.pricePetrolIceland.data[gs.data.pricePetrolIceland.data.length - 1]);
+      }
+      var dataThenPetrol = null;
+      var dataLastPetrol = null;
+      for (var i=gs.data.pricePetrolIceland.data.length - 1; i>=0; i--) {
+        var data = gs.data.pricePetrolIceland.data[i];
+        if (dataThenDayAfterStr >= data.date) {
+          dataThenPetrol = data;
+          if (gs.debug) console.log(data);
+          break;
+        }
+        dataLastPetrol = data;
+      }
+      // read icelandic diesel price for those two time periods
+      if (gs.debug) console.log("read icelandic diesel price for those two time periods");
+      if (gs.debug) {
+        console.log(gs.data.priceDieselIceland.data[gs.data.priceDieselIceland.data.length - 1]);
+      }
+      var dataThenDiesel = null;
+      var dataLastDiesel = null;
+      for (var i=gs.data.priceDieselIceland.data.length - 1; i>=0; i--) {
+        var data = gs.data.priceDieselIceland.data[i];
+        if (dataThenDayAfterStr >= data.date) {
+          dataThenDiesel = data;
+          if (gs.debug) console.log(data);
+          break;
+        }
+        dataLastDiesel = data;
+      }
+      // pull the data together
+      var comparisonData = {
+        crudeOilIskLiter: {
+          current: dataCurrent,
+          similarPoint: dataThen,
+          similarPoint2: dataLast
+        },
+        crudeOilBblBarrel: {
+          current: gs.data.crudeOil.data[gs.data.crudeOil.data.length - 1],
+          similarPoint: dataThenCrudeUsdBbl,
+          similarPoint2: dataLastCrudeUsdBbl
+        },
+        rateIskUsd: {
+          current: gs.data.currencyRateUsdToIsk.data[gs.data.currencyRateUsdToIsk.data.length - 1],
+          similarPoint: dataThenRateIskUsd,
+          similarPoint2: dataLastRateIskUsd
+        },
+        pricePetrolIceland: {
+          current: gs.data.pricePetrolIceland.data[gs.data.pricePetrolIceland.data.length - 1],
+          similarPoint: dataThenPetrol,
+          similarPoint2: dataLastPetrol
+        },
+        priceDieselIceland: {
+          current: gs.data.priceDieselIceland.data[gs.data.priceDieselIceland.data.length - 1],
+          similarPoint: dataThenDiesel,
+          similarPoint2: dataLastDiesel
+        }
+      }
+      if (gs.debug) console.log("comparison data:");
+      if (gs.debug) console.log(comparisonData);
+      gs.data.comparisonData = comparisonData;
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var writeComparisonDataToDom = function() {
+  /**
+   * Write comparison data to html
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      // elements
+      var elementText1 = window.document.getElementById("ComparisonText");
+      var elementText2 = window.document.getElementById("ComparisonTextAfter");
+      var table = {
+        CrudeIskThen: {
+          element: window.document.getElementById("TableCrudeIskThen"),
+          value: null
+        },
+        CrudeIskNow: {
+          element: window.document.getElementById("TableCrudeIskNow"),
+          value: null
+        },
+        CrudeIskDiff: {
+          element: window.document.getElementById("TableCrudeIskDiff"),
+          value: null
+        },
+        CrudeIskPercent: {
+          element: window.document.getElementById("TableCrudeIskPercent"),
+          value: null
+        },
+        CrudeUsdThen: {
+          element: window.document.getElementById("TableCrudeUsdThen"),
+          value: null
+        },
+        CrudeUsdNow: {
+          element: window.document.getElementById("TableCrudeUsdNow"),
+          value: null
+        },
+        CrudeUsdDiff: {
+          element: window.document.getElementById("TableCrudeUsdDiff"),
+          value: null
+        },
+        CrudeUsdPercent: {
+          element: window.document.getElementById("TableCrudeUsdPercent"),
+          value: null
+        },
+        CentralBankRateThen: {
+          element: window.document.getElementById("TableCentralBankRateThen"),
+          value: null
+        },
+        CentralBankRateNow: {
+          element: window.document.getElementById("TableCentralBankRateNow"),
+          value: null
+        },
+        CentralBankRateDiff: {
+          element: window.document.getElementById("TableCentralBankRateDiff"),
+          value: null
+        },
+        CentralBankRatePercent: {
+          element: window.document.getElementById("TableCentralBankRatePercent"),
+          value: null
+        },
+        PetrolThen: {
+          element: window.document.getElementById("TablePetrolThen"),
+          value: null
+        },
+        PetrolNow: {
+          element: window.document.getElementById("TablePetrolNow"),
+          value: null
+        },
+        PetrolDiff: {
+          element: window.document.getElementById("TablePetrolDiff"),
+          value: null
+        },
+        PetrolPercent: {
+          element: window.document.getElementById("TablePetrolPercent"),
+          value: null
+        },
+        DieselThen: {
+          element: window.document.getElementById("TableDieselThen"),
+          value: null
+        },
+        DieselNow: {
+          element: window.document.getElementById("TableDieselNow"),
+          value: null
+        },
+        DieselDiff: {
+          element: window.document.getElementById("TableDieselDiff"),
+          value: null
+        },
+        DieselPercent: {
+          element: window.document.getElementById("TableDieselPercent"),
+          value: null
+        }
+      }
+      var tableThen = window.document.getElementById("TableThen");
+      var tableNow = window.document.getElementById("TableNow");
+      // take care of elementText1
+      var today = window.moment().format("YYYY-MM-DD");
+      tableNow.innerHTML = today;
+      var dat = gs.data.comparisonData;
+      tableThen.innerHTML = dat.crudeOilIskLiter.similarPoint2.date;
+      var conclusion = "";
+      var diff = dat.pricePetrolIceland.current.price - dat.pricePetrolIceland.similarPoint.price;
+      diffAbs = window.Math.abs(window.Math.round(diff * 100) / 100);
+      if (dat.pricePetrolIceland.current.price < dat.pricePetrolIceland.similarPoint.price) {
+        conclusion = (
+          `so on average <b>${diffAbs} ISK</b> lower than it was in <b>` +
+          `${dat.crudeOilIskLiter.similarPoint.date}</b>.`
+        );
+      }
+      else if (dat.pricePetrolIceland.current.price > dat.pricePetrolIceland.similarPoint.price) {
+        conclusion = (
+          `so on average <b>${diffAbs} ISK</b> higher than it was in <b>` +
+          `${dat.crudeOilIskLiter.similarPoint.date}</b>.`
+        );
+      } else {
+        conclusion = `same as it was in <b>${dat.crudeOilIskLiter.similarPoint.date}</b>.`;
+      }
+      var text = (
+        `The most recent <b>Crude Oil Liter</b> price available in above data is <b>` +
+        `${dat.crudeOilIskLiter.current.price} ISK in ${dat.crudeOilIskLiter.current.date}` +
+        `</b>. In over three months ago the last time prices have been in this range is <b>in ` +
+        `${dat.crudeOilIskLiter.similarPoint.date} to ${dat.crudeOilIskLiter.similarPoint2.date}` +
+        `</b> when it was <b>${dat.crudeOilIskLiter.similarPoint.price} ISK</b> and <b>` +
+        `${dat.crudeOilIskLiter.similarPoint2.price} ISK</b> respectively. From <b>` +
+        `${dat.pricePetrolIceland.similarPoint.date} to ` +
+        `${dat.pricePetrolIceland.similarPoint2.date} </b> the <b>average Petrol Liter</b> ` +
+        `price was <b> ${dat.pricePetrolIceland.similarPoint.price} ISK</b>. Today the average ` +
+        `price is <b> ${dat.pricePetrolIceland.current.price} ISK</b> as of <b>` +
+        `${dat.pricePetrolIceland.current.date} </b>, ${conclusion}`
+      );
+      elementText1.innerHTML = text;
+      // take care of table data
+      // - crude oil isk
+      table.CrudeIskThen.value = (
+        `${dat.crudeOilIskLiter.similarPoint.price} - ` +
+        `${dat.crudeOilIskLiter.similarPoint2.price} ISK`
+      );
+      table.CrudeIskNow.value = `${dat.crudeOilIskLiter.current.price} ISK`;
+      table.CrudeIskDiff.value = `≈ 0 ISK`  // yes
+      table.CrudeIskPercent.value = `≈ 0 %`  // yup
+      // - crude oil usd
+      table.CrudeUsdThen.value = dat.crudeOilBblBarrel.similarPoint2.price;
+      table.CrudeUsdNow.value = dat.crudeOilBblBarrel.current.price;
+      table.CrudeUsdDiff.value = window.Math.round(
+        (table.CrudeUsdNow.value - table.CrudeUsdThen.value) * 100
+      ) / 100;
+      table.CrudeUsdPercent.value = (
+        window.Math.round(
+          (table.CrudeUsdDiff.value / table.CrudeUsdThen.value * 100) * 10
+        ) / 10
+      );
+      // - convert values to strings
+      table.CrudeUsdThen.value = `${table.CrudeUsdThen.value} USD`;
+      table.CrudeUsdNow.value = `${table.CrudeUsdNow.value} USD`;
+      table.CrudeUsdDiff.value = (
+        `${(table.CrudeUsdDiff.value<=0?"":"+")}${table.CrudeUsdDiff.value} USD`
+      );
+      table.CrudeUsdPercent.value = (
+        `${(table.CrudeUsdPercent.value<=0?"":"+")}${table.CrudeUsdPercent.value} %`
+      );
+      // - central bank rate
+      table.CentralBankRateThen.value = dat.rateIskUsd.similarPoint2.sell;
+      table.CentralBankRateNow.value = dat.rateIskUsd.current.sell;
+      table.CentralBankRateDiff.value = window.Math.round(
+        (table.CentralBankRateNow.value - table.CentralBankRateThen.value) * 100
+      ) / 100;
+      table.CentralBankRatePercent.value = (
+        window.Math.round(
+          (table.CentralBankRateDiff.value / table.CentralBankRateThen.value * 100) * 10
+        ) / 10
+      );
+      // - convert values to strings
+      table.CentralBankRateThen.value = `${table.CentralBankRateThen.value} ISK`;
+      table.CentralBankRateNow.value = `${table.CentralBankRateNow.value} ISK`;
+      table.CentralBankRateDiff.value = (
+        `${(table.CentralBankRateDiff.value<=0?"":"+")}${table.CentralBankRateDiff.value} ISK`
+      );
+      table.CentralBankRatePercent.value = (
+        `${(table.CentralBankRatePercent.value<=0?"":"+")}${table.CentralBankRatePercent.value} %`
+      );
+      // - petrol price
+      table.PetrolThen.value = dat.pricePetrolIceland.similarPoint2.price;
+      table.PetrolNow.value = dat.pricePetrolIceland.current.price;
+      table.PetrolDiff.value = window.Math.round(
+        (table.PetrolNow.value - table.PetrolThen.value) * 100
+      ) / 100;
+      table.PetrolPercent.value = (
+        window.Math.round(
+          (table.PetrolDiff.value / table.PetrolThen.value * 100) * 10
+        ) / 10
+      );
+      // - convert values to strings
+      table.PetrolThen.value = `${table.PetrolThen.value} ISK`;
+      table.PetrolNow.value = `${table.PetrolNow.value} ISK`;
+      table.PetrolDiff.value = (
+        `${(table.PetrolDiff.value<=0?"":"+")}${table.PetrolDiff.value} ISK`
+      );
+      table.PetrolPercent.value = (
+        `${(table.PetrolPercent.value<=0?"":"+")}${table.PetrolPercent.value} %`
+      );
+      // - diesel price
+      table.DieselThen.value = dat.priceDieselIceland.similarPoint2.price;
+      table.DieselNow.value = dat.priceDieselIceland.current.price;
+      table.DieselDiff.value = window.Math.round(
+        (table.DieselNow.value - table.DieselThen.value) * 100
+      ) / 100;
+      var diffOneDecimalFlooredDiesel = -window.Math.floor(
+        table.DieselDiff.value * 10
+      ) / 10;
+      table.DieselPercent.value = (
+        window.Math.round(
+          (table.DieselDiff.value / table.DieselThen.value * 100) * 10
+        ) / 10
+      );
+      // - convert values to strings
+      table.DieselThen.value = `${table.DieselThen.value} ISK`;
+      table.DieselNow.value = `${table.DieselNow.value} ISK`;
+      table.DieselDiff.value = (
+        `${(table.DieselDiff.value<=0?"":"+")}${table.DieselDiff.value} ISK`
+      );
+      table.DieselPercent.value = (
+        `${(table.DieselPercent.value<=0?"":"+")}${table.DieselPercent.value} %`
+      );
+      // throw all the table thingies into the dom
+      for (var key in table) {
+        var thing = table[key];
+        if (thing.value !== null) {
+          thing.element.innerHTML = `${thing.value}`
+        }
+      }
+      // take care of elementText2
+      var diffOneDecimalFloored = -window.Math.floor(diff * 10) / 10;
+      var text2 = (
+        `Given above naive assumptions and if future ISK/Liter Crude Oil price hold stable in ` +
+        `current price range we can predict <b>Petrol</b> price change of <b>` +
+        `${diffOneDecimalFloored} ISK</b> and <b>Diesel</b> price change of <b>` +
+        `${diffOneDecimalFlooredDiesel} ISK</b> in the near future.`
+      )
+      elementText2.innerHTML = text2;
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
 /**
  * ========================================================================== *
  * In runClient we knit together above promising functions
@@ -535,6 +946,10 @@ var runClient = function() {
     return plotChart("crudeRatio");
   }).then(function() {
     if (gs.debug) { console.log("Crude ratio chart plotted."); }
+  }).then(function() {
+    return generateComparisonData();
+  }).then(function() {
+    return writeComparisonDataToDom();
   });
 }
 
