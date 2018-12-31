@@ -1,7 +1,7 @@
 /**
  * A simple script for easily serving a folder containing static website.
  * It's shamelessly snatched from https://gist.github.com/ryanflorence/701407
- * and might be vurnerable to directory traversal attack, yet I've not been
+ * and might be vulnerable to directory traversal attack, yet I've not been
  * able to make such an attack work.
  * 
  * TODO: maybe fix ugly repetitiveness?
