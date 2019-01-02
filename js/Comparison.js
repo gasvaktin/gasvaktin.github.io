@@ -794,10 +794,10 @@ var writeComparisonDataToDom = function() {
       // take care of table data
       // - crude oil isk
       table.CrudeIskThen.value = (
-        `${dat.crudeOilIskLiter.similarPoint.price} to ` +
-        `${dat.crudeOilIskLiter.similarPoint2.price} ISK`
+        `${dat.crudeOilIskLiter.similarPoint.price.toFixed(2)} to ` +
+        `${dat.crudeOilIskLiter.similarPoint2.price.toFixed(2)} ISK`
       );
-      table.CrudeIskNow.value = `${dat.crudeOilIskLiter.current.price} ISK`;
+      table.CrudeIskNow.value = `${dat.crudeOilIskLiter.current.price.toFixed(2)} ISK`;
       table.CrudeIskDiff.value = `≈ 0 ISK`  // yes
       table.CrudeIskPercent.value = `≈ 0 %`  // yup
       // - crude oil usd
@@ -812,14 +812,14 @@ var writeComparisonDataToDom = function() {
         ) / 10
       );
       // - convert values to strings
-      table.CrudeUsdThen.value = `${table.CrudeUsdThen.value} USD`;
-      table.CrudeUsdNow.value = `${table.CrudeUsdNow.value} USD`;
+      table.CrudeUsdThen.value = `${table.CrudeUsdThen.value.toFixed(2)} USD`;
+      table.CrudeUsdNow.value = `${table.CrudeUsdNow.value.toFixed(2)} USD`;
       table.CrudeUsdDiff.value = (
-        `${(table.CrudeUsdDiff.value<=0?"":"+")}${table.CrudeUsdDiff.value} USD`
-      );
+        `${(table.CrudeUsdDiff.value<=0?"":"+")}${table.CrudeUsdDiff.value.toFixed(2)} USD`
+      ).replace("-", "−");
       table.CrudeUsdPercent.value = (
-        `${(table.CrudeUsdPercent.value<=0?"":"+")}${table.CrudeUsdPercent.value} %`
-      );
+        `${(table.CrudeUsdPercent.value<=0?"":"+")}${table.CrudeUsdPercent.value.toFixed(1)} %`
+      ).replace("-", "−");
       // - central bank rate
       table.CentralBankRateThen.value = dat.rateIskUsd.similarPoint2.sell;
       table.CentralBankRateNow.value = dat.rateIskUsd.current.sell;
@@ -832,34 +832,39 @@ var writeComparisonDataToDom = function() {
         ) / 10
       );
       // - convert values to strings
-      table.CentralBankRateThen.value = `${table.CentralBankRateThen.value} ISK`;
-      table.CentralBankRateNow.value = `${table.CentralBankRateNow.value} ISK`;
+      table.CentralBankRateThen.value = `${table.CentralBankRateThen.value.toFixed(2)} ISK`;
+      table.CentralBankRateNow.value = `${table.CentralBankRateNow.value.toFixed(2)} ISK`;
       table.CentralBankRateDiff.value = (
-        `${(table.CentralBankRateDiff.value<=0?"":"+")}${table.CentralBankRateDiff.value} ISK`
-      );
+        `${(table.CentralBankRateDiff.value<=0?"":"+")}` +
+        `${table.CentralBankRateDiff.value.toFixed(2)} ISK`
+      ).replace("-", "−");
       table.CentralBankRatePercent.value = (
-        `${(table.CentralBankRatePercent.value<=0?"":"+")}${table.CentralBankRatePercent.value} %`
-      );
+        `${(table.CentralBankRatePercent.value<=0?"":"+")}` +
+        `${table.CentralBankRatePercent.value.toFixed(1)} %`
+      ).replace("-", "−");
       // - petrol price
       table.PetrolThen.value = dat.pricePetrolIceland.similarPoint2.price;
       table.PetrolNow.value = dat.pricePetrolIceland.current.price;
       table.PetrolDiff.value = window.Math.round(
         (table.PetrolNow.value - table.PetrolThen.value) * 100
       ) / 100;
+      var diffOneDecimalFloored = -window.Math.floor(
+        table.PetrolDiff.value * 10
+      ) / 10;
       table.PetrolPercent.value = (
         window.Math.round(
           (table.PetrolDiff.value / table.PetrolThen.value * 100) * 10
         ) / 10
       );
       // - convert values to strings
-      table.PetrolThen.value = `${table.PetrolThen.value} ISK`;
-      table.PetrolNow.value = `${table.PetrolNow.value} ISK`;
+      table.PetrolThen.value = `${table.PetrolThen.value.toFixed(2)} ISK`;
+      table.PetrolNow.value = `${table.PetrolNow.value.toFixed(2)} ISK`;
       table.PetrolDiff.value = (
-        `${(table.PetrolDiff.value<=0?"":"+")}${table.PetrolDiff.value} ISK`
-      );
+        `${(table.PetrolDiff.value<=0?"":"+")}${table.PetrolDiff.value.toFixed(2)} ISK`
+      ).replace("-", "−");
       table.PetrolPercent.value = (
-        `${(table.PetrolPercent.value<=0?"":"+")}${table.PetrolPercent.value} %`
-      );
+        `${(table.PetrolPercent.value<=0?"":"+")}${table.PetrolPercent.value.toFixed(1)} %`
+      ).replace("-", "−");
       // - diesel price
       table.DieselThen.value = dat.priceDieselIceland.similarPoint2.price;
       table.DieselNow.value = dat.priceDieselIceland.current.price;
@@ -875,13 +880,13 @@ var writeComparisonDataToDom = function() {
         ) / 10
       );
       // - convert values to strings
-      table.DieselThen.value = `${table.DieselThen.value} ISK`;
-      table.DieselNow.value = `${table.DieselNow.value} ISK`;
+      table.DieselThen.value = `${table.DieselThen.value.toFixed(2)} ISK`;
+      table.DieselNow.value = `${table.DieselNow.value.toFixed(2)} ISK`;
       table.DieselDiff.value = (
-        `${(table.DieselDiff.value<=0?"":"+")}${table.DieselDiff.value} ISK`
+        `${(table.DieselDiff.value<=0?"":"+")}${table.DieselDiff.value.toFixed(2)} ISK`
       );
       table.DieselPercent.value = (
-        `${(table.DieselPercent.value<=0?"":"+")}${table.DieselPercent.value} %`
+        `${(table.DieselPercent.value<=0?"":"+")}${table.DieselPercent.value.toFixed(1)} %`
       );
       // throw all the table thingies into the dom
       for (var key in table) {
@@ -891,12 +896,11 @@ var writeComparisonDataToDom = function() {
         }
       }
       // take care of elementText2
-      var diffOneDecimalFloored = -window.Math.floor(diff * 10) / 10;
       var text2 = (
         `Given above assumptions and if future ISK/Liter Crude Oil price hold stable in current ` +
-        `price range we can predict <b>Petrol</b> price change of <b>${diffOneDecimalFloored} ` +
-        `ISK</b> and <b>Diesel</b> price change of <b>${diffOneDecimalFlooredDiesel} ISK</b> in ` +
-        `the near future.`
+        `price range we can predict <b>Petrol</b> price change of <b>` +
+        `${diffOneDecimalFloored.toFixed(1)} ISK</b> and <b>Diesel</b> price change of <b>` +
+        `${diffOneDecimalFlooredDiesel.toFixed(1)} ISK</b> in the near future.`
       )
       elementText2.innerHTML = text2;
       fulfil();
