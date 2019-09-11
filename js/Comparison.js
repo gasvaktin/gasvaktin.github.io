@@ -26,24 +26,28 @@ var gs = {  /* Global Scope */
   },
   dataFiles: {
     crudeOil: (
-      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
-      "data/crude_oil_barrel_usd.csv.txt"
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/crude_oil_barrel_usd.csv.txt"
     ),
     currencyRateUsdToIsk: (
-      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
-      "data/currency_rate_isk_usd.csv.txt"
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/currency_rate_isk_usd.csv.txt"
     ),
     crudeOilIskLiter: (
-      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
-      "data/crude_oil_litres_isk.csv.txt"
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/crude_oil_litres_isk.csv.txt"
     ),
     pricePetrolIceland: (
-      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
-      "data/fuel_petrol_iceland_liter_isk.csv.txt"
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/fuel_petrol_iceland_liter_isk.csv.txt"
     ),
     priceDieselIceland: (
-      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master/" +
-      "data/fuel_diesel_iceland_liter_isk.csv.txt"
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/fuel_diesel_iceland_liter_isk.csv.txt"
+    ),
+    crudeRatio: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/crude_ratio.csv.txt"
     )
   },
   papaParseConfig: {
@@ -294,7 +298,7 @@ var gs = {  /* Global Scope */
       borderColor: "#483D8B",
       backgroundColor: "#938cc5",
       xAxisDataLabel: "date",
-      yAxisDataLabel: "index",
+      yAxisDataLabel: "ratio",
       elementId: "crudeRatio",
       element: null,
       ctx: null,
@@ -407,78 +411,6 @@ var prepareChartData = function(name) {
         dataset.data.push({
           x: gs.data[name].data[i][gs.charts[name].xAxisDataLabel],
           y: yAxisVal
-        });
-        dataset.radius.push(0);
-        dataset.hitRadius.push(0);
-        dataset.hoverRadius.push(0);
-      }
-      gs.charts[name].data.datasets.push(dataset);
-      fulfil();
-    }
-    catch (err) {
-      console.error(err);
-      reject(err);
-    }
-  });
-}
-
-var prepareCrudeIndexChartData = function() {
-  /**
-   * Process and prepare named data into crudeOilIsk chart
-   **/
-  return new Promise(function(fulfil, reject) {
-    try {
-      var name = "crudeRatio";
-      /* generate crudeRatio data */
-      gs.data[name] = {data: []}
-      var rateEnd = gs.data["pricePetrolIceland"].data.length;
-      var rateCounter = 0;
-      var currentRate = gs.data["pricePetrolIceland"].data[rateCounter];
-      for (var i=0; i<gs.data["crudeOilIskLiter"].data.length; i++) {
-        if (gs.data["crudeOilIskLiter"].data[i]["date"] < currentRate["date"]) {
-          continue
-        }
-        if (gs.data["crudeOilIskLiter"].data[i]["price"] === ".") {
-          continue;
-        }
-        var currentRatePrice = currentRate["price"];
-        var crudeRatioVal =  (gs.data["crudeOilIskLiter"].data[i]["price"] / currentRatePrice);
-        gs.data[name].data.push({
-          date: gs.data["crudeOilIskLiter"].data[i]["date"],
-          index: crudeRatioVal
-        });
-        if (rateCounter + 1 < rateEnd &&
-            gs.data["pricePetrolIceland"].data[rateCounter + 1]["date"] <=
-            gs.data["crudeOilIskLiter"].data[i]["date"]) {
-          rateCounter += 1;
-          currentRate = gs.data["pricePetrolIceland"].data[rateCounter];
-        }
-      }
-      /* finished generating crudeRatio data */
-      gs.charts[name].element = window.document.getElementById(gs.charts[name].elementId);
-      var dataset = {
-        label: gs.charts[name].label,
-        pointStyle: "circle",
-        borderColor: gs.charts[name].borderColor,
-        backgroundColor: gs.charts[name].backgroundColor,
-        lineTension: 0,
-        borderWidth: 1,
-        fill: false,
-        data: [],
-        radius: [],
-        hitRadius: [],
-        hoverRadius: []
-      };
-      for (var i=0; i<gs.data[name].data.length; i++) {
-        if (gs.data[name].data[i][gs.charts[name].yAxisDataLabel] === ".") {
-          continue;
-        }
-        if (gs.data[name].data[i][gs.charts[name].xAxisDataLabel] < gs.startDate) {
-          continue;
-        }
-        dataset.data.push({
-          x: gs.data[name].data[i][gs.charts[name].xAxisDataLabel],
-          y: gs.data[name].data[i][gs.charts[name].yAxisDataLabel]
         });
         dataset.radius.push(0);
         dataset.hitRadius.push(0);
@@ -923,16 +855,17 @@ var runClient = function() {
     fetchCsvDataFile("currencyRateUsdToIsk"),
     fetchCsvDataFile("crudeOilIskLiter"),
     fetchCsvDataFile("pricePetrolIceland"),
-    fetchCsvDataFile("priceDieselIceland")
+    fetchCsvDataFile("priceDieselIceland"),
+    fetchCsvDataFile("crudeRatio")
   ]).then(function() {
     if (gs.debug) { console.log("Data fetched."); }
-  }).then(function() {
     return Promise.all([
       prepareChartData("crudeOil"),
       prepareChartData("currencyRateUsdToIsk"),
       prepareChartData("crudeOilIskLiter"),
       prepareChartData("pricePetrolIceland"),
-      prepareChartData("priceDieselIceland")
+      prepareChartData("priceDieselIceland"),
+      prepareChartData("crudeRatio")
     ]);
   }).then(function() {
     return Promise.all([
@@ -940,17 +873,11 @@ var runClient = function() {
       plotChart("currencyRateUsdToIsk"),
       plotChart("crudeOilIskLiter"),
       plotChart("pricePetrolIceland"),
-      plotChart("priceDieselIceland")
+      plotChart("priceDieselIceland"),
+      plotChart("crudeRatio")
     ]);
   }).then(function() {
     if (gs.debug) { console.log("Charts plotted."); }
-  }).then(function() {
-    return prepareCrudeIndexChartData();
-  }).then(function() {
-    return plotChart("crudeRatio");
-  }).then(function() {
-    if (gs.debug) { console.log("Crude ratio chart plotted."); }
-  }).then(function() {
     return generateComparisonData();
   }).then(function() {
     return writeComparisonDataToDom();
