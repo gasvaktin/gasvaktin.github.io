@@ -108,7 +108,7 @@ var gs = {  /* Global Scope */
       borderColor: "#483D8B",
       backgroundColor: "#938cc5",
       xAxisDataLabel: "date",
-      yAxisDataLabel: "sell",
+      yAxisDataLabel: "mean",
       elementId: "currencyRate",
       element: null,
       ctx: null,
