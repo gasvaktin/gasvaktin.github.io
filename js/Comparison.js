@@ -753,8 +753,8 @@ var writeComparisonDataToDom = function() {
         `${(table.CrudeUsdPercent.value<=0?"":"+")}${table.CrudeUsdPercent.value.toFixed(1)} %`
       ).replace("-", "−");
       // - central bank rate
-      table.CentralBankRateThen.value = dat.rateIskUsd.similarPoint2.sell;
-      table.CentralBankRateNow.value = dat.rateIskUsd.current.sell;
+      table.CentralBankRateThen.value = dat.rateIskUsd.similarPoint2.mean;
+      table.CentralBankRateNow.value = dat.rateIskUsd.current.mean;
       table.CentralBankRateDiff.value = window.Math.round(
         (table.CentralBankRateNow.value - table.CentralBankRateThen.value) * 100
       ) / 100;
