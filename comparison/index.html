@@ -42,14 +42,14 @@
     <div class="Section__Introduction">
       <h1>Comparison of fuel price in Iceland and crude oil world market price</h1>
       <p class="Section__desc">Petrol and Diesel are liquid fuel products refined from the naturally occurring liquid material known as Crude Oil, so prices of said fuel products are dictated by the price of Crude Oil.</p>
-      <p class="Section__desc">Icelandic news organizations cover from time to time the development of fuel price in Iceland and refer loosely to development of oil world market price or rate of the icelandic currency ISK, but what story does related data itself tell us?</p>
+      <p class="Section__desc">Icelandic news media cover from time to time the development of fuel price in Iceland and refer loosely to development of oil world market price or rate of the icelandic currency ISK, but what story does related data itself tell us?</p>
       <p class="Section__desc">Let's take a look.</p>
     </div>
   </section>
   <section class="Section GraphSection" id="CrudeDevelopmentUSD">
     <h2 class="Section__title">Crude Oil world market price development (USD/Barrel)</h2>
     <canvas class="Section__Graph" id="crudeDevelopment"></canvas>
-    <p class="Section__desc">Crude Oil world market price development in Europe (USD per barrel) from the <a href="https://www.eia.gov/opendata/qb.php?sdid=PET.RBRTE.D" target="_blank">U.S. Energy Information Administration</a>. Unfortunately, this data sometimes tends to lag behind a couple of days and then suddenly catch up again, when this happens we substitute the missing days with data on Crude Oil price development in North America from <a href="https://markets.businessinsider.com/commodities/oil-price/usd?type=brent" target="_blank">Business Insider / Markets Insider</a> until things catch up again.</p>
+    <p class="Section__desc">Crude Oil (Brent) world market price development in Europe (USD per barrel) from the <a href="https://www.eia.gov/opendata/qb.php?sdid=PET.RBRTE.D" target="_blank">U.S. Energy Information Administration</a>. Unfortunately, this data sometimes tends to lag behind a couple of days and then suddenly catch up again, when this happens we substitute the missing days with data on Crude Oil price development from <a href="https://markets.businessinsider.com/commodities/oil-price/usd?type=brent" target="_blank">Business Insider / Markets Insider</a> until things catch up again.</p>
   </section>
   <section class="Section GraphSection" id="CurrencyRate">
     <h2 class="Section__title">Currency rate of USD to ISK</h2>
@@ -59,7 +59,7 @@
   <section class="Section GraphSection" id="CrudeDevelopmentISK">
     <h2 class="Section__title">Crude Oil world market price development (ISK/Liter)</h2>
     <canvas class="Section__Graph" id="crudeDevelopmentIsk"></canvas>
-    <p class="Section__desc">Development of Crude Oil world market price in Europe converted from barrels (bbl) to litres and converted from USD to ISK. Calculated by using <b>Crude Oil Barrel world market price development</b> and <b>Currency rate of USD to ISK</b>. The Barrel volume unit (1 bbl) is equivalent to a volume of 158.987294928 litres <a href="https://en.wikipedia.org/wiki/Barrel_(unit)#Maximum_accuracy_when_converting_bbl_to_cubic_metres" target="_blank">according to Wikipedia</a>.</p>
+    <p class="Section__desc">Development of Crude Oil world market price in Europe converted from barrels (bbl) to litres and converted from USD to ISK. Calculated by using <b>Crude Oil Barrel world market price development</b> and <b>Currency rate of USD to ISK</b>. The Barrel volume unit (1 bbl) is equal to 42 US gallons, 1 US gallon is defined as 3.785411784 litres, so 1 bbl is equal to a volume of 158.987294928 litres, more details on this in the following <a href="https://en.wikipedia.org/wiki/Barrel_(unit)#Accuracy_when_converting_from_barrel_to_cubic_metre" target="_blank">Wikipedia article on the Barrel volume unit</a>.</p>
   </section>
   <section class="Section GraphSection" id="PricePetrolIceland">
     <h2 class="Section__title">Petrol price development in Iceland (ISK/Liter)</h2>
@@ -135,8 +135,8 @@
   <section class="Section" id="Conclusion">
     <div class="Section__Conclusion">
       <h1>Conclusion</h1>
-      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, import costs and other expenditures, and possibly pricing of the only fuel importer in Iceland, the norwegian oil company <a href="https://en.wikipedia.org/wiki/Equinor" target="_blank">Equinor (formerly Statoil)</a> which sells fuel to all the icelandic oil <b>distribution</b> companies.</p>
-      <p class="Section__desc">If you're interested in further rewiew on the above you might want to take a look at <a href="http://gogn.kjarninn.is/bensinverd/" target="_blank">Bensínvakt Kjarnans</a> (e. Petrol watch by the icelandic online news media Kjarninn), it displays a detailed breakdown analysis of the fuel price in Iceland, and the data is updated monthly.</p>
+      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, import costs and other expenditures, and possibly pricing of the only fuel importer in Iceland, the norwegian oil company <a href="https://en.wikipedia.org/wiki/Equinor" target="_blank">Equinor (formerly Statoil)</a> which provides fuel to all the icelandic oil <b>distribution</b> companies.</p>
+      <p class="Section__desc">If you're interested in further rewiew on the above you might like to take a look at <a href="http://gogn.kjarninn.is/bensinverd/" target="_blank">Bensínvakt Kjarnans</a> (e. Petrol watch by the icelandic online news media Kjarninn), it displays a detailed breakdown analysis of the fuel price in Iceland, and the data is updated monthly.</p>
       <p class="Section__desc">Also, if you dear reader are interested in taking a deeper look yourself at the data displayed in above graphs you can take a look at both the raw data and see how it is automatically collected and updated in <a href="https://github.com/gasvaktin/gasvaktin-comparison" target="_blank">the repository "gasvaktin-comparison" on Github</a>.</p>
     </div>
   </section>
