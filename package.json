@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/gasvaktin/gasvaktin.github.io#readme",
   "dependencies": {
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "bootstrap-switch": "3.3.2",
     "chart.js": "2.4.0",
     "font-awesome": "4.7.0",
