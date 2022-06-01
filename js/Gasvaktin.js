@@ -466,8 +466,11 @@ var fetchGasPrice = function() {
       for (var i=0; i<data.stations.length; i++) {
         gs.stations[data.stations[i].key] = data.stations[i];
       }
-      addStationsToList(data.stations);
-      fulfil();
+      addStationsToList(data.stations).then(function() {
+        return arrangeStationsByPrice();
+      }).then(function() {
+        fulfil();
+      });
     }).catch(function(err) {
       console.error(err);
       reject(err);
