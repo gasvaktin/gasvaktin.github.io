@@ -22,7 +22,9 @@ var gs = {  /* Global Scope */
     pricePetrolIceland: null,
     priceDieselIceland: null,
     crudeRatio: null,
-    comparisonData: null
+    comparisonData: null,
+    iskInflationIndex: null,
+    iskInflationIndex1996: null
   },
   dataFiles: {
     crudeOil: (
@@ -48,6 +50,10 @@ var gs = {  /* Global Scope */
     crudeRatio: (
       "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
       "/data/crude_ratio.csv.txt"
+    ),
+    iskInflationIndex: (
+      "https://raw.githubusercontent.com/gasvaktin/gasvaktin-comparison/master" +
+      "/data/currency_isk_inflation_index.csv.txt"
     )
   },
   papaParseConfig: {
@@ -340,10 +346,202 @@ var gs = {  /* Global Scope */
         },
         steppedLine: true
       }
+    },
+    crudeOilIskLiterPresentValue: {
+      label: "Crude Oil to present value (ISK/Liter)",
+      borderColor: "#483D8B",
+      backgroundColor: "#938cc5",
+      xAxisDataLabel: "date",
+      yAxisDataLabel: "value",
+      elementId: "crudeOilIskLiterPresentValue",
+      element: null,
+      ctx: null,
+      data: {
+        datasets: []
+      },
+      options: {
+        customTooltip: {
+          show: true,
+          timestamp: null,
+          company: null
+        },
+        scales: {
+          xAxes: [{
+            type: "time",
+            position: "bottom"
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "ISK inflation index since 1996"
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+        elements: {
+          point: {
+            radius: 0,
+            hitRadius: 10,
+            hoverRadius: 3
+          }
+        },
+        legend: {
+          labels: {
+            boxWidth: 12
+          }
+        },
+        steppedLine: true
+      }
+    },
+    iskInflationIndex: {
+      label: "ISK Inflation Index",
+      borderColor: "#483D8B",
+      backgroundColor: "#938cc5",
+      xAxisDataLabel: "date",
+      yAxisDataLabel: "value",
+      elementId: "iskInflationIndex",
+      element: null,
+      ctx: null,
+      data: {
+        datasets: []
+      },
+      options: {
+        customTooltip: {
+          show: true,
+          timestamp: null,
+          company: null
+        },
+        scales: {
+          xAxes: [{
+            type: "time",
+            position: "bottom"
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "ISK inflation index since 1996"
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+        elements: {
+          point: {
+            radius: 0,
+            hitRadius: 10,
+            hoverRadius: 3
+          }
+        },
+        legend: {
+          labels: {
+            boxWidth: 12
+          }
+        },
+        steppedLine: true
+      }
+    },
+    pricePetrolIcelandPresentValue: {
+      label: "Petrol price to present value (ISK/Liter)",
+      borderColor: "#483D8B",
+      backgroundColor: "#938cc5",
+      xAxisDataLabel: "date",
+      yAxisDataLabel: "value",
+      elementId: "pricePetrolIcelandPresentValue",
+      element: null,
+      ctx: null,
+      data: {
+        datasets: []
+      },
+      options: {
+        customTooltip: {
+          show: true,
+          timestamp: null,
+          company: null
+        },
+        scales: {
+          xAxes: [{
+            type: "time",
+            position: "bottom"
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "Price of 1 liter (present value ISK)"
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+        elements: {
+          point: {
+            radius: 0,
+            hitRadius: 10,
+            hoverRadius: 3
+          }
+        },
+        legend: {
+          labels: {
+            boxWidth: 12
+          }
+        },
+        steppedLine: true
+      }
+    },
+    priceDieselIcelandPresentValue: {
+      label: "Diesel price to present value (ISK/Liter)",
+      borderColor: "#483D8B",
+      backgroundColor: "#938cc5",
+      xAxisDataLabel: "date",
+      yAxisDataLabel: "value",
+      elementId: "priceDieselIcelandPresentValue",
+      element: null,
+      ctx: null,
+      data: {
+        datasets: []
+      },
+      options: {
+        customTooltip: {
+          show: true,
+          timestamp: null,
+          company: null
+        },
+        scales: {
+          xAxes: [{
+            type: "time",
+            position: "bottom"
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: "Price of 1 liter (present value ISK)"
+            },
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        },
+        elements: {
+          point: {
+            radius: 0,
+            hitRadius: 10,
+            hoverRadius: 3
+          }
+        },
+        legend: {
+          labels: {
+            boxWidth: 12
+          }
+        },
+        steppedLine: true
+      }
     }
   },
-  startDate: "1996-05-31",
-  startDateDayBefore: "1996-05-30",
+  startDate: "1996-01-01",
+  startDateDayBefore: "1995-12-31",
   /* bblToLitres: https://twitter.com/gasvaktin/status/993875638435090433 */
   bblToLitres: 158.987294928
 };
@@ -417,6 +615,325 @@ var prepareChartData = function(name) {
         dataset.hoverRadius.push(0);
       }
       gs.charts[name].data.datasets.push(dataset);
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var prepareIskInflationIndexChartData = function() {
+  /**
+   * Process and prepare named data into appropriate chart
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      var name = "iskInflationIndex";
+      gs.charts[name].element = window.document.getElementById(gs.charts[name].elementId);
+      var dataset = {
+        label: gs.charts[name].label,
+        pointStyle: "circle",
+        borderColor: gs.charts[name].borderColor,
+        backgroundColor: gs.charts[name].backgroundColor,
+        lineTension: 0,
+        borderWidth: 1,
+        fill: false,
+        data: [],
+        radius: [],
+        hitRadius: [],
+        hoverRadius: []
+      };
+      dataset.data.push({
+        x: gs.startDateDayBefore,
+        y: null
+      });
+      var startIndexValue = null;
+      gs.data["iskInflationIndex1996"] = {"data": []};
+      for (var i=0; i<gs.data[name].data.length; i++) {
+        if (gs.data[name].data[i][gs.charts[name].yAxisDataLabel] === ".") {
+          continue;
+        }
+        if (gs.data[name].data[i][gs.charts[name].xAxisDataLabel] < gs.startDate) {
+          continue;
+        }
+        var index = gs.data[name].data[i][gs.charts[name].yAxisDataLabel];
+        if (startIndexValue === null) {
+          startIndexValue = index;
+        }
+        var yAxisVal = (index / startIndexValue).toPrecision(5);
+        gs.data["iskInflationIndex1996"]["data"].push({
+          "date": gs.data[name].data[i][gs.charts[name].xAxisDataLabel],
+          "value": yAxisVal
+        });
+        dataset.data.push({
+          x: gs.data[name].data[i][gs.charts[name].xAxisDataLabel],
+          y: yAxisVal
+        });
+        dataset.radius.push(0);
+        dataset.hitRadius.push(0);
+        dataset.hoverRadius.push(0);
+      }
+      gs.charts[name].data.datasets.push(dataset);
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var prepareCrudeOilPricePresentValueChartData = function() {
+  /**
+   * Process and prepare named data into appropriate chart
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      var origName = "crudeOilIskLiter";
+      var name = "crudeOilIskLiterPresentValue";
+      gs.charts[name].element = window.document.getElementById(gs.charts[name].elementId);
+      var dataset = {
+        label: gs.charts[name].label,
+        pointStyle: "circle",
+        borderColor: gs.charts[name].borderColor,
+        backgroundColor: gs.charts[name].backgroundColor,
+        lineTension: 0,
+        borderWidth: 1,
+        fill: false,
+        data: [],
+        radius: [],
+        hitRadius: [],
+        hoverRadius: []
+      };
+      dataset.data.push({
+        x: gs.startDateDayBefore,
+        y: null
+      });
+      gs.data[name] = {"data": []};
+      var indexOffset = 0;
+      var currentIndex = gs.data["iskInflationIndex1996"]["data"][0]["value"];
+      var nextIndexDate = gs.data["iskInflationIndex1996"]["data"][1]["date"];
+      var lastIndex = gs.data["iskInflationIndex1996"]["data"][
+        gs.data["iskInflationIndex1996"]["data"].length - 1
+      ]["value"];
+      var recordHighValue = null;
+      var recordHighDate = null;
+      for (var i=0; i<gs.data[origName].data.length; i++) {
+        if (gs.data[origName].data[i][gs.charts[origName].yAxisDataLabel] === ".") {
+          continue;
+        }
+        if (gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel] < gs.startDate) {
+          continue;
+        }
+        if (nextIndexDate !== null) {
+          while (nextIndexDate <= gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel]) {
+            if ((indexOffset + 1) >= gs.data["iskInflationIndex1996"]["data"].length) {
+              nextIndexDate = null;
+            } else {
+              indexOffset += 1;
+              currentIndex = gs.data["iskInflationIndex1996"]["data"][indexOffset]["value"];
+              nextIndexDate = gs.data["iskInflationIndex1996"]["data"][indexOffset - 1]["date"];
+            }
+          }
+        }
+        var value = gs.data[origName].data[i][gs.charts[origName].yAxisDataLabel];
+        var yAxisVal = (value * lastIndex / currentIndex).toPrecision(5);
+        if (recordHighValue === null || recordHighValue < Number(yAxisVal)) {
+          recordHighValue = Number(yAxisVal);
+          recordHighDate = gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel];
+        }
+        gs.data[name]["data"].push({
+          "date": gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel],
+          "value": yAxisVal
+        });
+        dataset.data.push({
+          x: gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel],
+          y: yAxisVal
+        });
+        dataset.radius.push(0);
+        dataset.hitRadius.push(0);
+        dataset.hoverRadius.push(0);
+      }
+      gs.charts[name].data.datasets.push(dataset);
+      // record high text
+      var textElement = window.document.getElementById("highestCrudeOilIskLiterPresentValue");
+      textElement.innerHTML = (
+        `Record high is ${recordHighValue} ISK/Liter, dated ${recordHighDate}.`
+      );
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var preparePricePetrolIcelandPresentValueChartData = function() {
+  /**
+   * Process and prepare named data into appropriate chart
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      var origName = "pricePetrolIceland";
+      var name = "pricePetrolIcelandPresentValue";
+      gs.charts[name].element = window.document.getElementById(gs.charts[name].elementId);
+      var dataset = {
+        label: gs.charts[name].label,
+        pointStyle: "circle",
+        borderColor: gs.charts[name].borderColor,
+        backgroundColor: gs.charts[name].backgroundColor,
+        lineTension: 0,
+        borderWidth: 1,
+        fill: false,
+        data: [],
+        radius: [],
+        hitRadius: [],
+        hoverRadius: []
+      };
+      dataset.data.push({
+        x: gs.startDateDayBefore,
+        y: null
+      });
+      gs.data[name] = {"data": []};
+      var indexOffset = 0;
+      var currentIndex = gs.data["iskInflationIndex1996"]["data"][0]["value"];
+      var nextIndexDate = gs.data["iskInflationIndex1996"]["data"][1]["date"];
+      var lastIndex = gs.data["iskInflationIndex1996"]["data"][
+        gs.data["iskInflationIndex1996"]["data"].length - 1
+      ]["value"];
+      var recordHighValue = null;
+      var recordHighDate = null;
+      for (var i=0; i<gs.data[origName].data.length; i++) {
+        if (gs.data[origName].data[i][gs.charts[origName].yAxisDataLabel] === ".") {
+          continue;
+        }
+        if (gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel] < gs.startDate) {
+          continue;
+        }
+        if (nextIndexDate !== null) {
+          while (nextIndexDate <= gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel]) {
+            if ((indexOffset + 1) >= gs.data["iskInflationIndex1996"]["data"].length) {
+              nextIndexDate = null;
+            } else {
+              indexOffset += 1;
+              currentIndex = gs.data["iskInflationIndex1996"]["data"][indexOffset]["value"];
+              nextIndexDate = gs.data["iskInflationIndex1996"]["data"][indexOffset - 1]["date"];
+            }
+          }
+        }
+        var value = gs.data[origName].data[i][gs.charts[origName].yAxisDataLabel];
+        var yAxisVal = (value * lastIndex / currentIndex).toPrecision(5);
+        if (recordHighValue === null || recordHighValue < Number(yAxisVal)) {
+          recordHighValue = Number(yAxisVal);
+          recordHighDate = gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel];
+        }
+        gs.data[name]["data"].push({
+          "date": gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel],
+          "value": yAxisVal
+        });
+        dataset.data.push({
+          x: gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel],
+          y: yAxisVal
+        });
+        dataset.radius.push(0);
+        dataset.hitRadius.push(0);
+        dataset.hoverRadius.push(0);
+      }
+      gs.charts[name].data.datasets.push(dataset);
+      // record high text
+      var textElement = window.document.getElementById("highestPetrolPricePresentValue");
+      textElement.innerHTML = (
+        `Record high is ${recordHighValue} ISK/Liter, dated ${recordHighDate}.`
+      );
+      fulfil();
+    }
+    catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
+}
+
+var preparePriceDieselIcelandPresentValueChartData = function() {
+  /**
+   * Process and prepare named data into appropriate chart
+   **/
+  return new Promise(function(fulfil, reject) {
+    try {
+      var origName = "priceDieselIceland";
+      var name = "priceDieselIcelandPresentValue";
+      gs.charts[name].element = window.document.getElementById(gs.charts[name].elementId);
+      var dataset = {
+        label: gs.charts[name].label,
+        pointStyle: "circle",
+        borderColor: gs.charts[name].borderColor,
+        backgroundColor: gs.charts[name].backgroundColor,
+        lineTension: 0,
+        borderWidth: 1,
+        fill: false,
+        data: [],
+        radius: [],
+        hitRadius: [],
+        hoverRadius: []
+      };
+      dataset.data.push({
+        x: gs.startDateDayBefore,
+        y: null
+      });
+      gs.data[name] = {"data": []};
+      var indexOffset = 0;
+      var currentIndex = gs.data["iskInflationIndex1996"]["data"][0]["value"];
+      var nextIndexDate = gs.data["iskInflationIndex1996"]["data"][1]["date"];
+      var lastIndex = gs.data["iskInflationIndex1996"]["data"][
+        gs.data["iskInflationIndex1996"]["data"].length - 1
+      ]["value"];
+      var recordHighValue = null;
+      var recordHighDate = null;
+      for (var i=0; i<gs.data[origName].data.length; i++) {
+        if (gs.data[origName].data[i][gs.charts[origName].yAxisDataLabel] === ".") {
+          continue;
+        }
+        if (gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel] < gs.startDate) {
+          continue;
+        }
+        if (nextIndexDate !== null) {
+          while (nextIndexDate <= gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel]) {
+            if ((indexOffset + 1) >= gs.data["iskInflationIndex1996"]["data"].length) {
+              nextIndexDate = null;
+            } else {
+              indexOffset += 1;
+              currentIndex = gs.data["iskInflationIndex1996"]["data"][indexOffset]["value"];
+              nextIndexDate = gs.data["iskInflationIndex1996"]["data"][indexOffset - 1]["date"];
+            }
+          }
+        }
+        var value = gs.data[origName].data[i][gs.charts[origName].yAxisDataLabel];
+        var yAxisVal = (value * lastIndex / currentIndex).toPrecision(5);
+        if (recordHighValue === null || recordHighValue < Number(yAxisVal)) {
+          recordHighValue = Number(yAxisVal);
+          recordHighDate = gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel];
+        }
+        gs.data[name]["data"].push({
+          "date": gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel],
+          "value": yAxisVal
+        });
+        dataset.data.push({
+          x: gs.data[origName].data[i][gs.charts[origName].xAxisDataLabel],
+          y: yAxisVal
+        });
+        dataset.radius.push(0);
+        dataset.hitRadius.push(0);
+        dataset.hoverRadius.push(0);
+      }
+      gs.charts[name].data.datasets.push(dataset);
+      // record high text
+      var textElement = window.document.getElementById("highestDieselPricePresentValue");
+      textElement.innerHTML = (
+        `Record high is ${recordHighValue} ISK/Liter, dated ${recordHighDate}.`
+      );
       fulfil();
     }
     catch (err) {
@@ -856,7 +1373,8 @@ var runClient = function() {
     fetchCsvDataFile("crudeOilIskLiter"),
     fetchCsvDataFile("pricePetrolIceland"),
     fetchCsvDataFile("priceDieselIceland"),
-    fetchCsvDataFile("crudeRatio")
+    fetchCsvDataFile("crudeRatio"),
+    fetchCsvDataFile("iskInflationIndex")
   ]).then(function() {
     if (gs.debug) { console.log("Data fetched."); }
     return Promise.all([
@@ -865,7 +1383,14 @@ var runClient = function() {
       prepareChartData("crudeOilIskLiter"),
       prepareChartData("pricePetrolIceland"),
       prepareChartData("priceDieselIceland"),
-      prepareChartData("crudeRatio")
+      prepareChartData("crudeRatio"),
+      prepareIskInflationIndexChartData().then(function() {
+        return Promise.all([
+          prepareCrudeOilPricePresentValueChartData(),
+          preparePricePetrolIcelandPresentValueChartData(),
+          preparePriceDieselIcelandPresentValueChartData()
+        ]);
+      })
     ]);
   }).then(function() {
     return Promise.all([
@@ -874,7 +1399,11 @@ var runClient = function() {
       plotChart("crudeOilIskLiter"),
       plotChart("pricePetrolIceland"),
       plotChart("priceDieselIceland"),
-      plotChart("crudeRatio")
+      plotChart("crudeRatio"),
+      plotChart("iskInflationIndex"),
+      plotChart("crudeOilIskLiterPresentValue"),
+      plotChart("pricePetrolIcelandPresentValue"),
+      plotChart("priceDieselIcelandPresentValue")
     ]);
   }).then(function() {
     if (gs.debug) { console.log("Charts plotted."); }

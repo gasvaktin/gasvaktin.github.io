@@ -130,10 +130,27 @@
       <p class="Section__desc" id="ComparisonTextAfter"><i>If above table contains no data then Javascript either isn't finished generating comparison text or it failed miserably, please contact developer or better yet open up your web console and find out what's going wrong ..</i></p>
     </div>
   </section>
+  <section class="Section" id="LocalInflation">
+    <h1>Local Inflation</h1>
+    <canvas class="Section__Graph" id="iskInflationIndex"></canvas>
+    <p class="Section__desc">Data from <a href="https://hagstofa.is/verdlagsreiknivel" target="_blank">Statistics Iceland</a> (isl. Hagstofa Íslands) showing monthly ISK inflation index used by the price level calculator on their website. Here we plot inflation from 1996 to the present, though the ISK inflation index data dates all the way back to 1939. Here we've reoriented the index so it starts in 1 at 1996-01-01 instead of 100 in 1939-01-01.</p>
+    <h2 class="Section__title">Crude Oil price to present value (ISK/Liter)</h2>
+    <canvas class="Section__Graph" id="crudeOilIskLiterPresentValue"></canvas>
+    <p class="Section__desc">Combining the Crude Oil world market price development (ISK/Liter) and ISK Inflation Index charts above we get this chart, showing crude oil price development calculated to current ISK value, compensating for inflation.</p>
+    <p class="Section__desc" id="highestCrudeOilIskLiterPresentValue"></p>
+    <h2 class="Section__title">Petrol price to present value (ISK/Liter)</h2>
+    <canvas class="Section__Graph" id="pricePetrolIcelandPresentValue"></canvas>
+    <p class="Section__desc">Combining the Petrol Price Iceland (ISK/Liter) and ISK Inflation Index charts above we get this chart, showing petrol price development calculated to current ISK value, compensating for inflation.</p>
+    <p class="Section__desc" id="highestPetrolPricePresentValue"></p>
+    <h2 class="Section__title">Diesel price to present value (ISK/Liter)</h2>
+    <canvas class="Section__Graph" id="priceDieselIcelandPresentValue"></canvas>
+    <p class="Section__desc">Combining the Diesel Price Iceland (ISK/Liter) and ISK Inflation Index charts above we get this chart, showing diesel price development calculated to current ISK value, compensating for inflation.</p>
+    <p class="Section__desc" id="highestDieselPricePresentValue"></p>
+  </section>
   <section class="Section" id="Conclusion">
     <div class="Section__Conclusion">
       <h1>Conclusion</h1>
-      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, import costs and other expenditures, and possibly pricing of the only fuel importer in Iceland, the norwegian oil company <a href="https://en.wikipedia.org/wiki/Equinor" target="_blank">Equinor (formerly Statoil)</a> which provides fuel to all the icelandic oil <b>distribution</b> companies.</p>
+      <p class="Section__desc">Above graphs tell us that more than just Crude Oil world market price and exchange rate of ISK control fuel price in Iceland. Obvious candidates are icelandic fuel taxes, local inflation, import costs and other expenditures, and possibly pricing of the only fuel importer in Iceland, the norwegian oil company <a href="https://en.wikipedia.org/wiki/Equinor" target="_blank">Equinor (formerly Statoil)</a> which provides fuel to all the icelandic oil <b>distribution</b> companies.</p>
       <p class="Section__desc">If you're interested in further rewiew on the above you might like to take a look at <a href="https://kjarninn.is/skyring/vidmidunarverdid-a-bensinlitra-yfir-300-kronur-i-fyrsta-sinn/" target="_blank">Bensínvakt Kjarnans</a> (e. Petrol price review by the icelandic online news media Kjarninn), it displays a detailed breakdown analysis of the fuel price in Iceland, and the data is updated monthly.</p>
       <p class="Section__desc">Also, if you dear reader are interested in taking a deeper look yourself at the data displayed in above graphs you can take a look at both the raw data and see how it is automatically collected and updated in <a href="https://github.com/gasvaktin/gasvaktin-comparison" target="_blank">the repository "gasvaktin-comparison" on Github</a>.</p>
     </div>
