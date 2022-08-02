@@ -24,16 +24,16 @@
     width: 100%;
     height: calc(100% - 50px);
   }
-  .Map > progress {
+  .Map > .progress {
     position: fixed;
     top: 62px;
     left: 12px;
     width: calc(100% - 24px);
     z-index: 11;
-    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+    background: linear-gradient(to right, rgba(34, 139, 34, 1), rgba(145, 165, 17, 1), rgba(255, 191, 0, 1), rgba(255, 191, 0, 1), rgba(255, 96, 0, 1), rgba(255, 0, 0, 1));
   }
   .Map > .progress:indeterminate {
-    background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
+    background: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
     background-color: #d0d0d0;
   }
   .Map > p {
@@ -97,13 +97,13 @@
     width: 100%;
     height: calc(100% - 50px);
   }
-  .Map > progress {
+  .Map > .progress {
     position: fixed;
     top: 62px;
     left: calc(50% - 228px);
     width: 456px;
     z-index: 11;
-    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+    background: linear-gradient(to right, rgba(34, 139, 34, 1), rgba(145, 165, 17, 1), rgba(255, 191, 0, 1), rgba(255, 191, 0, 1), rgba(255, 96, 0, 1), rgba(255, 0, 0, 1));
   }
   .Map > .progress:indeterminate {
     background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
@@ -160,13 +160,13 @@
     width: 100%;
     height: calc(100% - 50px);
   }
-  .Map > progress {
+  .Map > .progress {
     position: fixed;
     top: 62px;
     left: calc(50% - 228px);
     width: 456px;
     z-index: 11;
-    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+    background: linear-gradient(to right, rgba(34, 139, 34, 1), rgba(145, 165, 17, 1), rgba(255, 191, 0, 1), rgba(255, 191, 0, 1), rgba(255, 96, 0, 1), rgba(255, 0, 0, 1));
   }
   .Map > .progress:indeterminate {
     background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
@@ -223,13 +223,13 @@
     width: 100%;
     height: calc(100% - 50px);
   }
-  .Map > progress {
+  .Map > .progress {
     position: fixed;
     top: 62px;
     left: calc(50% - 228px);
     width: 456px;
     z-index: 11;
-    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+    background: linear-gradient(to right, rgba(34, 139, 34, 1), rgba(145, 165, 17, 1), rgba(255, 191, 0, 1), rgba(255, 191, 0, 1), rgba(255, 96, 0, 1), rgba(255, 0, 0, 1));
   }
   .Map > .progress:indeterminate {
     background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
