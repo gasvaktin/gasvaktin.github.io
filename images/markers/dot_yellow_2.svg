@@ -1,0 +1,4 @@
+<svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+     <circle id="back" cx="10" cy="10" r="4.3" stroke-width="1" style="fill:transparent;stroke:#303030;opacity:0.9;"/>
+     <circle class="front" cx="10" cy="10" r="4.2" style="fill:#ffbf00;opacity:0.9;"/>
+</svg>

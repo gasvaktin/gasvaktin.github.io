@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#483D8B">
+  <title>Gasvaktin Map</title>
+  <meta name="description" content="Petrol station locations and gas prices in Iceland.">
+  <meta name="keywords" content="Gasvaktin,Gas Prices,Petrol Stations,Petrol Stations in Iceland,Eldsneytisverð,Bensínverð,Bensínstöðvar,Ísland,Atlantsolía,Costco,N1,Dælan,Olís,ÓB,Skeljungur,Orkan">
+  <meta name="author" content="Sveinn Flóki Guðmundsson">
+  <meta property="og:title" content="Gasvaktin">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Petrol station locations and gas prices in Iceland.">
+  <meta property="og:url" content="https://gasvaktin.is/">
+  <meta property="og:image" content="https://gasvaktin.is/images/gasvaktin.png">
+  <meta name="apple-mobile-web-app-title" content="Gasvaktin">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="msapplication-navbutton-color" content="#483D8B">
+  <meta name="msapplication-starturl" content="/">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" sizes="192x192" href="/images/icons/icon-192x192-android.png">
+  <link rel="shortcut icon" sizes="192x192" href="/images/icons/icon-192x192-android.png">
+  <link rel="shortcut icon" sizes="128x128" href="/images/icons/icon-128x128.png">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/images/icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="96x96" href="/images/icons/icon-96x96.png">
+  <link rel="apple-touch-icon" sizes="196x196" href="/images/icons/icon-196x196.png">
+  <link rel="stylesheet" type="text/css" href="/packages/bulma/css/bulma.css">
+  <link rel="stylesheet" type="text/css" href="/packages/bulma/extensions/css/bulma-switch.min.css">
+  <link rel="stylesheet" type="text/css" href="/packages/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/map.css">
+</head>
+<body>
+  <header class="Nav">
+    <a class="Nav__title" href="#">
+      <i class="fa fa-tint Nav__logo" aria-hidden="true"></i> Gasvaktin Map
+    </a>
+  </header>
+  <main class="Map">
+    <progress class="progress" id="scale" max="100"></progress>
+    <p id="cheapest"></p>
+    <p id="average"></p>
+    <p id="expensive"></p>
+    
+    <div id="map"></div>
+  </main>
+  <footer class="Footer">
+    <a class="Navbar__buttons" href="/comparison/">
+      <i class="fa fa-file-text" aria-hidden="true"></i>
+      Comparison
+    </a>
+    <a class="Navbar__buttons" target="_blank" href="https://github.com/gasvaktin/gasvaktin/blob/master/README.md">
+      <i class="fa fa-github" aria-hidden="true"></i>
+      About
+    </a>
+    <a class="Navbar__buttons" href="/trends/">
+      <i class="fa fa-line-chart" aria-hidden="true"></i>
+      Trends
+    </a>
+  </footer>
+  <!-- Google Maps Script Loader -->
+  <script src="/packages/google-maps/lib/Google.min.js"></script>
+  <!-- Polyfills for inferior browsers -->
+  <script src="/packages/url-search-params/build/url-search-params.js"></script>
+  <!-- Import some local utility scripts/modules -->
+  <script src="/js/GeoUtils.js"></script>
+  <!-- Gasvaktin Client Script -->
+  <script src="/js/Map.js"></script>
+</body>
+</html>

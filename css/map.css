@@ -1,0 +1,267 @@
+/* Gasvaktin Map CSS */
+
+
+
+/* -------- Platform Target: Mobile -------- */
+
+@media (max-width: 480px) { /* 480px */
+  .Nav {
+    position: fixed;
+    background-color: white;
+    height: 30px;
+    width: 100%;
+    height: 50px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #483D8B;
+    text-align: center;
+    padding-top: 14px;
+  }
+
+  .Map {
+    position: fixed;
+    top: 50px;
+    background-color: gray;
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+  .Map > progress {
+    position: fixed;
+    top: 62px;
+    left: 12px;
+    width: calc(100% - 24px);
+    z-index: 11;
+    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+  }
+  .Map > .progress:indeterminate {
+    background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
+    background-color: #d0d0d0;
+  }
+  .Map > p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    position: fixed;
+    color: white;
+    z-index: 12;
+  }
+  #cheapest {
+    top: 62px;
+    left: 16px;
+  }
+  #average {
+    top: 62px;
+    left: calc(50% - 22px);
+  }
+  #expensive {
+    top: 62px;
+    left: calc(100% - 65px);
+  }
+  .Map > #map {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+
+  /*
+   * Naughty CSS hack to hide Google Maps Logo and copyright note.
+   * http://stackoverflow.com/a/36282582/2401628
+   */
+  .gmnoprint:not(.gm-bundled-control) {display: none;}
+  .gm-bundled-control .gmnoprint {display: block;}
+  a[href^="http://maps.google.com/maps"]{display:none !important}
+  a[href^="https://maps.google.com/maps"]{display:none !important}
+  a[href^="https://www.google.com/maps"]{display:none !important}
+}
+
+/* -------- Mobile End -------- */
+
+/* -------- Platform Target: Tablet -------- */
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .Nav {
+    position: fixed;
+    background-color: white;
+    height: 30px;
+    width: 100%;
+    height: 50px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #483D8B;
+    text-align: center;
+    padding-top: 14px;
+  }
+
+  .Map {
+    position: fixed;
+    top: 50px;
+    background-color: gray;
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+  .Map > progress {
+    position: fixed;
+    top: 62px;
+    left: calc(50% - 228px);
+    width: 456px;
+    z-index: 11;
+    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+  }
+  .Map > .progress:indeterminate {
+    background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
+    background-color: #d0d0d0;
+  }
+  .Map > p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    position: fixed;
+    color: white;
+    z-index: 12;
+  }
+  #cheapest {
+    top: 62px;
+    left: calc(50% - 223px);
+  }
+  #average {
+    top: 62px;
+    left: calc(50% - 22px);
+  }
+  #expensive {
+    top: 62px;
+    left: calc(50% + 174px);
+  }
+  .Map > #map {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* -------- Tablet End -------- */
+
+/* -------- Platform Target: Tablet Portrait -------- */
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  .Nav {
+    position: fixed;
+    background-color: white;
+    height: 30px;
+    width: 100%;
+    height: 50px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #483D8B;
+    text-align: center;
+    padding-top: 14px;
+  }
+
+  .Map {
+    position: fixed;
+    top: 50px;
+    background-color: gray;
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+  .Map > progress {
+    position: fixed;
+    top: 62px;
+    left: calc(50% - 228px);
+    width: 456px;
+    z-index: 11;
+    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+  }
+  .Map > .progress:indeterminate {
+    background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
+    background-color: #d0d0d0;
+  }
+  .Map > p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    position: fixed;
+    color: white;
+    z-index: 12;
+  }
+  #cheapest {
+    top: 62px;
+    left: calc(50% - 223px);
+  }
+  #average {
+    top: 62px;
+    left: calc(50% - 22px);
+  }
+  #expensive {
+    top: 62px;
+    left: calc(50% + 174px);
+  }
+  .Map > #map {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* -------- Tablet Portrait End -------- */
+
+/* -------- Platform Target: Desktop -------- */
+
+@media (min-width: 1281px) {
+  .Nav {
+    position: fixed;
+    background-color: white;
+    height: 30px;
+    width: 100%;
+    height: 50px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #483D8B;
+    text-align: center;
+    padding-top: 14px;
+  }
+
+  .Map {
+    position: fixed;
+    top: 50px;
+    background-color: gray;
+    width: 100%;
+    height: calc(100% - 50px);
+  }
+  .Map > progress {
+    position: fixed;
+    top: 62px;
+    left: calc(50% - 228px);
+    width: 456px;
+    z-index: 11;
+    background-image: linear-gradient(to right, RGB(34, 139, 34), RGB(145, 165, 17), RGB(255, 191, 0), RGB(255, 191, 0), RGB(255, 96, 0), RGB(255, 0, 0));
+  }
+  .Map > .progress:indeterminate {
+    background-image: linear-gradient(to right, #485fc7 30%, #d0d0d0 30%);
+    background-color: #d0d0d0;
+  }
+  .Map > p {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    font-size: 11px;
+    position: fixed;
+    color: white;
+    z-index: 12;
+  }
+  #cheapest {
+    top: 62px;
+    left: calc(50% - 223px);
+  }
+  #average {
+    top: 62px;
+    left: calc(50% - 22px);
+  }
+  #expensive {
+    top: 62px;
+    left: calc(50% + 174px);
+  }
+  .Map > #map {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* -------- Desktop End -------- */
+
+
