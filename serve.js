@@ -84,9 +84,12 @@ http.createServer(function(request, response) {
         var contentType = "text/plain";
         if(filename.endsWith(".html")) {
           contentType = "text/html";
-        }
-        else if(filename.endsWith(".css")) {
+        } else if(filename.endsWith(".css")) {
           contentType = "text/css";
+        } else if(filename.endsWith(".js")) {
+          contentType = "text/javascript";
+        } else if(filename.endsWith(".svg")) {
+          contentType = "image/svg+xml";
         }
         response.writeHead(200, {"Content-Type": contentType});
         response.write(file, "binary");
