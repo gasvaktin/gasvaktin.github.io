@@ -88,7 +88,7 @@
 }
 
 .Navbar__buttons {
-  padding: 20px;
+  padding: 10px;
   font-size: 1.5rem;
   border: 1px transparent solid;
   color: #483D8B;
@@ -96,7 +96,7 @@
 
 @media only screen and (max-width: 767px) {
   .Navbar__buttons {
-    padding: 0px 10px;
+    padding: 0px 5px;
     margin: 5px 0;
     text-align: center;
   }
@@ -749,6 +749,10 @@ p {
   /* less space conserved for footer is needed because of above changes */
   .FuelPriceListAndMapContainer {
     height: calc(100% - 105px);
+  }
+  .Navbar__buttons {
+    font-size: 0.9em;
+    margin: 8px 0;
   }
 }
 

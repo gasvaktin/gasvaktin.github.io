@@ -169,7 +169,10 @@ var loadGoogleMapsAPI = function() {
           zIndex: 10
         });
         let infoWindow = new google.maps.InfoWindow({
-          content: '<span><i class="fa fa-map-marker Nav__logo" aria-hidden="true"></i> Your location</span>'
+          content: (
+            '<span><i class="fa fa-map-marker Nav__logo" aria-hidden="true"></i>' +
+            ' Your location</span>'
+          )
         });
         google.maps.event.addListener(gs.userMarker, 'click', function() {
           infoWindow.open(gs.map, gs.userMarker);
@@ -322,7 +325,9 @@ var markStationsOnMap = function() {
           `<img src="${companyIconPath}"` +
           ` style="width:36px;position:absolute;pointer-events:none;user-select:none;" />`
         );
-        let infoName = `<span style="padding-left:42px;">${station.company} ${station.name}</span>`;
+        let infoName = (
+          `<span style="padding-left:42px;">${station.company} ${station.name}</span>`
+        );
         let discountBensin = "";
         let discountDiesel = "";
         if (station.bensin95_discount !== null) {
@@ -336,10 +341,12 @@ var markStationsOnMap = function() {
           );
         }
         let infoPrice = (
-          `<br/><span style="padding-left:42px;font-size:10px;"><b>Bensin:</b> ${station.bensin95} ISK` +
+          `<br/><span style="padding-left:42px;font-size:10px;"><b>Bensin:</b>` +
+          ` ${station.bensin95} ISK` +
           discountBensin +
           `</span>` +
-          `<br/><span style="padding-left:42px;font-size:10px;"><b>Diesel:</b> ${station.diesel} ISK` +
+          `<br/><span style="padding-left:42px;font-size:10px;"><b>Diesel:</b>` +
+          ` ${station.diesel} ISK` +
           discountDiesel +
           `</span>`
         );
