@@ -156,8 +156,14 @@ var loadGoogleMapsAPI = function() {
   return new Promise(function(fulfil, reject) {
     try {
       GoogleMapsLoader.load(function(google) {
+        let mapOptions = gs.mapOptions;
+        if (window.innerWidth > 1089 && window.innerHeight > 757) {
+          mapOptions.zoom = 7;
+        } else if (window.innerWidth > 578 && window.innerHeight > 466) {
+          mapOptions.zoom = 6;
+        }
         gs.googleMaps = google.maps;
-        gs.map = new google.maps.Map(gs.mapElement, gs.mapOptions);
+        gs.map = new google.maps.Map(gs.mapElement, mapOptions);
         gs.userMarker = new google.maps.Marker({
           position: gs.geoLocation.centerOfIceland,
           map: gs.map,
@@ -251,17 +257,19 @@ var markStationsOnMap = function() {
       price_expen_2 = Number(((price_average + price_expensive) / 2).toFixed(1));
       price_expen_1 = Number(((price_average + price_expen_2) / 2).toFixed(1));
       price_expen_3 = Number(((price_expen_2 + price_expensive) / 2).toFixed(1));
-      console.log([
-        price_cheapest,
-        price_cheap_1,
-        price_cheap_2,
-        price_cheap_3,
-        price_average,
-        price_expen_1,
-        price_expen_2,
-        price_expen_3,
-        price_expensive
-      ]);
+      if (gs.debug) {
+        console.log([
+          price_cheapest,
+          price_cheap_1,
+          price_cheap_2,
+          price_cheap_3,
+          price_average,
+          price_expen_1,
+          price_expen_2,
+          price_expen_3,
+          price_expensive
+        ]);
+      }
       for (var i=0; i<stations.length; i++) {
         let station = stations[i];
         let markerUrl = null;
