@@ -393,9 +393,27 @@
   font-size: 1.6rem;
   float: right;
 }
+.Station__outofgas {
+  position: absolute;
+  top: 49px;
+  left: 96px;
+  padding: 6px 6px 3px 6px;
+  border-radius: 8px;
+  background: red;
+  color: white;
+  font-weight: bold;
+  font-size: 10px;
+}
+.Station__outofgas:hover {
+  color: white;
+}
 @media only screen and (max-width:767px) {
   .Station__price {
     font-size: 1.7rem;
+  }
+  .Station__outofgas {
+    top: 49px;
+    left: 55px;
   }
 }
 .Station__discountPrice {
@@ -753,6 +771,12 @@ p {
   .Navbar__buttons {
     font-size: 0.9em;
     margin: 8px 0;
+  }
+  .Station__outofgas {
+    padding: 4px 8px 3px 8px;
+    top: 43px;
+    left: 58px;
+    font-size: 8px;
   }
 }
 

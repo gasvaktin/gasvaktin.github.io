@@ -71,7 +71,13 @@ var gs = {  /* Global Scope Paramteters */
     petrol: "petrol",
     diesel: "diesel"
   },
-  handleStalemate: null // helper function for sorting stations
+  handleStalemate: null, // helper function for sorting stations
+  outOfGas: {
+    ex_000: {
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.mbl.is/frettir/innlent/2023/02/14/langar_radir_og_margir_reida_sig_a_straeto/"
+    }
+  }
 };
 
 /**
@@ -129,6 +135,14 @@ var addStationsToList = function(stations) {
             "("+priceDiscount.toString()+" with discount)"
           );
           station.appendChild(stationDiscountPrice);
+        }
+        if (stations[i].key in gs.outOfGas) {
+          var outOfGas = window.document.createElement("a");
+          outOfGas.setAttribute("class", "Station__outofgas");
+          outOfGas.setAttribute("href", gs.outOfGas[stations[i].key]["url"]);
+          outOfGas.setAttribute("target", "_blank");
+          outOfGas.innerHTML = gs.outOfGas[stations[i].key]["msg"];
+          station.appendChild(outOfGas);
         }
         if (stations[i].key.startsWith('co')) {
           var stationDiscountPrice = window.document.createElement("p");
