@@ -78,10 +78,14 @@ var gs = {  /* Global Scope Paramteters */
       url: "https://www.mbl.is/frettir/innlent/2023/02/14/langar_radir_og_margir_reida_sig_a_straeto/"
     },
     n1_081: { // N1 Skógarlind
-      msg: "POSSIBLY OUT OF PETROL",
+      msg: "POSSIBLY OUT OF GAS",
       url: "https://www.n1.is/opnar-daelur/"
     },
     n1_078: { // N1 Vallarheiði
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
+    n1_069: { // N1 Grindavík
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.n1.is/opnar-daelur/"
     },
@@ -99,6 +103,14 @@ var gs = {  /* Global Scope Paramteters */
     },
     or_066: { // Orkan Fellsmúli
       msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.orkan.is/verkfall/"
+    },
+    or_064: { // Orkan Hraunbær
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.orkan.is/verkfall/"
+    },
+    or_006: { // Orkan Reykjavíkurvegur
+      msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.orkan.is/verkfall/"
     }
   }
