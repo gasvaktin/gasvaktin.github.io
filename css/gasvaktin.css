@@ -407,6 +407,9 @@
 .Station__outofgas:hover {
   color: white;
 }
+.Station__outofgas:focus {
+  color: white;
+}
 @media only screen and (max-width:767px) {
   .Station__price {
     font-size: 1.7rem;
