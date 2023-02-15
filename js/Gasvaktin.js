@@ -76,6 +76,18 @@ var gs = {  /* Global Scope Paramteters */
     ex_000: {
       msg: "POSSIBLY OUT OF GAS",
       url: "https://www.mbl.is/frettir/innlent/2023/02/14/langar_radir_og_margir_reida_sig_a_straeto/"
+    },
+    n1_081: { // N1 Skógarlind
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.visir.is/g/20232378366d/tankarnir-byrjadir-ad-taemast-og-allar-linur-raud-gloandi"
+    },
+    n1_078: { // N1 Vallarheiði
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.visir.is/g/20232378366d/tankarnir-byrjadir-ad-taemast-og-allar-linur-raud-gloandi"
+    },
+    n1_065: { // N1 Flúðir
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.visir.is/g/20232378366d/tankarnir-byrjadir-ad-taemast-og-allar-linur-raud-gloandi"
     }
   }
 };
