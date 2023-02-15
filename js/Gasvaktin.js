@@ -79,15 +79,19 @@ var gs = {  /* Global Scope Paramteters */
     },
     n1_081: { // N1 Skógarlind
       msg: "POSSIBLY OUT OF GAS",
-      url: "https://www.visir.is/g/20232378366d/tankarnir-byrjadir-ad-taemast-og-allar-linur-raud-gloandi"
+      url: "https://www.n1.is/opnar-daelur/"
     },
     n1_078: { // N1 Vallarheiði
       msg: "POSSIBLY OUT OF GAS",
-      url: "https://www.visir.is/g/20232378366d/tankarnir-byrjadir-ad-taemast-og-allar-linur-raud-gloandi"
+      url: "https://www.n1.is/opnar-daelur/"
     },
     n1_065: { // N1 Flúðir
       msg: "POSSIBLY OUT OF GAS",
-      url: "https://www.visir.is/g/20232378366d/tankarnir-byrjadir-ad-taemast-og-allar-linur-raud-gloandi"
+      url: "https://www.n1.is/opnar-daelur/"
+    },
+    or_066: { // Orkan Fellsmúli
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.orkan.is/verkfall/"
     }
   }
 };
