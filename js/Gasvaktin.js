@@ -81,6 +81,10 @@ var gs = {  /* Global Scope Paramteters */
       msg: "POSSIBLY OUT OF GAS",
       url: "https://www.n1.is/opnar-daelur/"
     },
+    n1_027: { // N1 Ásvellir
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
     n1_010: { // N1 Skógarsel
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.n1.is/opnar-daelur/"
@@ -105,24 +109,24 @@ var gs = {  /* Global Scope Paramteters */
       msg: "POSSIBLY OUT OF GAS",
       url: "https://www.orkan.is/verkfall/"
     },
-    or_064: { // Orkan Hraunbær
+    or_006: { // Orkan Reykjavíkurvegur
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.orkan.is/verkfall/"
     },
-    or_006: { // Orkan Reykjavíkurvegur
-      msg: "POSSIBLY OUT OF DIESEL",
+    or_007: { // Orkan Skógarhlíð
+      msg: "POSSIBLY OUT OF GAS",
       url: "https://www.orkan.is/verkfall/"
     },
     ob_021: { // ÓB Melabraut
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.olis.is/um-olis/frettir/275"
     },
-    ob_040: { // ÓB Hamraborg
+    ob_003: { // ÓB Arnarsmári
       msg: "POSSIBLY OUT OF PETROL",
       url: "https://www.olis.is/um-olis/frettir/275"
     },
     ol_021: { // Olís Hella
-      msg: "POSSIBLY OUT OF DIESEL",
+      msg: "POSSIBLY OUT OF GAS",
       url: "https://www.olis.is/um-olis/frettir/275"
     },
     ob_020: { // ÓB Landvegamót
@@ -132,6 +136,14 @@ var gs = {  /* Global Scope Paramteters */
     ob_033: { // ÓB Þorlákshöfn
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ob_014: { // ÓB Grindavík
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ao_006: { // Atlantsolía Hafnarfjarðarhöfn
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     }
   }
 };
