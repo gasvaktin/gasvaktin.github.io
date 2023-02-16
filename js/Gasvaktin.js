@@ -115,7 +115,7 @@ var gs = {  /* Global Scope Paramteters */
     },
     or_066: { // Orkan Fellsmúli
       msg: "PRIORITY GROUPS ONLY",
-      url: "https://www.mbl.is/frettir/innlent/2023/02/16/orkan_i_skogarhlid_adeins_opin_vidbragdsadilum/"
+      url: "https://www.visir.is/g/20232378472d/svona-er-stadan-a-bensin-stodvunum"
     },
     or_006: { // Orkan Reykjavíkurvegur
       msg: "POSSIBLY OUT OF DIESEL",
