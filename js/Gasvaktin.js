@@ -115,7 +115,7 @@ var gs = {  /* Global Scope Paramteters */
     },
     or_066: { // Orkan Fellsmúli
       msg: "PRIORITY GROUPS ONLY",
-      url: "https://www.mbl.is/frettir/innlent/2023/02/16/hvar_er_bensinid_buid/"
+      url: "https://www.mbl.is/frettir/innlent/2023/02/16/orkan_i_skogarhlid_adeins_opin_vidbragdsadilum/"
     },
     or_006: { // Orkan Reykjavíkurvegur
       msg: "POSSIBLY OUT OF DIESEL",
@@ -123,7 +123,7 @@ var gs = {  /* Global Scope Paramteters */
     },
     or_007: { // Orkan Skógarhlíð
       msg: "PRIORITY GROUPS ONLY",
-      url: "https://www.mbl.is/frettir/innlent/2023/02/16/hvar_er_bensinid_buid/"
+      url: "https://www.mbl.is/frettir/innlent/2023/02/16/orkan_i_skogarhlid_adeins_opin_vidbragdsadilum/"
     },
     ob_021: { // ÓB Melabraut
       msg: "POSSIBLY OUT OF DIESEL",
