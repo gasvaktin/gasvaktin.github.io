@@ -75,7 +75,43 @@ var gs = {  /* Global Scope Paramteters */
   outOfGas: {
     ex_000: {
       msg: "POSSIBLY OUT OF GAS",
-      url: "https://www.mbl.is/frettir/innlent/2023/02/17/solarhringur_dugi_til_ad_slokkva_mestu_eldana/"
+      url: "https://www.mbl.is/frettir/innlent/2023/02/16/hvar_er_bensinid_buid/"
+    },
+    n1_027: { // N1 Ásvellir
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
+    n1_007: { // N1 Lækjargata
+      msg: "PRIORITY GROUPS ONLY",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
+    or_000: { // Orkan Dalvegur
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.orkan.is/verkfall/"
+    },
+    or_066: { // Orkan Fellsmúli
+      msg: "PRIORITY GROUPS ONLY",
+      url: "https://www.orkan.is/verkfall/"
+    },
+    or_007: { // Orkan Skógarhlíð
+      msg: "PRIORITY GROUPS ONLY",
+      url: "https://www.orkan.is/verkfall/"
+    },
+    ob_012: { // ÓB Fjarðarkaup
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ao_006: { // Atlantsolía Hafnarfjarðarhöfn
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
+    },
+    ao_008: { // Atlantsolía Kaplakriki
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
+    },
+    ao_017: { // Atlantsolía Sprengisandur
+      msg: "POSSIBLY OUT OF PETROL",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     }
   }
 };
