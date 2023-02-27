@@ -93,6 +93,10 @@ var gs = {  /* Global Scope Paramteters */
       msg: "PRIORITY GROUPS FOR DIESEL",
       url: "https://www.n1.is/opnar-daelur/"
     },
+    n1_029: { // N1 Reykholt
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
     or_000: { // Orkan Dalvegur
       msg: "PRIORITY GROUPS ONLY",
       url: "https://www.orkan.is/verkfall/"
@@ -101,11 +105,23 @@ var gs = {  /* Global Scope Paramteters */
       msg: "PRIORITY GROUPS ONLY",
       url: "https://www.orkan.is/verkfall/"
     },
+    or_006: { // Orkan Reykjavíkurvegur
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.orkan.is/verkfall/"
+    },
     or_007: { // Orkan Skógarhlíð
       msg: "PRIORITY GROUPS ONLY",
       url: "https://www.orkan.is/verkfall/"
     },
-    ol_000: { // Olís Álfabakki
+    or_051: { // Orkan Suðurfell
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.orkan.is/verkfall/"
+    },
+    ol_002: { // Olís Ánanaust
+      msg: "POSSIBLY OUT OF PETROL",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ol_005: { // Olís Gullinbrú
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.olis.is/um-olis/frettir/275"
     },
@@ -117,16 +133,20 @@ var gs = {  /* Global Scope Paramteters */
       msg: "POSSIBLY OUT OF GAS",
       url: "https://www.olis.is/um-olis/frettir/275"
     },
-    ao_006: { // Atlantsolía Hafnarfjarðarhöfn
+    ob_010: { // ÓB Bæjarlind
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ob_031: { // ÓB Suðurhella
       msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ao_006: { // Atlantsolía Hafnarfjarðarhöfn
+      msg: "POSSIBLY OUT OF GAS",
       url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     },
     ao_023: { // Atlantsolía Háaleitisbraut
       msg: "POSSIBLY OUT OF PETROL",
-      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
-    },
-    ao_008: { // Atlantsolía Kaplakriki
-      msg: "POSSIBLY OUT OF GAS",
       url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     },
     ao_022: { // Atlantsolía Kjalarnes
