@@ -77,16 +77,24 @@ var gs = {  /* Global Scope Paramteters */
       msg: "POSSIBLY OUT OF GAS",
       url: "https://www.mbl.is/frettir/innlent/2023/02/16/hvar_er_bensinid_buid/"
     },
+    n1_011: { // N1 Reykjavíkurvegur
+      msg: "POSSIBLY OUT OF GAS",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
+    n1_006: { // N1 Stórihjalli
+      msg: "PRIORITY GROUPS FOR DIESEL",
+      url: "https://www.n1.is/opnar-daelur/"
+    },
     n1_027: { // N1 Ásvellir
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.n1.is/opnar-daelur/"
     },
     n1_007: { // N1 Lækjargata
-      msg: "PRIORITY GROUPS ONLY",
+      msg: "PRIORITY GROUPS FOR DIESEL",
       url: "https://www.n1.is/opnar-daelur/"
     },
     or_000: { // Orkan Dalvegur
-      msg: "POSSIBLY OUT OF GAS",
+      msg: "PRIORITY GROUPS ONLY",
       url: "https://www.orkan.is/verkfall/"
     },
     or_066: { // Orkan Fellsmúli
@@ -97,20 +105,40 @@ var gs = {  /* Global Scope Paramteters */
       msg: "PRIORITY GROUPS ONLY",
       url: "https://www.orkan.is/verkfall/"
     },
-    ob_012: { // ÓB Fjarðarkaup
+    ol_000: { // Olís Álfabakki
       msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ob_004: { // ÓB Barðastaðir
+      msg: "POSSIBLY OUT OF PETROL",
+      url: "https://www.olis.is/um-olis/frettir/275"
+    },
+    ob_012: { // ÓB Fjarðarkaup
+      msg: "POSSIBLY OUT OF GAS",
       url: "https://www.olis.is/um-olis/frettir/275"
     },
     ao_006: { // Atlantsolía Hafnarfjarðarhöfn
       msg: "POSSIBLY OUT OF DIESEL",
       url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     },
+    ao_023: { // Atlantsolía Háaleitisbraut
+      msg: "POSSIBLY OUT OF PETROL",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
+    },
     ao_008: { // Atlantsolía Kaplakriki
       msg: "POSSIBLY OUT OF GAS",
       url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     },
+    ao_022: { // Atlantsolía Kjalarnes
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
+    },
+    ao_010: { // Atlantsolía Mosfellsbær
+      msg: "POSSIBLY OUT OF DIESEL",
+      url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
+    },
     ao_017: { // Atlantsolía Sprengisandur
-      msg: "POSSIBLY OUT OF PETROL",
+      msg: "PRIORITY GROUPS ONLY",
       url: "https://www.atlantsolia.is/stadan-a-bensinstodvunum/"
     }
   }
