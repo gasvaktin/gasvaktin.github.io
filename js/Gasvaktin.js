@@ -8,11 +8,17 @@
  * + JS include for Leaflet has been added in the HTML.
  *
  * Prerequisites:
- * - window.fetch
- * - window.Promise
- * - jQuery
- * - GeoUtils.js (same as before)
- * - Leaflet (L)
+ * - window.fetch (is to be standard in all browsers but currently isn't, we're
+ *   using the following polyfill: https://www.npmjs.com/package/whatwg-fetch)
+ * - window.Promise (supported by all browsers as far as I know, but included a
+ *   fallback polyfill just in case)
+ * - Leaflet (L) (Leaflet package, using the following:
+ *   https://www.npmjs.com/package/leaflet)
+ * - jQuery (this one could kinda easily be removed, but it's already needed for
+ *   the Twitter Bootstrap front-end framework so it's been tempting to use it
+ *   for a few things)
+ * - GeoUtils.js (simple JS module for calculating distances between geolocation
+ *   coordinates)
  *
  * Notes:
  * - The code attempts to keep the original structure and APIs intact while
