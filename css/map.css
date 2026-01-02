@@ -61,16 +61,6 @@
     width: 100%;
     height: 100%;
   }
-
-  /*
-   * Naughty CSS hack to hide Google Maps Logo and copyright note.
-   * http://stackoverflow.com/a/36282582/2401628
-   */
-  .gmnoprint:not(.gm-bundled-control) {display: none;}
-  .gm-bundled-control .gmnoprint {display: block;}
-  a[href^="http://maps.google.com/maps"]{display:none !important}
-  a[href^="https://maps.google.com/maps"]{display:none !important}
-  a[href^="https://www.google.com/maps"]{display:none !important}
 }
 
 /* -------- Mobile End -------- */
@@ -263,5 +253,3 @@
 }
 
 /* -------- Desktop End -------- */
-
-
