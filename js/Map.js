@@ -29,7 +29,7 @@ var gs = {  /* Global Scope Parameters */
   map: null, // Leaflet map (L.Map)
   mapOptions: {
     center: { lat: 64.996752, lng: -18.682185 }, // center of Iceland
-    zoom: 5 // initial zoom
+    zoom: 7 // initial zoom
   },
   userLocation: {
     lat: null,
