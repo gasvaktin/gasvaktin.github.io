@@ -1,46 +1,40 @@
 "use-strict";
 /**
  * ========================================================================== *
- * Gasvaktin Client Script.
- * 
+ * Gasvaktin Client Script (Leaflet port).
+ *
+ * This is a rewrite of the original Google Maps based client to use Leaflet
+ * instead. It assumes Leaflet (L) is available on the page and that a CSS
+ * + JS include for Leaflet has been added in the HTML.
+ *
  * Prerequisites:
- * - window.fetch (is to be standard in all browsers but currently isn't, we're
- *   using the following polyfill: https://www.npmjs.com/package/whatwg-fetch)
- * - window.Promise (supported by all browsers as far as I know, but included a
- *   fallback polyfill just in case)
- * - GoogleMapsLoader (Google Maps JS package, using the following:
- *   https://www.npmjs.com/package/google-maps)
- * - jQuery (this one could kinda easily be removed, but it's already needed for
- *   the Twitter Bootstrap front-end framework so it's been tempting to use it
- *   for a few things)
- * - GeoUtils.js (simple JS module for calculating distances between geolocation
- *   coordinates)
+ * - window.fetch
+ * - window.Promise
+ * - jQuery
+ * - GeoUtils.js (same as before)
+ * - Leaflet (L)
+ *
+ * Notes:
+ * - The code attempts to keep the original structure and APIs intact while
+ *   swapping Google Maps usage to Leaflet equivalents.
  **/
-
 var gs = {  /* Global Scope Paramteters */
   urlParams: null,
   debug: false,
   dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json",
   stations: {},
-  googleMaps: null, // google.maps object given by GoogleMapsLoader.load
-  googleMapsSettings: {
-    key: "AIzaSyAS6Yp_1JOJKo0O1FGC24h-nlk66wFZ_78",
-    libraries: ["geometry", "places"],
-    language: "en",
-    region: "IS"
-  },
-  map: null, // google.maps.Map object
+  // googleMaps settings removed; Leaflet is expected to be available globally
+  map: null, // Leaflet map (L.Map)
   mapOptions: {
     center: { lat: 64.996752, lng: -18.682185 }, // center of Iceland
-    disableDefaultUI: true,
     zoom: 5 // initial zoom
   },
   userLocation: {
     lat: null,
     lng: null
   },
-  userMarker: null, // google maps marker object
-  stationMarker: null, // google maps marker object
+  userMarker: null, // Leaflet marker
+  stationMarker: null, // Leaflet marker
   geoLocation: {
     location: null, // location object from window.navigator.geolocation
     statuses: { initial: 0, success: 1, failure: 2 },
@@ -339,51 +333,45 @@ var updateStationDistancesFailure = function() {
 var updateMapVision = function() {
   /**
    * Updates map vision, location and zoom level.
+   *
+   * Uses Leaflet map methods. If user location is unknown, center on selected
+   * station and set a reasonable zoom. Otherwise center between user and
+   * station and fit bounds.
    */
   return new Promise(function (fulfil, reject) {
     try {
+      if (!gs.map) {
+        throw new Error("Map not initialized");
+      }
+
+      // If no user location available, center on station and zoom out a bit
       if (gs.geoLocation.location === null) {
-        gs.map.setCenter({
-          lat: gs.stationMarker.position.lat(),
-          lng: gs.stationMarker.position.lng()
-        });
-        gs.map.setZoom(9);
+        var stLatLng = gs.stationMarker.getLatLng();
+        gs.map.setView([stLatLng.lat, stLatLng.lng], 9);
+        fulfil();
         return;
       }
+
+      // Compute midpoint using GeoUtils (keeps original behaviour)
       var center = GeoUtils.pointBetweenPoints(
-        gs.userMarker.position.lat(),
-        gs.userMarker.position.lng(),
-        gs.stationMarker.position.lat(),
-        gs.stationMarker.position.lng()
+        gs.userMarker.getLatLng().lat,
+        gs.userMarker.getLatLng().lng,
+        gs.stationMarker.getLatLng().lat,
+        gs.stationMarker.getLatLng().lng
       );
-      gs.map.setCenter({
-        lat: center.latitude,
-        lng: center.longitude
-      });
-      var pointA = new gs.googleMaps.LatLng(
-        gs.userMarker.position.lat(),
-        gs.userMarker.position.lng()
+      gs.map.setView([center.latitude, center.longitude]);
+
+      var pointA = L.latLng(
+        gs.userMarker.getLatLng().lat,
+        gs.userMarker.getLatLng().lng
       );
-      var pointB = new gs.googleMaps.LatLng(
-        gs.stationMarker.position.lat(),
-        gs.stationMarker.position.lng()
+      var pointB = L.latLng(
+        gs.stationMarker.getLatLng().lat,
+        gs.stationMarker.getLatLng().lng
       );
-      // Google Maps API has silly zoom functionality ..
-      // http://stackoverflow.com/a/15719995/2401628
-      if (gs.userMarker.position.lat() > gs.stationMarker.position.lat()) {
-        if (gs.userMarker.position.lng() > gs.stationMarker.position.lng()) {
-          gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointB, pointA));
-        }
-        else {
-          gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointA, pointB));
-        }
-      }
-      else if (gs.userMarker.position.lng() < gs.stationMarker.position.lng()) {
-        gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointA, pointB));
-      }
-      else {
-        gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointB, pointA));
-      }
+      var bounds = L.latLngBounds([pointA, pointB]);
+      // Fit bounds; Leaflet handles ordering
+      gs.map.fitBounds(bounds, { padding: [40, 40] });
       fulfil();
     }
     catch (err) {
@@ -418,11 +406,11 @@ var updateStationMarker = function(key) {
         station = gs.stations[key];
         $("#"+key).addClass("Station--focused");
       }
-      gs.stationMarker.setPosition({
-        lat: station.geo.lat,
-        lng: station.geo.lon
-      });
-      gs.stationMarker.setVisible(true);
+      // Update Leaflet marker position and ensure it's visible on map
+      gs.stationMarker.setLatLng([station.geo.lat, station.geo.lon]);
+      if (!gs.map.hasLayer(gs.stationMarker)) {
+        gs.stationMarker.addTo(gs.map);
+      }
       fulfil();
     }
     catch (err) {
@@ -432,30 +420,64 @@ var updateStationMarker = function(key) {
   });
 }
 
-var loadGoogleMapsAPI = function() {
+var loadLeafletMap = function() {
   /**
-   * Initialize the Google Maps API
-   **/
+   * Initialize the Leaflet map and markers.
+   *
+   * Creates a map, basic OSM tile layer, and two markers (user & station).
+   * Markers are not visible until position is set (we add them to the map when
+   * position becomes available).
+   */
   return new Promise(function(fulfil, reject) {
     try {
-      GoogleMapsLoader.load(function(google) {
-        gs.googleMaps = google.maps;
-        gs.map = new google.maps.Map(gs.mapElement, gs.mapOptions);
-        gs.userMarker = new google.maps.Marker({
-          position: gs.geoLocation.centerOfIceland,
-          map: gs.map,
-          title: "Your location"
-        });
-        gs.userMarker.setVisible(false);
-        gs.stationMarker = new google.maps.Marker({
-          position: gs.geoLocation.centerOfIceland,
-          map: gs.map,
-          title: "Selected station location",
-          icon: "/images/markers/gasstation.png"
-        });
-        gs.stationMarker.setVisible(false);
-        fulfil();
+      if (typeof L === "undefined") {
+        throw new Error("Leaflet (L) not found. Please include Leaflet before this script.");
+      }
+
+      // Create the map
+      gs.map = L.map(gs.mapElement, {
+        center: [gs.mapOptions.center.lat, gs.mapOptions.center.lng],
+        zoom: gs.mapOptions.zoom,
+        zoomControl: false, // preserve similar UI as disableDefaultUI
+        attributionControl: true
       });
+
+      // Add a basic OSM tile layer. Projects can replace this with any tile provider.
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(gs.map);
+
+      // Setup default icons
+      var defaultIcon = L.icon({
+        iconUrl: '/packages/leaflet/dist/images/marker-icon.png',
+        iconRetinaUrl: '/packages/leaflet/dist/images/marker-icon-2x.png',
+        shadowUrl: '/packages/leaflet/dist/images/marker-shadow.png',
+        iconSize: [25,41],
+        iconAnchor: [12,41],
+        popupAnchor: [1, -34],
+        shadowSize: [41,41]
+      });
+      var gasIcon = L.icon({
+        iconUrl: "/images/markers/gasstation.png",
+        iconSize: [30,30],
+        iconAnchor: [15,15]
+      });
+
+      // Create markers but do not add them to the map until positions are known
+      gs.userMarker = L.marker([gs.geoLocation.centerOfIceland.lat, gs.geoLocation.centerOfIceland.lng], {
+        title: "Your location",
+        icon: defaultIcon
+      });
+
+      gs.stationMarker = L.marker([gs.geoLocation.centerOfIceland.lat, gs.geoLocation.centerOfIceland.lng], {
+        title: "Selected station location",
+        icon: gasIcon
+      });
+
+      // For consistency with original API, we keep markers but only add them
+      // to the map when their position is set (see getCurrentUserPosition).
+      fulfil();
     }
     catch (err) {
       console.error(err);
@@ -519,11 +541,11 @@ var getCurrentUserPosition = function() {
           gs.geoLocation.status = 1;
           gs.userLocation.lat = crd.latitude;
           gs.userLocation.lng = crd.longitude;
-          gs.userMarker.setPosition({
-            lat: crd.latitude,
-            lng: crd.longitude
-          });
-          gs.userMarker.setVisible(true);
+          // Update Leaflet user marker and ensure it's visible
+          gs.userMarker.setLatLng([crd.latitude, crd.longitude]);
+          if (!gs.map.hasLayer(gs.userMarker)) {
+            gs.userMarker.addTo(gs.map);
+          }
           fulfil();
         },
         function(err) {
@@ -553,7 +575,7 @@ var getCurrentUserPosition = function() {
 
 var runClient = function() {
   Promise.all([
-    loadGoogleMapsAPI().then(function() {
+    loadLeafletMap().then(function() {
       return getCurrentUserPosition();
     }),
     fetchGasPrice()
@@ -575,6 +597,8 @@ var runClient = function() {
       }
       updateStationDistancesFailure();
     }
+  }).catch(function(err){
+    console.error("runClient error:", err);
   });
 }
 
@@ -593,19 +617,14 @@ var initialize = function() {
     // set debug to true if GET parameter debug=true is provided in url
     gs.debug = true;
   }
-  // Set settings for GoogleMapsLoader
-  window.GoogleMapsLoader.KEY = gs.googleMapsSettings.key;
-  window.GoogleMapsLoader.LIBRARIES = gs.googleMapsSettings.libraries;
-  window.GoogleMapsLoader.LANGUAGE = gs.googleMapsSettings.language;
-  window.GoogleMapsLoader.REGION = gs.googleMapsSettings.region;
-  window.GoogleMapsLoader.onLoad(function(google) {
-    if (gs.debug) {
-      console.log("GoogleMapsLoader: finished loading successfully");
-    }
-  });
+
   // find and set DOM element objects in gs
   gs.mapElement = window.document.getElementById("mapElement");
   gs.listElement = window.document.getElementById("listElement");
+  // For backwards compatibility with older code that referenced globals
+  mapElement = gs.mapElement;
+  listElement = gs.listElement;
+
   gs.handleStalemate = function(stationA, stationB) {
     /**
      * Stalemate handling when sorting stations with regard to price or distance
