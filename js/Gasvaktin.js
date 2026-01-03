@@ -466,8 +466,8 @@ var loadLeafletMap = function() {
       });
       var gasIcon = L.icon({
         iconUrl: "/images/markers/gasstation.png",
-        iconSize: [30,30],
-        iconAnchor: [15,15]
+        iconSize: [35,35],
+        iconAnchor: [17,35]
       });
 
       // Create markers but do not add them to the map until positions are known
