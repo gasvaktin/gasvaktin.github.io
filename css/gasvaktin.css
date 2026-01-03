@@ -153,7 +153,7 @@
   .CustomRadioButton__buttonContainer {
      width: 185px;
   }
-} 
+}
 
 .CustomRadioButton__choiceInput {
   opacity: 0;
@@ -179,7 +179,7 @@
     padding: 5px 0px 5px 2rem;
     font-size: 1.4rem;
   }
-} 
+}
 
 .CustomRadioButton__choiceLabel:hover {
   color: #483D8B;
@@ -195,18 +195,18 @@
   content:"";
   width: 1.5rem;
   height: 1.5rem;
-  /* This margin needs to be altered 
+  /* This margin needs to be altered
     alongside the padding on the label */
   margin-left: -2rem;
   position: absolute;
   border: .3rem solid #CCC;
   border-radius: 100%;
   text-align: center;
-  
+
   /* Animation to a clip-path circle */
   transition: clip-path 1s ease;
   clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%, 100% 0%, 100% 0%);
-  
+
   /* Safari compatibility */
   -webkit-transition: -webkit-clip-path 1s ease;
   -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 100%, 100% 0%, 100% 0%);
@@ -784,18 +784,6 @@ p {
 }
 
 /* -------- End: MOBILE SPACE CONSERVATION ---------- */
-
-@media(max-width: 1024px) {
-  /*
-   * Filthy CSS hack to hide Google Maps Logo and copyright note.
-   * http://stackoverflow.com/a/36282582/2401628
-   */
-  .gmnoprint:not(.gm-bundled-control) {display: none;}
-  .gm-bundled-control .gmnoprint {display: block;}
-  a[href^="http://maps.google.com/maps"]{display:none !important}
-  a[href^="https://maps.google.com/maps"]{display:none !important}
-  a[href^="https://www.google.com/maps"]{display:none !important}
-}
 
 input[type="radio"],
 input[type="checkbox"] {

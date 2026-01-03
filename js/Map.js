@@ -1,49 +1,43 @@
 "use-strict";
 /**
  * ========================================================================== *
- * Gasvaktin Map Client Script.
- * 
+ * Gasvaktin Map Client Script (Leaflet).
+ *
+ * This file is a Leaflet port of the original Google Maps based Map.js.
+ *
  * Prerequisites:
- * - window.fetch (is to be standard in all browsers but currently isn't, we're
- *   using the following polyfill: https://www.npmjs.com/package/whatwg-fetch)
- * - window.Promise (supported by all browsers as far as I know, but included a
- *   fallback polyfill just in case)
- * - GoogleMapsLoader (Google Maps JS package, using the following:
- *   https://www.npmjs.com/package/google-maps)
- * - jQuery (this one could kinda easily be removed, but it's already needed for
- *   the Twitter Bootstrap front-end framework so it's been tempting to use it
- *   for a few things)
- * - GeoUtils.js (simple JS module for calculating distances between geolocation
- *   coordinates)
- **/
+ * - Leaflet (include Leaflet CSS/JS in the HTML)
+ * - window.fetch
+ * - window.Promise
+ * - GeoUtils.js (distance helpers)
+ *
+ * Notes:
+ * - The map container is expected to be the element with id="map".
+ * - Tile layer defaults to OpenStreetMap. Replace with another provider if you
+ *   prefer.
+ * ========================================================================== *
+ */
 
-var gs = {  /* Global Scope Paramteters */
+var gs = {  /* Global Scope Parameters */
   urlParams: null,
   debug: false,
   p: {},
   data: {},
   dataEndpoint: "https://raw.githubusercontent.com/gasvaktin/gasvaktin/master/vaktin/gas.min.json",
   stations: {},
-  googleMaps: null, // google.maps object given by GoogleMapsLoader.load
-  googleMapsSettings: {
-    key: "AIzaSyAS6Yp_1JOJKo0O1FGC24h-nlk66wFZ_78",
-    libraries: ["geometry", "places"],
-    language: "en",
-    region: "IS"
-  },
-  map: null, // google.maps.Map object
+  // Google Maps related settings removed; Leaflet is expected globally as L
+  map: null, // Leaflet map (L.Map)
   mapOptions: {
     center: { lat: 64.996752, lng: -18.682185 }, // center of Iceland
-    disableDefaultUI: true,
-    zoom: 5 // initial zoom
+    zoom: 7 // initial zoom
   },
   userLocation: {
     lat: null,
     lng: null
   },
-  userMarker: null, // google maps marker object
-  stationMarkers: [],
-  stationMarker: null, // google maps marker object
+  userMarker: null, // Leaflet marker for user
+  stationMarkers: [], // array of Leaflet markers for stations
+  stationMarker: null, // Leaflet marker for a selected station (if used)
   geoLocation: {
     location: null, // location object from window.navigator.geolocation
     statuses: { initial: 0, success: 1, failure: 2 },
@@ -55,9 +49,9 @@ var gs = {  /* Global Scope Paramteters */
     },
     centerOfIceland: { lat: 64.996752, lng: -18.682185 }
   },
-  mapElement: null, // DOM element object
-  localStorage: null, // window.localStorage or polyfill if needed
-  localStorageWorks: null, // function to test window.localStorage
+  mapElement: null, // DOM element for the map
+  localStorage: null,
+  localStorageWorks: null,
   fuelTypes: {
     petrol: "petrol",
     diesel: "diesel"
@@ -65,14 +59,9 @@ var gs = {  /* Global Scope Paramteters */
 };
 
 /**
- * ========================================================================== *
- * Promising functions for doing specific tasks, knitted together further down.
- **/
-
+ * Calculates station distances using GeoUtils (unchanged).
+ */
 var calculateStationDistances = function() {
-  /**
-   * Calculates distances from users location to each station.
-   */
   return new Promise(function (fulfil, reject) {
     try {
       for (var key in gs.stations) {
@@ -92,54 +81,55 @@ var calculateStationDistances = function() {
   });
 }
 
+/**
+ * Update map center/zoom to show user and a selected station or just a station.
+ */
 var updateMapVision = function() {
-  /**
-   * Updates map vision, location and zoom level.
-   */
   return new Promise(function (fulfil, reject) {
     try {
+      if (!gs.map) {
+        throw new Error("Map not initialized");
+      }
+
+      // If we don't have user location, center on selected station (stationMarker)
       if (gs.geoLocation.location === null) {
-        gs.map.setCenter({
-          lat: gs.stationMarker.position.lat(),
-          lng: gs.stationMarker.position.lng()
-        });
-        gs.map.setZoom(9);
+        if (gs.stationMarker) {
+          var stLatLng = gs.stationMarker.getLatLng();
+          gs.map.setView([stLatLng.lat, stLatLng.lng], 9);
+        }
+        fulfil();
         return;
       }
+
+      // Otherwise, center between user and selected station (if any)
+      if (!gs.stationMarker) {
+        // no selected station: center on user
+        var u = gs.userMarker.getLatLng();
+        gs.map.setView([u.lat, u.lng], Math.max(6, gs.map.getZoom()));
+        fulfil();
+        return;
+      }
+
       var center = GeoUtils.pointBetweenPoints(
-        gs.userMarker.position.lat(),
-        gs.userMarker.position.lng(),
-        gs.stationMarker.position.lat(),
-        gs.stationMarker.position.lng()
+        gs.userMarker.getLatLng().lat,
+        gs.userMarker.getLatLng().lng,
+        gs.stationMarker.getLatLng().lat,
+        gs.stationMarker.getLatLng().lng
       );
-      gs.map.setCenter({
-        lat: center.latitude,
-        lng: center.longitude
-      });
-      var pointA = new gs.googleMaps.LatLng(
-        gs.userMarker.position.lat(),
-        gs.userMarker.position.lng()
+      gs.map.setView([center.latitude, center.longitude]);
+
+      var pointA = L.latLng(
+        gs.userMarker.getLatLng().lat,
+        gs.userMarker.getLatLng().lng
       );
-      var pointB = new gs.googleMaps.LatLng(
-        gs.stationMarker.position.lat(),
-        gs.stationMarker.position.lng()
+      var pointB = L.latLng(
+        gs.stationMarker.getLatLng().lat,
+        gs.stationMarker.getLatLng().lng
       );
-      // Google Maps API has silly zoom functionality ..
-      // http://stackoverflow.com/a/15719995/2401628
-      if (gs.userMarker.position.lat() > gs.stationMarker.position.lat()) {
-        if (gs.userMarker.position.lng() > gs.stationMarker.position.lng()) {
-          gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointB, pointA));
-        }
-        else {
-          gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointA, pointB));
-        }
-      }
-      else if (gs.userMarker.position.lng() < gs.stationMarker.position.lng()) {
-        gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointA, pointB));
-      }
-      else {
-        gs.map.fitBounds(new gs.googleMaps.LatLngBounds(pointB, pointA));
-      }
+
+      var bounds = L.latLngBounds([pointA, pointB]);
+      gs.map.fitBounds(bounds, { padding: [40, 40] });
+
       fulfil();
     }
     catch (err) {
@@ -149,50 +139,70 @@ var updateMapVision = function() {
   });
 }
 
-var loadGoogleMapsAPI = function() {
-  /**
-   * Initialize the Google Maps API
-   **/
+/**
+ * Initialize Leaflet map and create baseline markers (not added until positioned).
+ */
+var loadLeafletMap = function() {
   return new Promise(function(fulfil, reject) {
     try {
-      GoogleMapsLoader.load(function(google) {
-        let mapOptions = gs.mapOptions;
-        if (window.innerWidth > 1089 && window.innerHeight > 757) {
-          mapOptions.zoom = 7;
-        } else if (window.innerWidth > 578 && window.innerHeight > 466) {
-          mapOptions.zoom = 6;
-        }
-        gs.googleMaps = google.maps;
-        gs.map = new google.maps.Map(gs.mapElement, mapOptions);
-        gs.userMarker = new google.maps.Marker({
-          position: gs.geoLocation.centerOfIceland,
-          map: gs.map,
-          title: "Your location",
-          icon: {
-            url: "/images/markers/pulse.svg",
-            anchor: new google.maps.Point(10, 10)
-          },
-          zIndex: 10
-        });
-        let infoWindow = new google.maps.InfoWindow({
-          content: (
-            '<span><i class="fa fa-map-marker Nav__logo" aria-hidden="true"></i>' +
-            ' Your location</span>'
-          )
-        });
-        google.maps.event.addListener(gs.userMarker, 'click', function() {
-          infoWindow.open(gs.map, gs.userMarker);
-        });
-        gs.userMarker.setVisible(false);
-        gs.stationMarker = new google.maps.Marker({
-          position: gs.geoLocation.centerOfIceland,
-          map: gs.map,
-          title: "Selected station location",
-          icon: "/images/markers/gasstation.png"
-        });
-        gs.stationMarker.setVisible(false);
-        fulfil();
+      if (typeof L === "undefined") {
+        throw new Error("Leaflet (L) not found. Please include Leaflet before this script.");
+      }
+
+      var center = [gs.mapOptions.center.lat, gs.mapOptions.center.lng];
+
+      // Create the map
+      gs.map = L.map(gs.mapElement, {
+        center: center,
+        zoom: gs.mapOptions.zoom,
+        zoomControl: false,
+        attributionControl: true
       });
+
+      // Add OSM tile layer
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(gs.map);
+
+      // Setup default icons (fallback marker and gas icon)
+      var defaultIcon = L.icon({
+        iconUrl: '/packages/leaflet/dist/images/marker-icon.png',
+        iconRetinaUrl: '/packages/leaflet/dist/images/marker-icon-2x.png',
+        shadowUrl: '/packages/leaflet/dist/images/marker-shadow.png',
+        iconSize: [25,41],
+        iconAnchor: [12,41],
+        popupAnchor: [1, -34],
+        shadowSize: [41,41]
+      });
+
+      var pulseIcon = L.icon({
+        iconUrl: '/images/markers/pulse.svg',
+        iconSize: [20,20],
+        iconAnchor: [10,10]
+      });
+
+      var gasIcon = L.icon({
+        iconUrl: '/images/markers/gasstation.png',
+        iconSize: [30,30],
+        iconAnchor: [15,15]
+      });
+
+      // Create markers but don't add to map until positions are known
+      gs.userMarker = L.marker([gs.geoLocation.centerOfIceland.lat, gs.geoLocation.centerOfIceland.lng], {
+        title: "Your location",
+        icon: pulseIcon
+      });
+
+      gs.stationMarker = L.marker([gs.geoLocation.centerOfIceland.lat, gs.geoLocation.centerOfIceland.lng], {
+        title: "Selected station location",
+        icon: gasIcon
+      });
+
+      // Keep arrays cleared
+      gs.stationMarkers = [];
+
+      fulfil();
     }
     catch (err) {
       console.error(err);
@@ -201,13 +211,13 @@ var loadGoogleMapsAPI = function() {
   });
 }
 
+/**
+ * Fetch gas prices and store them in gs.data.gas and gs.stations
+ */
 var fetchGasPrice = function() {
-  /**
-   * Fetch them gas prices
-   **/
   return new Promise(function(fulfil, reject) {
     window.fetch(gs.dataEndpoint).then(function(response) {
-      return response.json()
+      return response.json();
     }).then(function(data) {
       gs.data.gas = data;
       if (gs.debug) {
@@ -225,31 +235,35 @@ var fetchGasPrice = function() {
   });
 }
 
+/**
+ * Mark stations on the map with colored dot markers depending on price.
+ * Create popups containing company icon, station name and prices.
+ */
 var markStationsOnMap = function() {
-  /**
-   * Mark them fuel stations on the map
-   **/
   return new Promise(function(fulfil, reject) {
     try {
-      let stations = gs.data.gas.stations;
-      let price_cheapest = null;
-      let price_cheap_1 = null;
-      let price_cheap_2 = null;
-      let price_cheap_3 = null;
-      let price_average = null;
-      let price_expen_1 = null;
-      let price_expen_2 = null;
-      let price_expen_3 = null;
-      let price_expensive = null;
+      var stations = gs.data.gas.stations;
+      var price_cheapest = null;
+      var price_cheap_1 = null;
+      var price_cheap_2 = null;
+      var price_cheap_3 = null;
+      var price_average = null;
+      var price_expen_1 = null;
+      var price_expen_2 = null;
+      var price_expen_3 = null;
+      var price_expensive = null;
+
+      // Determine min and max to calculate thresholds
       for (var i=0; i<stations.length; i++) {
-        let station = stations[i];
+        var station = stations[i];
         if (price_cheapest === null || station.bensin95 < price_cheapest) {
-          price_cheapest = station.bensin95
+          price_cheapest = station.bensin95;
         }
         if (price_expensive === null || station.bensin95 > price_expensive) {
-          price_expensive = station.bensin95
+          price_expensive = station.bensin95;
         }
       }
+
       price_average = Number(((price_cheapest + price_expensive) / 2).toFixed(1));
       price_cheap_2 = Number(((price_cheapest + price_average) / 2).toFixed(1));
       price_cheap_1 = Number(((price_cheapest + price_cheap_2) / 2).toFixed(1));
@@ -257,6 +271,7 @@ var markStationsOnMap = function() {
       price_expen_2 = Number(((price_average + price_expensive) / 2).toFixed(1));
       price_expen_1 = Number(((price_average + price_expen_2) / 2).toFixed(1));
       price_expen_3 = Number(((price_expen_2 + price_expensive) / 2).toFixed(1));
+
       if (gs.debug) {
         console.log([
           price_cheapest,
@@ -270,108 +285,137 @@ var markStationsOnMap = function() {
           price_expensive
         ]);
       }
-      for (var i=0; i<stations.length; i++) {
-        let station = stations[i];
-        let markerUrl = null;
-        let zIndex = 1;
-        if (station.bensin95 === price_cheapest) {
+
+      // Clean up any existing markers
+      gs.stationMarkers.forEach(function(m) {
+        if (gs.map && gs.map.hasLayer(m)) { gs.map.removeLayer(m); }
+      });
+      gs.stationMarkers = [];
+
+      for (var j=0; j<stations.length; j++) {
+        var st = stations[j];
+        var markerUrl = null;
+        var zIndex = 1;
+
+        if (st.bensin95 === price_cheapest) {
           markerUrl = "/images/markers/dot_green_1.svg";
           zIndex = 9;
-        } else if (station.bensin95 < price_cheap_1) {
+        } else if (st.bensin95 < price_cheap_1) {
           markerUrl = "/images/markers/dot_green_2.svg";
           zIndex = 9;
-        } else if (station.bensin95 < price_cheap_2) {
+        } else if (st.bensin95 < price_cheap_2) {
           markerUrl = "/images/markers/dot_green_3.svg";
           zIndex = 8;
-        } else if (station.bensin95 < price_cheap_3) {
+        } else if (st.bensin95 < price_cheap_3) {
           markerUrl = "/images/markers/dot_yellow_1.svg";
           zIndex = 7;
-        } else if (station.bensin95 < price_average) {
+        } else if (st.bensin95 < price_average) {
           markerUrl = "/images/markers/dot_yellow_2.svg";
           zIndex = 6;
-        } else if (station.bensin95 < price_expen_1) {
+        } else if (st.bensin95 < price_expen_1) {
           markerUrl = "/images/markers/dot_yellow_3.svg";
           zIndex = 5;
-        } else if (station.bensin95 < price_expen_2) {
+        } else if (st.bensin95 < price_expen_2) {
           markerUrl = "/images/markers/dot_red_1.svg";
           zIndex = 4;
-        } else if (station.bensin95 < price_expen_3) {
+        } else if (st.bensin95 < price_expen_3) {
           markerUrl = "/images/markers/dot_red_2.svg";
           zIndex = 3;
-        } else if (station.bensin95 < price_expensive) {
+        } else if (st.bensin95 < price_expensive) {
           markerUrl = "/images/markers/dot_red_3.svg";
           zIndex = 2;
         } else {
           markerUrl = "/images/markers/dot_red_3.svg";
           zIndex = 1;
         }
-        let stationMarker = new gs.googleMaps.Marker({
-          position: {lat: station.geo.lat, lng: station.geo.lon},
-          map: gs.map,
-          title: `${station.company} - ${station.name}`,
-          icon: {
-            url: markerUrl,
-            anchor: new google.maps.Point(10, 10)
-          },
-          zIndex: zIndex
+
+        var dotIcon = L.icon({
+          iconUrl: markerUrl,
+          iconSize: [20,20],
+          iconAnchor: [10,10],
+          popupAnchor: [0,-10]
         });
-        let companyIconPath = "/images/markers/gasstation.png";
-        if (station.company === "Atlantsolía") {
+
+        var companyIconPath = "/images/markers/gasstation.png";
+        if (st.company === "Atlantsolía") {
           companyIconPath = "/images/companies/atlantsolia.png";
-        } else if (station.company === "Costco Iceland") {
+        } else if (st.company === "Costco Iceland") {
           companyIconPath = "/images/companies/costco.png";
-        } else if (station.company === "N1") {
+        } else if (st.company === "N1") {
           companyIconPath = "/images/companies/n1.png";
-        } else if (station.company === "Olís") {
+        } else if (st.company === "Olís") {
           companyIconPath = "/images/companies/olis.png";
-        } else if (station.company === "ÓB") {
+        } else if (st.company === "ÓB") {
           companyIconPath = "/images/companies/ob.png";
-        } else if (station.company === "Orkan") {
+        } else if (st.company === "Orkan") {
           companyIconPath = "/images/companies/orkan.png";
         }
-        let imgElement = (
+
+        // Popup content similar to original info window
+        var imgElement = (
           `<img src="${companyIconPath}"` +
           ` style="width:36px;position:absolute;pointer-events:none;user-select:none;" />`
         );
-        let infoName = (
-          `<span style="padding-left:42px;">${station.company} ${station.name}</span>`
+        var infoName = (
+          `<span style="padding-left:42px;">${st.company} ${st.name}</span>`
         );
-        let discountBensin = "";
-        let discountDiesel = "";
-        if (station.bensin95_discount !== null) {
+        var discountBensin = "";
+        var discountDiesel = "";
+        if (st.bensin95_discount !== null) {
           discountBensin = (
-            ` <span style="font-size:7px">(m afsl: ${station.bensin95_discount} ISK)</span>`
+            ` <span style="font-size:7px">(m afsl: ${st.bensin95_discount} ISK)</span>`
           );
         }
-        if (station.diesel_discount !== null) {
+        if (st.diesel_discount !== null) {
           discountDiesel = (
-            ` <span style="font-size:7px">(m afsl: ${station.diesel_discount} ISK)</span>`
+            ` <span style="font-size:7px">(m afsl: ${st.diesel_discount} ISK)</span>`
           );
         }
-        let infoPrice = (
+        var infoPrice = (
           `<br/><span style="padding-left:42px;font-size:10px;"><b>Bensin:</b>` +
-          ` ${station.bensin95} ISK` +
+          ` ${st.bensin95} ISK` +
           discountBensin +
           `</span>` +
           `<br/><span style="padding-left:42px;font-size:10px;"><b>Diesel:</b>` +
-          ` ${station.diesel} ISK` +
+          ` ${st.diesel} ISK` +
           discountDiesel +
           `</span>`
         );
-        let infoWindow = new google.maps.InfoWindow({
-          content: (
-            imgElement + infoName + infoPrice
-          )
+
+        var popupContent = imgElement + infoName + infoPrice;
+
+        var stationLatLng = [st.geo.lat, st.geo.lon];
+        var stationMarker = L.marker(stationLatLng, {
+          title: `${st.company} - ${st.name}`,
+          icon: dotIcon,
+          zIndexOffset: zIndex * 10
         });
-        gs.googleMaps.event.addListener(stationMarker, 'click', function() {
-          infoWindow.open(gs.map, stationMarker);
+
+        stationMarker.bindPopup(popupContent, { minWidth: 160 });
+
+        // store station key on marker for potential future lookup
+        stationMarker.stationKey = st.key;
+
+        stationMarker.on('click', function(e) {
+          // open popup is default behavior; we also could do other things here
         });
-        gs.foo = infoWindow;
-      }
-      document.getElementById("cheapest").innerHTML = `${price_cheapest} ISK`;
-      document.getElementById("average").innerHTML = `${price_average} ISK`;
-      document.getElementById("expensive").innerHTML = `${price_expensive} ISK`;
-      document.getElementById("scale").value = "0" 
+
+        stationMarker.addTo(gs.map);
+        gs.stationMarkers.push(stationMarker);
+      } // end for loop
+
+      // Update price summary in DOM
+      var cheapestEl = document.getElementById("cheapest");
+      var averageEl = document.getElementById("average");
+      var expensiveEl = document.getElementById("expensive");
+      if (cheapestEl) { cheapestEl.innerHTML = `${price_cheapest} ISK`; }
+      if (averageEl) { averageEl.innerHTML = `${price_average} ISK`; }
+      if (expensiveEl) { expensiveEl.innerHTML = `${price_expensive} ISK`; }
+
+      var scaleEl = document.getElementById("scale");
+      if (scaleEl) { scaleEl.value = "0"; }
+
+      fulfil();
     }
     catch (err) {
       console.error(err);
@@ -381,37 +425,44 @@ var markStationsOnMap = function() {
 }
 
 /**
- * Ask for some sweet sweet geolocation data
- **/
-
+ * Get current user location and place user marker on map.
+ */
 var getCurrentUserPosition = function() {
-  /**
-   * Updates station marker to first station in list if key is undefined, else
-   * to station with provided key.
-   */
   return new Promise(function (fulfil, reject) {
     try {
       window.navigator.geolocation.getCurrentPosition(
-        function(pos) { // successful getting geolocation
+        function(pos) {
           gs.geoLocation.location = pos;
           var crd = pos.coords;
           if (gs.debug) {
-            console.log((
-              "Successfully received geolocation.\n"+
-              "Your current location is:\n"+
-              "Latitude: "+crd.latitude+"\n"+
-              "Longitude: "+crd.longitude+"\n"+
+            console.log(
+              "Successfully received geolocation.\n" +
+              "Your current location is:\n" +
+              "Latitude: "+crd.latitude+"\n" +
+              "Longitude: "+crd.longitude+"\n" +
               "with a delta of " + crd.accuracy + " meters."
-            ));
+            );
           }
           gs.geoLocation.status = 1;
           gs.userLocation.lat = crd.latitude;
           gs.userLocation.lng = crd.longitude;
-          gs.userMarker.setPosition({
-            lat: crd.latitude,
-            lng: crd.longitude
-          });
-          gs.userMarker.setVisible(true);
+
+          var latlng = [crd.latitude, crd.longitude];
+          if (gs.userMarker === null) {
+            // shouldn't happen: marker is created in loadLeafletMap, but check anyway
+            gs.userMarker = L.marker(latlng, { title: "Your location" }).addTo(gs.map);
+          } else {
+            gs.userMarker.setLatLng(latlng);
+            if (!gs.map.hasLayer(gs.userMarker)) {
+              gs.userMarker.addTo(gs.map);
+            }
+          }
+
+          // Optionally add a popup to user marker
+          if (!gs.userMarker.getPopup()) {
+            gs.userMarker.bindPopup('<span><i class="fa fa-map-marker Nav__logo" aria-hidden="true"></i> Your location</span>');
+          }
+
           fulfil();
         },
         function(err) {
@@ -420,8 +471,7 @@ var getCurrentUserPosition = function() {
             console.warn(err);
           }
           gs.geoLocation.status = 2;
-          // calling fulfil here because failing (usually) means the user
-          // declined giving geolocation information to the webpage
+          // resolve anyway (user might have denied permission)
           fulfil();
         },
         gs.geoLocation.settings
@@ -435,79 +485,58 @@ var getCurrentUserPosition = function() {
 }
 
 /**
- * ========================================================================== *
- * Knit together our very promising functions
- **/
-
+ * Main runner: initialize map, geolocation and fetch data then mark stations.
+ */
 var runClient = function() {
   Promise.all([
-    loadGoogleMapsAPI().then(function() {
+    loadLeafletMap().then(function() {
       return getCurrentUserPosition();
     }),
     fetchGasPrice()
   ]).then(function() {
     return markStationsOnMap();
+  }).catch(function(err) {
+    console.error("runClient error:", err);
   });
 }
 
 /**
- * ========================================================================== *
- * Initialization
- **/
-
+ * Initialization: set up gs variables, localStorage polyfill etc.
+ */
 var initialize = function() {
-  /**
-   * Sets some parameters in the global scope gs, puts configuration parameters
-   * in their places, polyfills things if necessary, then initializes client
-   */
   gs.urlParams = new window.URLSearchParams(window.location.search);
   if (gs.urlParams.has('debug') && gs.urlParams.get('debug') === 'true') {
-    // set debug to true if GET parameter debug=true is provided in url
     gs.debug = true;
   }
-  // Set settings for GoogleMapsLoader
-  window.GoogleMapsLoader.KEY = gs.googleMapsSettings.key;
-  window.GoogleMapsLoader.LIBRARIES = gs.googleMapsSettings.libraries;
-  window.GoogleMapsLoader.LANGUAGE = gs.googleMapsSettings.language;
-  window.GoogleMapsLoader.REGION = gs.googleMapsSettings.region;
-  window.GoogleMapsLoader.onLoad(function(google) {
-    if (gs.debug) {
-      console.log("GoogleMapsLoader: finished loading successfully");
-    }
-  });
+
   // find and set DOM element objects in gs
   gs.mapElement = window.document.getElementById("map");
+
   gs.localStorageWorks = function() {
-    /**
-     * Simple test function to see if window.localStorage works.
-     **/
     try {
       window.localStorage.setItem("Appname", "Gasvaktin");
       if (window.localStorage.getItem("Appname") !== "Gasvaktin") {
         throw new Error("localStorage seems to be broken");
       }
       if (gs.debug) {
-        console.log("localStorageWorks: returned positive")
+        console.log("localStorageWorks: returned positive");
       }
       return true;
     }
     catch (err) {
       if (gs.debug) {
-        console.warn("localStorageWorks: returned negative")
+        console.warn("localStorageWorks: returned negative");
         console.warn(err);
       }
       return false;
     }
-  }
-  // Polyfilling localStorage with an in-memory (stale) storage if it's missing
-  // from window or if it's breakingly disabled like in Safari incognito mode
-  // (where calling localStorage.setItem results in throwing an error)
-  // https://gist.github.com/juliocesar/926500
+  };
+
   if (!("localStorage" in window) || !gs.localStorageWorks()) {
     if (!("localStorage" in window)) {
-      console.warn("localStorage not available, fallbacking to stale storage.")
+      console.warn("localStorage not available, fallbacking to stale storage.");
     } else if (!gs.localStorageWorks()) {
-      console.warn("localStorage not working, fallbacking to stale storage.")
+      console.warn("localStorage not working, fallbacking to stale storage.");
     }
     gs.localStorage = {
       _data: {},
@@ -527,6 +556,8 @@ var initialize = function() {
   } else {
     gs.localStorage = window.localStorage;
   }
+
   runClient();
-}
+};
+
 initialize();
